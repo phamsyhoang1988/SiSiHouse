@@ -105,7 +105,7 @@ body {
     bottom: 0;
     width: 100%;
   background: #241E20;
-  padding: 5px 80px;
+  padding: 5px 10px;
 }
 /* Fixed layout */
 .fixed .main-header,
@@ -165,13 +165,7 @@ a:focus {
  * Component: Main Header
  * ----------------------
  */
-.main-header {
-  position: fixed;
-  max-height: 40px;
-  width: 100%;
-  background: #241E20;
-  z-index: 1030;
-}
+
 .main-header > .navbar {
   margin-bottom: 0;
   border: none;

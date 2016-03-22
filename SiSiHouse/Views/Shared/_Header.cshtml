@@ -4,134 +4,35 @@
     var currentUser = HttpContext.Current.Session[Constant.SESSION_LOGIN_USER] as LoginUser;
 }
 
-<nav class="navbar navbar-static-top" role="navigation">
-    <a href="~/">
-        <img class="logo" src="~/Images/logo.jpg" />
-    </a>
+<div id="header-menu" class="navbar navbar-static-top" role="navigation">
+    <div id="search">
+        <form id="searchForm">
+            <i id="searchAll" class="fa fa-search"></i>
+            <input type="text" name="searchAll" placeholder="Search">
+        </form>
+    </div>
 
-    @if (ViewBag.Error == null)
-    {
-        <div class="navbar-brand">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                        SẢN PHẨM MỚI
-                    </a>
-                    <div class="dropdown-menu row">
-                        <div class="col-lg-6">
-                            <a href="#">
-                                Đồ Nam
-                            </a>
-                        </div>
-                        <div class="col-lg-6">
-                            <a href="#">
-                                Đồ Nữ
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                        ĐỒ NAM
-                    </a>
-                    <div class="dropdown-menu row">
-                        <div class="col-lg-6">
-                            <a href="#">
-                                QUẦN
-                            </a>
-                        </div>
-                        <div class="col-lg-6">
-                            <a href="#">
-                                ÁO
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                        ĐỒ NỮ
-                    </a>
-                    <div class="dropdown-menu row">
-                        <div class="col-lg-6">
-                            <a href="#">
-                                QUẦN
-                            </a>
-                        </div>
-                        <div class="col-lg-6">
-                            <a href="#">
-                                ÁO
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                        GIÀY DÉP
-                    </a>
-                    <div class="dropdown-menu row">
-                        <div class="col-lg-6">
-                            <a href="#">
-                                Đồ Nam
-                            </a>
-                        </div>
-                        <div class="col-lg-6">
-                            <a href="#">
-                                Đồ Nữ
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                        PHỤ KIỆN
-                    </a>
-                    <div class="dropdown-menu row">
-                        <div class="col-lg-6">
-                            <a href="#">
-                                Đồ Nam
-                            </a>
-                        </div>
-                        <div class="col-lg-6">
-                            <a href="#">
-                                Đồ Nữ
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                        KHUYẾN MÃI
+    <div id="general-menu">
+        <ul>
+            @if (currentUser == null)
+            {
+                <li class="help">
+                    <a href="@Url.Action("GetIn", "SiSi")" class="login-link" title="Đăng nhập">
+                        My Account
                     </a>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                        BỘ SƯU TẬP
-                    </a>
-                </li>
-            </ul>
-        </div>
-    }
-
-   
-
-    <div class="navbar-custom-menu">
-        @if (currentUser == null)
-        {
-            <a href="@Url.Action("GetIn", "SiSi")" class="login-link" title="Đăng nhập">
-                <i class="glyphicon glyphicon-user pull-right mg-right-10"></i>
-            </a>
-        }
-        else
-        {
-            <ul class="nav navbar-nav">
+            }
+            else
+            {
                 <li>
                     <a href="@Url.Action("", "ManageProduct")" title="Quản trị">
-                        <i class="fa fa-cog pull-right"></i>
+                        Manage
                     </a>
                 </li>
+                <li class="separator">|</li>
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                        <i class="glyphicon glyphicon-user pull-right mg-right-10"></i>
+                        My Account
                     </a>
                     <ul class="dropdown-menu login-user">
                         <li>
@@ -146,7 +47,83 @@
                         </li>
                     </ul>
                 </li>
-            </ul>
-        }
+            }
+        </ul>
+    </div>
+</div>
+
+<nav role="navigation">
+    <div id="logo">
+        <a href="~/"></a>
+    </div>
+    <div id="main-menu">
+        <ul>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    MAN
+                </a>
+                <div class="dropdown-menu row">
+                    <div class="col-lg-6">
+                        <a href="#">
+                            Đồ Nam
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="#">
+                            Đồ Nữ
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    WOMAN
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    FOOTWEAR
+                </a>
+                <div class="dropdown-menu row">
+                    <div class="col-lg-6">
+                        <a href="#">
+                            QUẦN
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="#">
+                            ÁO
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    ACCESSORIES
+                </a>
+                <div class="dropdown-menu row">
+                    <div class="col-lg-6">
+                        <a href="#">
+                            Đồ Nam
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="#">
+                            Đồ Nữ
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    SPECIAL PRICES
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    COLLECTION
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>
