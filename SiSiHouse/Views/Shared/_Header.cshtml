@@ -112,9 +112,8 @@
     <div class="navbar-custom-menu">
         @if (currentUser == null)
         {
-            <a href="~/SiSi/GetIn" class="login-link">
-                <i class="glyphicon glyphicon-user"></i>
-                ĐĂNG NHẬP
+            <a href="@Url.Action("GetIn", "SiSi")" class="login-link">
+                <i class="glyphicon glyphicon-user pull-right mg-right-10"></i>
             </a>
         }
         else
@@ -122,23 +121,21 @@
             <ul class="nav navbar-nav">
                 <li>
                     <a href="~/ManageProduct">
-                        <i class="fa fa-cog"></i>
-                        QUẢN TRỊ
+                        <i class="fa fa-cog pull-right"></i>
                     </a>
                 </li>
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
-                        <i class="glyphicon glyphicon-user"></i>
-                        @currentUser.FULL_NAME
+                        <i class="glyphicon glyphicon-user pull-right mg-right-10"></i>
                     </a>
                     <ul class="dropdown-menu login-user">
                         <li>
-                            <a href="#">
-                                CÁ NHÂN
+                            <a href="@Url.Action("Personal", "SiSi")">
+                                @currentUser.FULL_NAME
                             </a>
                         </li>
                         <li>
-                            <a href="~/SiSi/GetOut">
+                            <a href="@Url.Action("GetOut", "SiSi")">
                                 ĐĂNG XUẤT
                             </a>
                         </li>
