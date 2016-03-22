@@ -1,0 +1,106 @@
+﻿@using SiSiHouse.Common
+@model SiSiHouse.ViewModels.ManageStatistics.SearchStatisticsModel
+
+@Styles.Render("~/Content/table")
+@Scripts.Render("~/bundles/plugins/datatables/dataTable")
+@Styles.Render("~/Content/CustomControllerCss/ManageStatistics")
+
+@{
+    ViewBag.Title = "Thống kê doanh thu";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+<section class="content-header statistics-header">
+    <h1 id="title">
+        @ViewBag.Title
+    </h1>
+    <div class="search-form">
+        <div class="search-condition form-group row">
+            <div class="col-lg-6">
+                <label class="lbl-time-range">Thống kê theo năm</label>
+                <div class="input-group date datepicker-years">
+                    @Html.TextBoxFor(m => m.Condition.TARGET_YEAR, new { @class = "form-control", maxlength = 4 })
+                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="search-condition row">
+            <div class="col-lg-3">
+                @Html.LabelFor(m => m.Condition.SEX, new { @class = "" })
+                <ul>
+                    @for (int i = 0; i < Constant.Sex.Items.Count; i++)
+                    {
+                        <li>
+                            <label>
+                                <input alt="@(i)" class="select-sex" type="checkbox">
+                                @Constant.Sex.Items[i]
+                            </label>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                @Html.LabelFor(m => m.BrandSelectList, new { @class = "" })
+                <ul>
+                    @for (int i = 0; i < Model.BrandSelectList.Count; i++)
+                    {
+                        <li>
+                            <label>
+                                @Html.CheckBoxFor(m => m.BrandSelectList[i].CHECK, new { alt = @Model.BrandSelectList[i].BRAND_ID, @class = "select-brand" })
+                                @Model.BrandSelectList[i].BRAND_NAME
+                            </label>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                @Html.LabelFor(m => m.CategorySelectList, new { @class = "" })
+                <ul>
+                    @for (int i = 0; i < Model.CategorySelectList.Count; i++)
+                    {
+                        <li>
+                            <label>
+                                @Html.CheckBoxFor(m => m.CategorySelectList[i].CHECK, new { alt = @Model.CategorySelectList[i].CATEGORY_ID, @class = "select-category" })
+                                @Model.CategorySelectList[i].CATEGORY_NAME
+                            </label>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="search-action right">
+            <button type="button" id="btnSearch" class="btn dark"><i class="fa fa-bar-chart"></i> Thống kê</button>
+            <button type="button" id="btnClear" class=" btn light"><i class="fa fa-refresh"></i> Làm mới</button>
+        </div>
+    </div>
+    <div class="show-hide-search">
+        <i class="fa fa-chevron-circle-down hide"></i>
+        <i class="fa fa-chevron-circle-up"></i>
+    </div>
+</section>
+
+<div class="statistics-list data-list row">
+    <table id="InfoTable" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>YEAR</th>
+                <th>Thời điểm</th>
+                <th>Lượng bán ra</th>
+                <th>Chi phí</th>
+                <th>Doanh thu</th>
+                <th>Lợi nhuận</th>
+                <th>Tỷ lệ lợi nhuận</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>
+
+<form id="frmDetailSales" action="@Url.Action("Detail")" method="POST">
+    <input type="hidden" id="hdnYear" name="targetYear" value="0" />
+    <input type="hidden" id="hdnMonth" name="targetMonth" value="0" />
+</form>
+
+@Scripts.Render("~/bundles/SalesStatistics")

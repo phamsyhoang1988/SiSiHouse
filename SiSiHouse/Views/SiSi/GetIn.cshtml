@@ -1,0 +1,40 @@
+﻿@model SiSiHouse.ViewModels.ManageUser.LoginViewModel
+@using SiSiHouse.Resources;
+@using SiSiHouse.Common;
+
+@{
+    ViewBag.Title = "Đăng nhập hệ thống";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+<div class="login-box">
+    <div class="login-logo">
+        SiSi House
+    </div>
+    <div class="login-box-body">
+        @using (Html.BeginForm())
+        {
+            <div class="form-group has-feedback">
+                @Html.ValidationSummary(false)
+            </div>
+            <div class="form-group has-feedback">
+                @Html.TextBoxFor(m => m.ACCOUNT, new { maxlength = 50, @class = "form-control", @placeholder = "Tài khoản" })
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                @Html.PasswordFor(m => m.PASSWORD, new { maxlength = 50, @class = "form-control", @placeholder = "Mật khẩu" })
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="form-group">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-block dark">Đăng nhập</button>
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        $('#PASSWORD').val('@Constant.DISPLAY_PASSWORD');
+    });
+</script>

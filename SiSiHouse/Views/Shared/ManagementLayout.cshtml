@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Images/logo.jpg" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+
+    <script>
+        function GetPath(path) {
+            var contentPath = '@Url.Content("~/")';
+            var fullPath = path.replace(/^~/, '');
+
+            fullPath = fullPath.replace(/^\//, contentPath);
+
+            return fullPath;
+        }
+    </script>
+
+    @Styles.Render("~/Content/bootstrap/css/bootstrap")
+    @Styles.Render("~/Content/adminLTE/altCss")
+    @Styles.Render("~/Content/fontawesome/css/icon")
+    @Styles.Render("~/Content/common")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery/plugins")
+    @Scripts.Render("~/bundles/input")
+</head>
+<body>
+    <div id="onloadDiv">
+    </div>
+
+    <div class="wrapper management">
+        <header id="header" class="main-header">
+            @RenderPage("~/Views/Shared/ManagementHeader.cshtml")
+        </header>
+        <div class="content-wrapper">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

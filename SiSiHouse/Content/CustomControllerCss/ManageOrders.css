@@ -1,0 +1,59 @@
+﻿
+/* Custom style for form*/
+
+.display-artwork {
+    max-width: 80px;
+    max-height: 80px;
+    cursor: pointer;
+}
+
+.orders-header ul {
+    list-style: none;
+    width: 200px;
+    height: 90px;
+    border: 1px solid #DFDFDF;
+    overflow-y : auto;
+}
+
+.orders-header .input-text {
+    width: 185px;
+}
+
+/*.orders-regist .padding-right-1 {
+    padding-right: 10px;
+}
+
+.orders-regist .btnAddSize {
+    margin-left: 10px;
+}
+
+.orders-regist .orders-quantity-detail {
+    margin-bottom: 0;
+}
+
+.orders-regist .orders-quantity-detail:not(:first-child) {
+    margin-top: 5px;
+}
+
+.orders-regist .orders-quantity-detail div {
+    padding-right: 10px;
+}
+
+.orders-regist .artwork-detail {
+    margin-right: 49px;
+    padding: 5px;
+    border: 1px solid #d2d6de;
+}
+
+.orders-regist .artwork-file {
+    display: none;
+}
+
+.orders-regist .artwork-detail button {
+    width: 50px;
+    display: list-item;
+}
+
+.orders-regist .btnSelectArtwork {
+    margin-bottom: 25px;
+}*/

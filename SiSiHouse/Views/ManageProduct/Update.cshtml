@@ -1,0 +1,328 @@
+﻿@using SiSiHouse.Common
+@using SiSiHouse.Resources
+@using System.Configuration;
+@using System.IO;
+@model SiSiHouse.ViewModels.ManageProduct.UpdateProductModel
+
+@Styles.Render("~/Content/CustomControllerCss/ManageProduct")
+
+@{
+    ViewBag.Title = "Cập nhật dữ liệu sản phẩm";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+<div class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    @if (Model.ProductInfo.PRODUCT_ID > 0)
+    {
+        <i class="update-info">
+            Dữ liệu được cập nhật lần cuối vào lúc @Model.ProductInfo.MODIFIED_DATE.Value.ToString("HH:mm:ss yyyy/MM/dd") bởi @HttpUtility.HtmlEncode(Model.ProductInfo.MODIFIED_USER)
+        </i>
+    }
+</div>
+
+@using (Html.BeginForm("UpdateData", "ManageProduct", FormMethod.Post, new { @class = "form-horizontal product-regist", id = "frmUpdate" }))
+{
+    <div id="title"></div>
+    @Html.ValidationSummary(false)
+
+    <div class="form-group col-lg-6">
+        <div class="form-group">
+            <h4>
+                Thông tin chung
+            </h4>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label" for="group_display_name">Mã sản phẩm<span class="RequiredField">*</span></label>
+            <div class="col-lg-9">
+                @Html.TextBoxFor(m => m.ProductInfo.PRODUCT_CODE, new { @class = "form-control", maxlength = 50 })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-2 control-label" for="group_display_name">Tên sản phẩm<span class="RequiredField">*</span></label>
+            <div class="col-lg-9">
+                @Html.TextBoxFor(m => m.ProductInfo.PRODUCT_NAME, new { @class = "form-control", maxlength = 20 })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductInfo.BRAND_ID, new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-3">
+                @Html.DropDownListFor(m => m.ProductInfo.BRAND_ID, Model.BrandSelectList, new { @class = "form-control" })
+            </div>
+            <div class="col-lg-1">
+            </div>
+            @Html.LabelFor(m => m.ProductInfo.CATEGORY_ID, new { @class = "col-lg-2 control-label right padding-right-1" })
+            <div class="col-lg-3">
+                @Html.DropDownListFor(m => m.ProductInfo.CATEGORY_ID, Model.CategorySelectList, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductInfo.STATUS_ID, new { @class = "col-lg-2 control-label right padding-right-1" })
+            <div class="col-lg-3">
+                @Html.DropDownListFor(m => m.ProductInfo.STATUS_ID, new SelectList(Constant.Status.Items, "Key", "Value"), "Chọn", new { @class = "form-control" })
+            </div>
+            <div class="col-lg-1">
+            </div>
+            @Html.LabelFor(m => m.ProductInfo.SEX, new { @class = "col-lg-2 control-label right padding-right-1" })
+            <div class="col-lg-3">
+                @Html.DropDownListFor(m => m.ProductInfo.SEX, new SelectList(Constant.Sex.Items, "Key", "Value"), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductInfo.ROOT_LINK, new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-9">
+                @Html.TextBoxFor(m => m.ProductInfo.ROOT_LINK, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductInfo.COMPOSITION, new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-9">
+                @Html.TextAreaFor(m => m.ProductInfo.COMPOSITION, new { @class = "form-control", rows = 4 })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductInfo.DESCRIPTION, new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-9">
+                @Html.TextAreaFor(m => m.ProductInfo.DESCRIPTION, new { @class = "form-control", rows = 4 })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Thư viện</label>
+            <div class="col-lg-10">
+                <button class="btn dark btnAddArtwork" type="button"><i class="fa fa-plus"></i> Ảnh</button>
+            </div>
+        </div>
+        <div class="form-group artwork-list">
+            @if (Model.ArtworkList.Count > 0)
+            {
+                for (int i = 0; i < Model.ArtworkList.Count; i++)
+                {
+                    <div class="form-group col-lg-3 artwork-detail old-value">
+                        @Html.HiddenFor(m => m.ArtworkList[i].ARTWORK_ID, new { @class = "artwork-id" })
+                        @Html.HiddenFor(m => m.ArtworkList[i].FILE_PATH_OLD, new { @class = "artwork-filepath-old" })
+                        @Html.HiddenFor(m => m.ArtworkList[i].CHANGED, new { @class = "artwork-changed" })
+                        @Html.HiddenFor(m => m.ArtworkList[i].DELETED, new { @class = "artwork-deleted" })
+                        <div class="col-lg-7">
+                            <img src="@Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_ARTWORK], Model.ProductInfo.PRODUCT_ID.ToString(), Model.ArtworkList[i].FILE_PATH)" title="@Model.ArtworkList[i].FILE_PATH" class="display-artwork" />
+                        </div>
+                        <div class="col-lg-5">
+                            <input class="artwork-file" name="artworkFiles" type="file" />
+                            <button class="btn dark btnSelectArtwork pull-right" type="button"><i class="fa fa-image"></i></button>
+                            <button class="btn dark btnDeleteArtwork pull-right" type="button"><i class="fa fa-remove"></i></button>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="form-group col-lg-3 artwork-detail">
+                    <input class="artwork-id" name="ArtworkList[0].ARTWORK_ID" type="hidden" value="0">
+
+                    <div class="col-lg-7">
+                        <img src="~/Images/no_image.png" title="Chưa có ảnh" class="display-artwork" />
+                    </div>
+                    <div class="col-lg-5">
+                        <input class="artwork-file" name="artworkFiles" type="file" />
+                        <button class="btn dark btnSelectArtwork pull-right" type="button"><i class="fa fa-image"></i></button>
+                        <button class="btn dark btnDeleteArtwork pull-right" type="button"><i class="fa fa-remove"></i></button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="form-group col-lg-6">
+        <div class="form-group">
+            <h4>
+                Chi tiết & Số lượng
+            </h4>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductInfo.IMPORT_PRICE, new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-3 input-group">
+                @Html.TextBoxFor(m => m.ProductInfo.IMPORT_PRICE, new { @class = "form-control money right", maxlength = 9 })
+                <div class="input-group-addon import-price-sign">
+                    <i class="fa fa-money"></i>
+                </div>
+            </div>
+            <div class="col-lg-1">
+            </div>
+            @Html.LabelFor(m => m.ProductInfo.MONEY_TYPE_ID, new { @class = "col-lg-2 control-label right padding-right-1" })
+            <div class="col-lg-3">
+                <select class="form-control" id="ddlSelectMoney">
+                    <option value="" sign="?">Chọn</option>
+                    @foreach (var data in Model.MoneySelectList)
+                    {
+                        if (Model.ProductInfo.MONEY_TYPE_ID == data.MONEY_ID)
+                        {
+                            <option selected="selected" value="@data.MONEY_ID" exchange-rate="@data.EXCHANGE_RATE" weight-postage="@data.WEIGHT_POSTAGE" wage="@data.WAGE" sign="@data.MONEY_SIGN">@data.MONEY_NAME (@data.MONEY_SIGN)</option>
+                        }
+                        else
+                        {
+                            <option value="@data.MONEY_ID" exchange-rate="@data.EXCHANGE_RATE" weight-postage="@data.WEIGHT_POSTAGE" wage="@data.WAGE" sign="@data.MONEY_SIGN">@data.MONEY_NAME (@data.MONEY_SIGN)</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductInfo.WEIGHT, new { @class = "col-lg-2 control-label" })
+            <div class="col-lg-3 input-group">
+                @Html.TextBoxFor(m => m.ProductInfo.WEIGHT, new { @class = "form-control decimal", maxlength = 6 })
+                <div class="input-group-addon">kG</div>
+            </div>
+            <div class="col-lg-1">
+            </div>
+            <label class="col-lg-2 control-label right padding-right-1">Thực giá</label>
+            <div class="col-lg-3 input-group">
+                @Html.TextBoxFor(m => m.ProductInfo.REAL_PRICE, new { @class = "form-control money right", maxlength = 9 })
+                <div class="input-group-addon">VNĐ</div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductInfo.IMPORT_DATE, new { @class = "col-lg-2 control-label" })
+            <div class="input-group col-lg-3 date datepicker-full">
+                @Html.TextBoxFor(m => m.ProductInfo.IMPORT_DATE, "{0:yyyy/MM/dd}", new { @class = "form-control center", maxlength = 10 })
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProductInfo.SALE_PRICE, new { @class = "col-lg-2 control-label right padding-right-1" })
+            <div class="col-lg-3 input-group">
+                @Html.TextBoxFor(m => m.ProductInfo.SALE_PRICE, new { @class = "form-control money right", maxlength = 9 })
+                <div class="input-group-addon">VNĐ</div>
+            </div>
+        </div>
+        <div class="form-group sale-off-content">
+            @Html.LabelFor(m => m.ProductInfo.SALE_OFF_PRICE, new { @class = "col-lg-2 control-label right padding-right-1" })
+            <div class="col-lg-3 input-group">
+                @Html.TextBoxFor(m => m.ProductInfo.SALE_OFF_PRICE, new { @class = "form-control money right", maxlength = 9 })
+                <div class="input-group-addon">VNĐ</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-lg-2 control-label">Danh sách</label>
+            <div class="col-lg-10">
+                <button class="btn dark btnAddColor" type="button"><i class="fa fa-plus"></i> Màu</button>
+            </div>
+        </div>
+
+        @if (Model.ProductDetailList.Count > 0)
+        {
+            for (int i = 0; i < Model.ProductDetailList.Count; i++)
+            {
+                <div class="form-group product-detail old-value">
+                    <div class="col-lg-6">
+                        <label class="col-lg-4 control-label">Màu sắc</label>
+                        <div class="col-lg-4">
+                            <select class="form-control ddlSelectColor">
+                                <option value="">Chọn</option>
+                                @foreach (var data in Model.ColorSelectList)
+                                {
+                                    if (Model.ProductDetailList[i].COLOR_ID == data.COLOR_ID)
+                                    {
+                                        <option selected="selected" value="@data.COLOR_ID" style="background: @data.COLOR_CODE">@data.COLOR_NAME</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@data.COLOR_ID" style="background: @data.COLOR_CODE">@data.COLOR_NAME</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <button class="btn dark btnAddSize" type="button"><i class="fa fa-plus"></i> Size</button>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 product-quantity-list">
+                        @for (int j = 0; j < Model.ProductQuantityList.Count; j++)
+                        {
+                            if (Model.ProductQuantityList[j].COLOR_ID == Model.ProductDetailList[i].COLOR_ID)
+                            {
+                                <div class="form-group product-quantity-detail old-value">
+                                    @Html.HiddenFor(m => m.ProductQuantityList[j].PRODUCT_DETAIL_ID, new { @class = "product-detail-id" })
+                                    @Html.HiddenFor(m => m.ProductQuantityList[j].COLOR_ID, new { @class = "product-color-id" })
+                                    @Html.HiddenFor(m => m.ProductQuantityList[i].DELETED, new { @class = "product-deleted" })
+
+                                    <div class="col-lg-3">
+                                        @Html.TextBoxFor(m => m.ProductQuantityList[j].SIZE, new { @class = "form-control product-size", maxlength = 10, placeholder = "Size ..." })
+                                    </div>
+                                    <div class="col-lg-3">
+                                        @Html.TextBoxFor(m => m.ProductQuantityList[j].QUANTITY, new { @class = "form-control numeric product-quantity", maxlength = 3, placeholder = "Số lượng ..." })
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button class="btn dark btnDeleteSize" type="button"><i class="fa fa-remove"></i></button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="form-group product-detail">
+                <div class="col-lg-6">
+                    <label class="col-lg-4 control-label">Màu sắc</label>
+                    <div class="col-lg-4">
+                        <select class="form-control ddlSelectColor" name="ProductDetailList[0].COLOR_ID">
+                            <option value="">Chọn</option>
+                            @foreach (var data in Model.ColorSelectList)
+                            {
+                                <option value="@data.COLOR_ID" style="background: @data.COLOR_CODE">@data.COLOR_NAME</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <button class="btn dark btnAddSize" type="button"><i class="fa fa-plus"></i> Size</button>
+                    </div>
+                </div>
+                <div class="col-lg-6 product-quantity-list">
+                    <div class="form-group product-quantity-detail">
+                        <input class="product-detail-id" type="hidden" name="ProductQuantityList[0].PRODUCT_DETAIL_ID" value="-1">
+                        <input class="product-color-id" type="hidden" name="ProductQuantityList[0].COLOR_ID">
+
+                        <div class="col-lg-3">
+                            <input class="form-control product-size" maxlength="10" name="ProductQuantityList[0].SIZE" placeholder="Size ..." type="text">
+                        </div>
+                        <div class="col-lg-3">
+                            <input class="form-control numeric product-quantity" maxlength="3" name="ProductQuantityList[0].QUANTITY" placeholder="Số lượng ..." type="text">
+                        </div>
+                        <div class="col-lg-6">
+                            <button class="btn dark btnDeleteSize" type="button"><i class="fa fa-remove"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="form-group col-lg-12">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ProductInfo.PRODUCT_ID)
+        @Html.HiddenFor(m => m.ProductInfo.MONEY_TYPE_ID, new { @oldValue = Model.ProductInfo.MONEY_TYPE_ID })
+        @Html.HiddenFor(m => m.ProductInfo.EXCHANGE_RATE, new { @oldValue = Model.ProductInfo.EXCHANGE_RATE })
+        @Html.HiddenFor(m => m.ProductInfo.WEIGHT_POSTAGE, new { @oldValue = Model.ProductInfo.WEIGHT_POSTAGE })
+        @Html.HiddenFor(m => m.ProductInfo.WAGE, new { @oldValue = Model.ProductInfo.WAGE })
+
+        <button type="button" id="btnSubmit" class="btn dark"><i class="fa fa-edit"></i> Cập nhật</button>
+        <a href='@Url.Action("", "ManageProduct")' class="btn light"><i class="fa fa-reply"></i> Quay lại</a>
+
+        @if (Model.ProductInfo.PRODUCT_ID > 0)
+        {
+            <label>
+                @Html.CheckBoxFor(m => m.DELETE_FLAG, new { @class = "" })
+                Xóa
+            </label>
+        }
+    </div>
+}
+
+@Scripts.Render("~/bundles/UpdateProduct")

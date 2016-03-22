@@ -1,0 +1,162 @@
+﻿@using SiSiHouse.Common
+@using SiSiHouse.Resources
+@model SiSiHouse.Models.Conditions.MoneyCondition
+
+@Styles.Render("~/Content/table")
+@Scripts.Render("~/bundles/plugins/datatables/dataTable")
+
+@{
+    ViewBag.Title = "Danh sách tiền tệ";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+
+<section class="content-header">
+    <h1 id="title">
+        @ViewBag.Title
+    </h1>
+    <div class="search-form">
+        <div class="search-condition row">
+            <div class="col-lg-4">
+                @Html.LabelFor(m => m.MONEY_NAME, new { @class = "" })
+                @Html.TextBoxFor(m => m.MONEY_NAME, new { maxlength = 200, @placeholder = "Quốc gia ..." })
+            </div>
+            <div class="col-lg-8">
+                @Html.CheckBoxFor(m => m.DELETE_FLAG)
+                @Html.LabelFor(m => m.DELETE_FLAG, new { @class = "" })
+            </div>
+        </div>
+        <div class="search-action row">
+            <div class="col-lg-6">
+                <button type="button" id="btnCreate" class="btn dark"><i class="fa fa-plus"></i> Tạo mới </button>
+            </div>
+            <div class="col-lg-6 right">
+                <button type="button" id="btnSearch" class="btn dark"><i class="fa fa-search"></i> Tìm kiếm</button>
+                <button type="button" id="btnClear" class=" btn light"><i class="fa fa-refresh"></i> Làm mới</button>
+            </div>
+        </div>
+    </div>
+    <div class="show-hide-search">
+        <i class="fa fa-chevron-circle-down hide"></i>
+        <i class="fa fa-chevron-circle-up"></i>
+    </div>
+</section>
+
+<div class="money-list data-list row">
+    <table id="InfoTable" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>STT</th>
+                <th>Quốc gia</th>
+                <th>Ký hiệu</th>
+                <th>Ngày áp dụng</th>
+                <th>Tỷ giá</th>
+                <th>Phí trọng lượng</th>
+                <th>Phí nhập hàng</th>
+                <th>Mô tả</th>
+                <th>Ngày cập nhật</th>
+                <th>Người cập nhật</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <form class="frm-edit" action="@Url.Action("Update", "ManageMoney")" method="POST">
+        <input name="id" type="hidden" value="0" />
+    </form>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        var oSorting = {
+            "bSort": true
+        };
+        var oPaginate = {
+            "bPaginate": true,
+            "iDisplayLength": parseInt(@App[ConfigurationKeys.LIST_ITEMS_PER_PAGE]),
+            "bStateSave": false
+        };
+        var oServerSide = {
+            "bServerSide": true,
+            "sAjaxSource": '@Url.Action("Search", "ManageMoney")',
+            "fnServerParams": serverParams,
+            "fnInitComplete": displayData,
+            "fnDrawCallback": displayComplete
+        };
+        var aoColumnDefs = [
+            { "sName": "MODIFIED_DATE", "bSortable": false, "bVisible": false, "aTargets": [0], "sWidth": "0%" },
+            { "sName": "MODIFIED_DATE", "bSortable": false, "aTargets": [1], "sWidth": "3%", "sClass": "center" },
+            { "sName": "MONEY_NAME", "aTargets": [2], "sWidth": "10%", "sClass": "left", "mRender": function (data, type, full) { return '<a class="action-edit ' + full[10] + '" aria-valuetext="' + full[0] + '">' + data + '</a>'; } },
+            { "sName": "MONEY_SIGN", "aTargets": [3], "sWidth": "7%", "sClass": "center" },
+            { "sName": "APPLIED_DATE", "aTargets": [4], "sWidth": "10%", "sClass": "center" },
+            { "sName": "EXCHANGE_RATE", "aTargets": [5], "sWidth": "10%", "sClass": "right" },
+            { "sName": "WEIGHT_POSTAGE", "aTargets": [6], "sWidth": "11%", "sClass": "right" },
+            { "sName": "WAGE", "aTargets": [7], "sWidth": "10%", "sClass": "right" },
+            { "sName": "DESCRIPTION", "aTargets": [8], "sWidth": "16%", "sClass": "left" },
+            { "sName": "MODIFIED_DATE", "aTargets": [9], "sWidth": "13%", "sClass": "center" },
+            { "sName": "MODIFIED_USER", "aTargets": [10], "sWidth": "10%", "sClass": "left" }
+        ];
+
+        var dataTable = CreateDataTable('#InfoTable', oSorting, oPaginate, oServerSide, aoColumnDefs);
+
+        function serverParams(aoData) {
+            aoData.push(
+                { "name": "MONEY_NAME", "value": $("#MONEY_NAME").val() },
+                { "name": "DELETE_FLAG", "value": $("#DELETE_FLAG").prop('checked') }
+            );
+        }
+
+        function displayData(data) {
+            if (data.aaData.length == 0)
+                $(".dataTables_paginate").hide();
+            else
+                $(".dataTables_paginate").show();
+        }
+
+        function displayComplete(data) {
+            $('#InfoTable a.1').each(function () {
+                $(this).parents('tr').removeClass().addClass('deleted-row');
+            });
+        }
+
+        function searchByCondition() {
+            dataTable.fnPageChange("first");
+        }
+
+        function submitEdit(id) {
+            var $form = $(".frm-edit");
+
+            $form.children("input[name='id']").val(id);
+            $form.submit();
+        }
+
+        $(document).bind('keypress', function (e) {
+            var code = e.keyCode || e.which;
+            if (code == 13) { //Enter keycode
+                searchByCondition();
+            }
+        });
+
+        $("#btnSearch").click(function () {
+            searchByCondition();
+        });
+
+        $("#btnClear").click(function () {
+            $("#MONEY_NAME").val("");
+            $("#DELETE_FLAG").prop('checked', false);
+
+            searchByCondition();
+        });
+
+        $("#btnCreate").click(function () {
+            submitEdit(0);
+        });
+
+        $(document).off(".action-edit");
+        $(document).on("click", ".action-edit", function () {
+            submitEdit($(this).attr("aria-valuetext"));
+        });
+    });
+</script>
+

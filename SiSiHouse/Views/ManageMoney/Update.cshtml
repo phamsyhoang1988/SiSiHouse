@@ -1,0 +1,118 @@
+﻿@using SiSiHouse.Common
+@using SiSiHouse.Resources
+@model SiSiHouse.ViewModels.ManageMoney.UpdateMoneyModel
+
+@{
+    ViewBag.Title = "Cập nhật dữ liệu tiền tệ";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    @if (Model.MoneyInfo.MONEY_ID > 0)
+    {
+        <i class="update-info">
+            Dữ liệu được cập nhật lần cuối vào lúc @Model.MoneyInfo.MODIFIED_DATE.Value.ToString("HH:mm:ss yyyy/MM/dd") bởi @HttpUtility.HtmlEncode(Model.MoneyInfo.MODIFIED_USER)
+        </i>
+    }
+</section>
+
+@using (Html.BeginForm("UpdateData", "ManageMoney", FormMethod.Post, new { @class = "form-horizontal money-regist", id = "frmUpdate" }))
+{
+    <div id="title"></div>
+    @Html.ValidationSummary(false)
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="group_display_name">Quốc gia<span class="RequiredField">*</span></label>
+        <div class="col-lg-2">
+            @Html.TextBoxFor(m => m.MoneyInfo.MONEY_NAME, new { @class = "form-control", maxlength = 20 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="group_display_name">Ký hiệu<span class="RequiredField">*</span></label>
+        <div class="col-lg-1">
+            @Html.TextBoxFor(m => m.MoneyInfo.MONEY_SIGN, new { @class = "form-control", maxlength = 10 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-2">
+            <label class="control-label">Ngày áp dụng</label>
+        </div>
+        <div class="col-lg-2 input-group date datepicker-full">
+            @Html.TextBoxFor(m => m.MoneyInfo.APPLIED_DATE, "{0:yyyy/MM/dd}", new { @class = "form-control center", maxlength = 10 })
+            <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MoneyInfo.EXCHANGE_RATE, new { @class = "col-lg-2 control-label" })
+        <div class="col-lg-2 input-group">
+            @Html.TextBoxFor(m => m.MoneyInfo.EXCHANGE_RATE, new { @class = "money form-control right", maxlength = 9 })
+            <div class="input-group-addon" title="VNĐ">
+                <i class="fa fa-money"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MoneyInfo.WEIGHT_POSTAGE, new { @class = "col-lg-2 control-label" })
+        <div class="col-lg-2 input-group">
+            @Html.TextBoxFor(m => m.MoneyInfo.WEIGHT_POSTAGE, new { @class = "money form-control right", maxlength = 9 })
+            <div class="input-group-addon" title="VNĐ">
+                <i class="fa fa-money"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MoneyInfo.WAGE, new { @class = "col-lg-2 control-label" })
+        <div class="col-lg-1 input-group">
+            @Html.TextBoxFor(m => m.MoneyInfo.WAGE, new { @class = "form-control numeric right", maxlength = 1 })
+            <div class="input-group-addon">%</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.MoneyInfo.DESCRIPTION, new { @class = "col-lg-2 control-label" })
+        <div class="col-lg-4">
+            @Html.TextAreaFor(m => m.MoneyInfo.DESCRIPTION, new { @class = "form-control", maxlength = 200, rows = 5 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.HiddenFor(m => m.MoneyInfo.MONEY_ID)
+        @Html.AntiForgeryToken()
+
+        <button type="button" id="btnSubmit" class="btn dark"><i class="fa fa-edit"></i> Cập nhật</button>
+        <a href='@Url.Action("", "ManageMoney")' class="btn light"><i class="fa fa-reply"></i> Quay lại</a>
+
+        @if (Model.MoneyInfo.MONEY_ID > 0)
+        {
+            <label>
+                @Html.CheckBoxFor(m => m.DELETE_FLAG, new { @class = "" })
+                Xóa
+            </label>
+        }
+    </div>
+}
+
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        SiSi.utility.formatMoney();
+    });
+
+    $("#btnSubmit").click(function (e) {
+        SiSi.utility.ShowConfirmDialog('@string.Format(Messages.I001)', function (action) {
+            if (action) {
+                SiSi.utility.replaceAllMoney();
+                $('#frmUpdate').submit();
+            }
+        });
+    });
+</script>

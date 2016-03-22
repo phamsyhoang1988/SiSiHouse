@@ -1,0 +1,116 @@
+﻿@using SiSiHouse.Common
+@model SiSiHouse.ViewModels.ManageStatistics.SearchStatisticsModel
+
+@Styles.Render("~/Content/table")
+@Scripts.Render("~/bundles/plugins/datatables/dataTable")
+@Styles.Render("~/Content/CustomControllerCss/ManageStatistics")
+
+@{
+    ViewBag.Title = "Thống kê doanh thu chi tiết";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+<section class="content-header statistics-header">
+    <h1 id="title">
+        @ViewBag.Title
+    </h1>
+    <div class="search-form">
+        @Html.HiddenFor(m => m.Condition.TARGET_YEAR)
+        @Html.HiddenFor(m => m.Condition.TARGET_MONTH)
+        <div class="search-condition form-group row">
+            <div class="col-lg-6">
+                <label>Thời điểm: </label>
+                <label class="bold">@Model.Condition.TARGET_YEAR.ToString()/@Model.Condition.TARGET_MONTH.ToString("00")</label>
+            </div>
+        </div>
+        <div class="search-condition row">
+            <div class="col-lg-3">
+                @Html.LabelFor(m => m.Condition.SEX, new { @class = "" })
+                <ul>
+                    @for (int i = 0; i < Constant.Sex.Items.Count; i++)
+                    {
+                        <li>
+                            <label>
+                                <input alt="@(i)" class="select-sex" type="checkbox">
+                                @Constant.Sex.Items[i]
+                            </label>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                @Html.LabelFor(m => m.BrandSelectList, new { @class = "" })
+                <ul>
+                    @for (int i = 0; i < Model.BrandSelectList.Count; i++)
+                    {
+                        <li>
+                            <label>
+                                @Html.CheckBoxFor(m => m.BrandSelectList[i].CHECK, new { alt = @Model.BrandSelectList[i].BRAND_ID, @class = "select-brand" })
+                                @Model.BrandSelectList[i].BRAND_NAME
+                            </label>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-lg-3">
+                @Html.LabelFor(m => m.CategorySelectList, new { @class = "" })
+                <ul>
+                    @for (int i = 0; i < Model.CategorySelectList.Count; i++)
+                    {
+                        <li>
+                            <label>
+                                @Html.CheckBoxFor(m => m.CategorySelectList[i].CHECK, new { alt = @Model.CategorySelectList[i].CATEGORY_ID, @class = "select-category" })
+                                @Model.CategorySelectList[i].CATEGORY_NAME
+                            </label>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="search-action row">
+            <div class="col-lg-6">
+                @using (Html.BeginForm("ExportRevenue", "ManageStatistics", FormMethod.Post, new { id = "frmExportRevenue" }))
+                {
+                    <input type="hidden" name="targetYear" value="@Model.Condition.TARGET_YEAR" />
+                    <input type="hidden" name="targetMonth" value="@Model.Condition.TARGET_MONTH" />
+                    <button type="submit" id="btnExportExcel" class="btn dark"><i class="fa fa-download"></i> Xuất file</button>
+                }
+            </div>
+            <div class="col-lg-6 right">
+                <button type="button" id="btnSearch" class="btn dark"><i class="fa fa-bar-chart"></i> Thống kê</button>
+                <button type="button" id="btnClear" class=" btn light"><i class="fa fa-refresh"></i> Làm mới</button>
+            </div>
+        </div>
+    </div>
+    <div class="show-hide-search">
+        <i class="fa fa-chevron-circle-down hide"></i>
+        <i class="fa fa-chevron-circle-up"></i>
+    </div>
+</section>
+
+<div class="statistics-list data-list row">
+    <table id="InfoTable" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th></th>
+                <th>Mã</th>
+                <th>Sản phẩm</th>
+                <th></th>
+                <th>Thông tin</th>
+                <th></th>
+                <th>Chi tiết</th>
+                <th>Số lượng</th>
+                <th>Doanh thu</th>
+                <th>Chi phí</th>
+                <th>Lợi nhuận</th>
+                <th>Tỷ lệ</th>
+                <th>Cập nhật</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot></tfoot>
+    </table>
+</div>
+
+@Scripts.Render("~/bundles/SalesStatisticsDetail")

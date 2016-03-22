@@ -1,0 +1,116 @@
+﻿@using SiSiHouse.Common
+@using SiSiHouse.Resources
+@model SiSiHouse.ViewModels.ManageUser.UpdateUserModel
+
+@{
+    ViewBag.Title = "Cập nhật dữ liệu tài khoản";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    @if (Model.UserInfo.USER_ID > 0)
+    {
+        <i class="update-info">
+            Dữ liệu được cập nhật lần cuối vào lúc @Model.UserInfo.MODIFIED_DATE.Value.ToString("HH:mm:ss yyyy/MM/dd") bởi @HttpUtility.HtmlEncode(Model.UserInfo.MODIFIED_USER)
+        </i>
+    }
+</section>
+
+@using (Html.BeginForm("UpdateData", "SiSi", FormMethod.Post, new { @class = "form-horizontal", id = "frmUpdate" }))
+{
+    <div id="title"></div>
+    @Html.ValidationSummary(false)
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Tài khoản</label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.ACCOUNT, new { @class = "form-control", maxlength = 50 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Mật khẩu</label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.PASSWORD, new { @class = "form-control", maxlength = 50 })
+            @Html.HiddenFor(m => m.UserInfo.OLD_PASSWORD)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="group_display_name">Họ tên<span class="RequiredField">*</span></label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.FULL_NAME, new { @class = "form-control", maxlength = 100 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="group_display_name">Quyền<span class="RequiredField">*</span></label>
+        <div class="col-lg-4">
+            @Html.DropDownListFor(m => m.UserInfo.ROLE_ID, new SelectList(Constant.Role.Items, "Key", "Value"), new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Điện thoại</label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.MOBILE, new { @class = "form-control", maxlength = 20 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Email</label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.EMAIL, new { @class = "form-control", maxlength = 200 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Trang cá nhân</label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.PRIVATE_PAGE, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Địa chỉ</label>
+        <div class="col-lg-4">
+            @Html.TextAreaFor(m => m.UserInfo.ADDRESS, new { @class = "form-control", row = 4 })
+        </div>
+    </div>
+
+    <div class="form-group btn-group-edit">
+        <div class="col-lg-4">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.UserInfo.USER_ID)
+            @Html.HiddenFor(m => m.UserInfo.MODIFIED_DATE)
+            @Html.HiddenFor(m => m.UserInfo.MODIFIED_USER)
+
+            <button type="button" id="btnSubmit" class="btn dark"><i class="fa fa-edit"></i> Cập nhật</button>
+            <a href='@Url.Action("Family", "SiSi")' class="btn light"><i class="fa fa-reply"></i> Quay lại</a>
+
+            @if (Model.UserInfo.USER_ID > 0)
+            {
+                <label>
+                    @Html.CheckBoxFor(m => m.DELETE_FLAG, new { @class = "" })
+                    Xóa
+                </label>
+            }
+        </div>
+    </div>
+}
+
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        $('#UserInfo_PASSWORD').attr('type', 'password');
+    });
+
+    $("#btnSubmit").click(function (e) {
+        SiSi.utility.ShowConfirmDialog('@string.Format(Messages.I001)', function (action) {
+            if (action)
+                $('#frmUpdate').submit();
+        });
+    });
+</script>

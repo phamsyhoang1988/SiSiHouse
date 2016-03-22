@@ -1,0 +1,150 @@
+﻿@using SiSiHouse.Common;
+
+@{
+    var currentUser = HttpContext.Current.Session[Constant.SESSION_LOGIN_USER] as LoginUser;
+}
+
+<nav class="navbar navbar-static-top" role="navigation">
+    <a href="~/">
+        <img class="logo" src="~/Images/logo.jpg" />
+    </a>
+
+    <div class="navbar-brand">
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                    SẢN PHẨM MỚI
+                </a>
+                <div class="dropdown-menu row">
+                    <div class="col-lg-6">
+                        <a href="#">
+                            Đồ Nam
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="#">
+                            Đồ Nữ
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                    ĐỒ NAM
+                </a>
+                <div class="dropdown-menu row">
+                    <div class="col-lg-6">
+                        <a href="#">
+                            QUẦN
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="#">
+                            ÁO
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                    ĐỒ NỮ
+                </a>
+                <div class="dropdown-menu row">
+                    <div class="col-lg-6">
+                        <a href="#">
+                            QUẦN
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="#">
+                            ÁO
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                    GIÀY DÉP
+                </a>
+                <div class="dropdown-menu row">
+                    <div class="col-lg-6">
+                        <a href="#">
+                            Đồ Nam
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="#">
+                            Đồ Nữ
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                    PHỤ KIỆN
+                </a>
+                <div class="dropdown-menu row">
+                    <div class="col-lg-6">
+                        <a href="#">
+                            Đồ Nam
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="#">
+                            Đồ Nữ
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                    KHUYẾN MÃI
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                    BỘ SƯU TẬP
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="navbar-custom-menu">
+        @if (currentUser == null)
+        {
+            <a href="~/SiSi/GetIn" class="login-link">
+                <i class="glyphicon glyphicon-user"></i>
+                ĐĂNG NHẬP
+            </a>
+        }
+        else
+        {
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="~/ManageProduct">
+                        <i class="fa fa-cog"></i>
+                        QUẢN TRỊ
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                        <i class="glyphicon glyphicon-user"></i>
+                        @currentUser.FULL_NAME
+                    </a>
+                    <ul class="dropdown-menu login-user">
+                        <li>
+                            <a href="#">
+                                CÁ NHÂN
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/SiSi/GetOut">
+                                ĐĂNG XUẤT
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        }
+    </div>
+</nav>

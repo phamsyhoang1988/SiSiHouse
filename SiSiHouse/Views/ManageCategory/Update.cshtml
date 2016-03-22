@@ -1,0 +1,68 @@
+﻿@using SiSiHouse.Common
+@using SiSiHouse.Resources
+@model SiSiHouse.ViewModels.ManageCategory.UpdateCategoryModel
+
+@{
+    ViewBag.Title = "Cập nhật dữ liệu phân loại";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+    @if (Model.CategoryInfo.CATEGORY_ID > 0)
+    {
+        <i class="update-info">
+            Dữ liệu được cập nhật lần cuối vào lúc @Model.CategoryInfo.MODIFIED_DATE.Value.ToString("HH:mm:ss yyyy/MM/dd") bởi @HttpUtility.HtmlEncode(Model.CategoryInfo.MODIFIED_USER)
+        </i>
+    }
+</section>
+
+@using (Html.BeginForm("UpdateData", "ManageCategory", FormMethod.Post, new { @class = "form-horizontal", id = "frmUpdate" }))
+{
+    <div id="title"></div>
+    @Html.ValidationSummary(false)
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label bold">Tên loại<span class="RequiredField">*</span></label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.CategoryInfo.CATEGORY_NAME, new { @class = "form-control", maxlength = 100 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ParentCategorySelectList, new { @class = "col-lg-2 control-label bold" })
+        <div class="col-lg-4">
+            @Html.DropDownListFor(m => m.CategoryInfo.PARENT_CATEGORY_ID, Model.ParentCategorySelectList, "Lựa chọn", new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group btn-group-edit">
+        <div class="col-lg-4">
+            @Html.HiddenFor(m => m.CategoryInfo.CATEGORY_ID)
+            @Html.AntiForgeryToken()
+
+            <button type="button" id="btnSubmit" class="btn dark"><i class="fa fa-edit"></i> Cập nhật</button>
+            <a href='@Url.Action("", "ManageCategory")' class="btn light"><i class="fa fa-reply"></i> Quay lại</a>
+
+            @if (Model.CategoryInfo.CATEGORY_ID > 0)
+            {
+                <label>
+                    @Html.CheckBoxFor(m => m.DELETE_FLAG, new { @class = "" })
+                    Xóa
+                </label>
+            }
+        </div>
+    </div>
+}
+
+<script type="text/javascript" charset="utf-8">
+    $("#btnSubmit").click(function (e) {
+        SiSi.utility.ShowConfirmDialog('@string.Format(Messages.I001)', function (action) {
+            if (action) {
+                $('#frmUpdate').submit();
+            }
+        });
+    });
+</script>

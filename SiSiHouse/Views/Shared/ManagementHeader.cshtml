@@ -1,0 +1,88 @@
+﻿@using SiSiHouse.Common;
+
+@{
+    var currentUser = HttpContext.Current.Session[Constant.SESSION_LOGIN_USER] as LoginUser;
+}
+
+<nav class="navbar navbar-static-top" role="navigation">
+    <a href="~/">
+        <img class="logo" src="~/Images/logo.jpg" />
+    </a>
+
+    @if (currentUser != null)
+    {
+        <div class="navbar-brand">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="@Url.Action("", "ManageProduct")">
+                        SẢN PHẨM
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href="@Url.Action("", "ManageBill")">
+                        HÓA ĐƠN
+                    </a>
+                </li>
+                @if (Constant.Role.ADMIN == currentUser.ROLE_ID)
+                {
+                    <li class="dropdown">
+                        <a href="@Url.Action("", "ManageStatistics")">
+                            THỐNG KÊ
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                            QUẢN LÝ
+                        </a>
+                        <ul class="dropdown-menu row">
+                            <li>
+                                <a href="@Url.Action("", "ManageBrand")">
+                                    THƯƠNG HIỆU
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("", "ManageCategory")">
+                                    PHÂN LOẠI
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("", "ManageMoney")">
+                                    TIỀN TỆ
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("", "ManageColor")">
+                                    MÀU SẢN PHẨM
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("Family", "SiSi")">
+                                    TÀI KHOẢN
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="navbar-custom-menu dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                <i class="glyphicon glyphicon-user"></i>
+                @currentUser.FULL_NAME
+            </a>
+            <ul class="dropdown-menu login-user">
+                <li>
+                    <a href="@Url.Action("Personal", "SiSi")">
+                        CÁ NHÂN
+                    </a>
+                </li>
+                <li>
+                    <a href="@Url.Action("GetOut", "SiSi")">
+                        ĐĂNG XUẤT
+                    </a>
+                </li>
+            </ul>
+        </div>
+    }
+</nav>

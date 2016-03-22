@@ -1,0 +1,136 @@
+﻿@using SiSiHouse.Common
+@model SiSiHouse.ViewModels.ManageProduct.UpdateRetailModel
+
+@using (Html.BeginForm("UpdateRetail", "ManageProduct", FormMethod.Post, new { @class = "form-horizontal retail-regist" }))
+{
+    <div id="title"></div>
+    @Html.ValidationSummary(false)
+
+    <h4>Thông tin sản phẩm</h4>
+    <div class="row form-group">
+        <div class="col-lg-3 center">
+            <img src="@Model.ProductInfo.ARTWORK" class="display-artwork" />
+        </div>
+        <div class="col-lg-9">
+            <ul>
+                <li>
+                    <label>Mã sản phẩm: </label>@Model.ProductInfo.PRODUCT_CODE
+                </li>
+                <li>
+                    <label>Tên sản phẩm: </label>@Model.ProductInfo.PRODUCT_NAME
+                </li>
+                <li>
+                    <label>Thương hiệu: </label>@Model.ProductInfo.BRAND_NAME
+                </li>
+                <li>
+                    <label>Loại sản phẩm: </label>@Model.ProductInfo.CATEGORY_NAME
+                </li>
+                <li>
+                    @Html.HiddenFor(m => m.ProductInfo.SALE_PRICE)
+                    <label>Nguyên giá: </label>@Model.ProductInfo.SALE_PRICE.Value.ToString("#,##0") VNĐ
+                </li>
+                @if (Model.ProductInfo.STATUS_ID.Value.ToString() == Constant.Status.SALE_OFF)
+                {
+                    <li class="error">
+                        @Html.HiddenFor(m => m.ProductInfo.SALE_OFF_PRICE)
+                        <label>Giá khuyến mãi: </label>@Model.ProductInfo.SALE_OFF_PRICE.Value.ToString("#,##0") VNĐ
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <hr />
+
+    <h4>Chi tiết hóa đơn <button type="button" class="btn dark btnAddProduct"><i class="fa fa-plus"></i> Thêm</button></h4>
+    <div class="row form-group">
+        <table id="tbRetail" class="table table-bordered table-hover dataTable no-footer">
+            <thead>
+                <tr>
+                    <th width="18%">Màu</th>
+                    <th width="17%">Size</th>
+                    <th width="15%">Trong kho</th>
+                    <th width="15%">Số lượng bán</th>
+                    <th width="30%">Đơn giá</th>
+                    <th width="5%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DropDownList("color", Model.ColorSelectListByProduct, "Chọn", new { @class = "form-control ddlSelectColor" })
+                    </td>
+                    <td>
+                        <select class="form-control ddlSize" id="size" name="size"></select>
+                    </td>
+                    <td class="center">
+                        <label class="quantity-in-stock control-label"></label>
+                    </td>
+                    <td>
+                        <input type="hidden" class="retail-product-detail-id" value="0" />
+                        <input type="text" class="retail-quantity numeric form-control" placeholder=" ... " readonly="readonly" />
+                    </td>
+                    <td class="right">
+                        <div class="input-group">
+                            <input class="form-control money right total-price" maxlength="9" type="text" placeholder=" ..." readonly="readonly" />
+                            <div class="input-group-addon" title="VNĐ">VNĐ</div>
+                        </div>
+                    </td>
+                    <td class="center">
+                        <a class="remove-product"><i class="fa fa-remove error control-label"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    
+    <h4 class="right">Tổng giá trị hóa đơn: <label id="ordersTotalPrice">0</label> VNĐ</h4>
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.ProductInfo.PRODUCT_ID)
+    <input name="ProductInfo.PRODUCT_NAME" type="hidden" value="temp">
+    <input name="ProductInfo.PRODUCT_CODE" type="hidden" value="temp">
+    <input name="ProductInfo.STATUS_ID" type="hidden" value="1">
+    <input id="ProductInfo_PRODUCT_ID" name="ProductInfo.MONEY_TYPE_ID" type="hidden" value="2">
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        ResetArrRetail();
+    });
+
+    $(".retail-regist").submit(function (e) {
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: $(this).attr("action"),
+            type: 'POST',
+            data: formData,
+            mimeType: "multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (response) {
+                var data = JSON.parse(response);
+
+                if (data.statusCode == 201) { // update success
+                    SiSi.utility.showInformationDialog(Constant.DIALOG.SUSSCES, data.message);
+                    $('#retailContent').modal('hide');
+
+                    var dataTable = $('#InfoTable').dataTable();
+                    dataTable.fnStandingRedraw();
+                }
+
+                if (typeof (data.ErrorMessages) !== 'undefined') // invalid data
+                    SiSi.utility.showClientError(data.ErrorMessages, '.modal #title');
+            },
+            error: function (error) {
+                if (error.status == 419) //419: Authentication Timeout
+                    SiSi.utility.showInformationDialog(Constant.DIALOG.WARNING, Constant.MESSAGE.CONNECT_TIMEOUT, Constant.URL_REDIRECT_TIMEOUT);
+            }
+        });
+
+        e.preventDefault(); // prevent Default action
+    });
+
+</script>

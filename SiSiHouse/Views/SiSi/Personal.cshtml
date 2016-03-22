@@ -1,0 +1,99 @@
+﻿@using SiSiHouse.Common
+@using SiSiHouse.Resources
+@model SiSiHouse.ViewModels.ManageUser.UpdateUserModel
+
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+</section>
+
+@using (Html.BeginForm("UpdateData", "SiSi", FormMethod.Post, new { @class = "form-horizontal", id = "frmUpdate" }))
+{
+    <div id="title"></div>
+    @Html.ValidationSummary(false)
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Tài khoản</label>
+        <label class="col-lg-4 control-label">@Model.UserInfo.ACCOUNT</label>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Mật khẩu</label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.PASSWORD, new { @class = "form-control", maxlength = 50, @readonly = "readonly" })
+            @Html.HiddenFor(m => m.UserInfo.OLD_PASSWORD)
+        </div>
+        <label id="lbChangePassword" class="col-lg-2 control-label lbl-link font-italic mg-left-10"><i class="fa fa-pencil"></i>Thay đổi</label>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="group_display_name">Họ tên<span class="RequiredField">*</span></label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.FULL_NAME, new { @class = "form-control", maxlength = 100 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Điện thoại</label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.MOBILE, new { @class = "form-control", maxlength = 20 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Email</label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.EMAIL, new { @class = "form-control", maxlength = 200 })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Trang cá nhân</label>
+        <div class="col-lg-4">
+            @Html.TextBoxFor(m => m.UserInfo.PRIVATE_PAGE, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label">Địa chỉ</label>
+        <div class="col-lg-4">
+            @Html.TextAreaFor(m => m.UserInfo.ADDRESS, new { @class = "form-control", row = 4 })
+        </div>
+    </div>
+
+    <div class="form-group btn-group-edit">
+        <div class="col-lg-4">
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.UserInfo.USER_ID)
+            @Html.HiddenFor(m => m.UserInfo.ACCOUNT)
+            @Html.HiddenFor(m => m.UserInfo.ROLE_ID)
+            @Html.HiddenFor(m => m.UserInfo.DELETE_FLAG)
+
+            <button type="button" id="btnSubmit" class="btn dark"><i class="fa fa-edit"></i> Cập nhật</button>
+            <a href='#' class="btn light" onclick="javascript: history.back();"><i class="fa fa-reply"></i> Quay lại</a>
+        </div>
+    </div>
+}
+
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        $('#UserInfo_PASSWORD').attr('type', 'password');
+    });
+
+    $("#lbChangePassword").click(function (e) {
+        $('#UserInfo_PASSWORD').removeAttr('readonly');
+    });
+
+    $("#btnSubmit").click(function (e) {
+        SiSi.utility.ShowConfirmDialog('@string.Format(Messages.I001)', function (action) {
+            if (action)
+                $('#frmUpdate').submit();
+        });
+    });
+</script>

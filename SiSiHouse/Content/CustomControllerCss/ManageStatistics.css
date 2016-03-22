@@ -1,0 +1,20 @@
+﻿
+/* Custom style for form*/
+
+.statistics-header ul {
+    list-style: none;
+    width: 200px;
+    min-height: 85px;
+    max-height: 115px;
+    border: 1px solid #DFDFDF;
+    overflow-y : auto;
+}
+
+.statistics-header .input-text {
+    width: 200px;
+}
+
+.total {
+    font-weight: bold;
+    background-color:#FDE197;
+}
