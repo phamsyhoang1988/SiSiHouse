@@ -4,6 +4,13 @@
     var currentUser = HttpContext.Current.Session[Constant.SESSION_LOGIN_USER] as LoginUser;
 }
 
+@if (currentUser != null)
+{
+    <script>
+        Constant.CurrentUserRole = '@currentUser.ROLE_ID';
+    </script>
+}
+
 <nav class="navbar navbar-static-top" role="navigation">
     <a href="~/">
         <img class="logo" src="~/Images/logo.jpg" />

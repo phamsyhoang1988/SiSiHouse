@@ -24,6 +24,10 @@
     DATE_FORMAT: 'mm/dd/yyyy',
     ERR_CONNECT_TIMEOUT: 'Phiên làm việc đã kết thúc. Vui lòng đăng nhập để tiếp tục',
     URL_REDIRECT_TIMEOUT: '/SiSi/GetIn',
+    ROLE: {
+        USER: 0,
+        ADMIN: 1
+    },
     REGX: /[^a-zA-Z0-9\!\""\#\$\%\&\'\(\)\=\~\|\-\_\^\@@\[\;\:\]\,\.\/\`\{\+\*\}\>\?]/g
 }
 

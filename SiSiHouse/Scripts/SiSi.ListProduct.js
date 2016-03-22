@@ -49,7 +49,7 @@ $(function () {
         { "sName": "MODIFIED_DATE", "bSortable": false, "aTargets": [PRODUCT_IN_STOCK], "sWidth": "6%", "sClass": "center" },
         { "sName": "STATUS_ID", "aTargets": [PRODUCT_STATUS], "sWidth": "7%", "sClass": "left" },
         { "sName": "SALE_PRICE", "aTargets": [SALES_PRICE], "sWidth": "7%", "sClass": "right" },
-        { "sName": "REAL_PRICE", "aTargets": [REAL_PRICE], "sWidth": "7%", "sClass": "right" },
+        { "sName": "REAL_PRICE", "bVisible": Constant.ROLE.ADMIN == Constant.CurrentUserRole, "aTargets": [REAL_PRICE], "sWidth": "7%", "sClass": "right" },
         { "sName": "MODIFIED_DATE", "aTargets": [MODIFIED_DATE], "sWidth": "8%", "sClass": "center" },
         {
             "sName": "PRODUCT_NAME", "bSortable": false, "aTargets": [DELETE_FLAG], "sWidth": "6%", "sClass": "center"
@@ -86,7 +86,9 @@ $(function () {
     }
 
     function BuildLinkToUpdate(id, display, deleted) {
-        return '<a href="/ManageProduct/Update/' + id + '" class="' + deleted + '">' + display + '</a>';
+        var link = Constant.ROLE.ADMIN == Constant.CurrentUserRole ? '<a href="/ManageProduct/Update/' + id + '" class="' + deleted + '">' + display + '</a>' : display;
+
+        return link;
     }
 
     function BuildArtwork(id, file) {
@@ -102,7 +104,7 @@ $(function () {
             html += '<div><a data-toggle="modal" data-target="#retailContent" data-whatever="' + productID + '"> <i class="fa fa-cart-plus"></i> Bán lẻ</a></div>'
         }
 
-        if (deleted == '0') {
+        if (Constant.ROLE.ADMIN == Constant.CurrentUserRole && deleted == '0') {
             html += '<div><a class="action-delete" data-product-id="' + productID + '" data-product-name="' + productName + '"> <i class="fa fa-remove error"></i> Xóa</a></div>'
         }
 
