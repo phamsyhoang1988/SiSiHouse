@@ -9,6 +9,8 @@ namespace SiSiHouse.Controllers
         // GET: /Error/
         public ActionResult Index()
         {
+            ViewBag.Error = true;
+
             return View("Error");
         }
     }

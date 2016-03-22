@@ -38,7 +38,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
                             QUẢN LÝ
                         </a>
                         <ul class="dropdown-menu row">
@@ -74,17 +74,17 @@
         </div>
 
         <div class="navbar-custom-menu dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="500" aria-expanded="false">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
                 <i class="glyphicon glyphicon-user pull-right mg-right-10"></i>
             </a>
             <ul class="dropdown-menu login-user">
                 <li>
-                    <a href="@Url.Action("Personal", "SiSi")">
+                    <a href="@Url.Action("Personal", "SiSi")" class="text-right">
                         @currentUser.FULL_NAME
                     </a>
                 </li>
                 <li>
-                    <a href="@Url.Action("GetOut", "SiSi")">
+                    <a href="@Url.Action("GetOut", "SiSi")" class="text-right">
                         ĐĂNG XUẤT
                     </a>
                 </li>

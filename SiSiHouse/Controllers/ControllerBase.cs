@@ -53,8 +53,6 @@ namespace SiSiHouse.Controllers
         /// <param name="filterContext"></param>
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            
-
             if (!Request.IsAjaxRequest())
             {
                 var routeData = filterContext.RouteData;

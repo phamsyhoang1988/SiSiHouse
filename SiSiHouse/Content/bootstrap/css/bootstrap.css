@@ -1390,8 +1390,7 @@ html {
 }
 
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-    font-size: 14px;
+    font: 300 14px/18px Lato,"Trebuchet MS",Helvetica,sans-serif;
     line-height: 1.42857143;
     color: #3b3b3b;
 }
