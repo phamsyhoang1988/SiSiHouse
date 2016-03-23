@@ -9,8 +9,6 @@ namespace SiSiHouse.WorkerServices
 {
     public interface ICommonService
     {
-        IList<SelectListItem> GetParentCategorySelectList();
-
         IList<Brand> GetBrandList();
 
         IList<Category> GetCategoryList();

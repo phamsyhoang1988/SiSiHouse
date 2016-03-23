@@ -64,35 +64,6 @@ namespace SiSiHouse.Models.Repositories.Impl
             return value.Replace("\\", "\\\\").Replace("[", "\\[").Replace("_", "\\_").Replace("%", "\\%").Replace("'", "''").Replace("@", "@\\");
         }
 
-        public IList<Category> GetParentCategoryList()
-        {
-            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
-            {
-                var sqlQuery = new StringBuilder();
-
-                sqlQuery.Append(@"
-                    SELECT CATEGORY_ID
-                        , CATEGORY_NAME
-                    FROM M_CATEGORY
-                    WHERE PARENT_CATEGORY_ID IS NULL
-                        AND DELETE_FLAG = '0'
-                    ORDER BY CATEGORY_NAME");
-
-                IList<Category> categoryList = new List<Category>();
-
-                sqlConnection.Open();
-
-                categoryList = sqlConnection.Query<Category>(
-                    sqlQuery.ToString()
-                ).ToList();
-
-                sqlConnection.Dispose();
-                sqlConnection.Close();
-
-                return categoryList;
-            }
-        }
-
         public IList<Brand> GetBrandList()
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -131,8 +102,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                     SELECT CATEGORY_ID
                         , CATEGORY_NAME
                     FROM M_CATEGORY
-                    WHERE PARENT_CATEGORY_ID IS NOT NULL
-                        AND DELETE_FLAG = '0'
+                    WHERE DELETE_FLAG = '0'
                     ORDER BY CATEGORY_NAME");
 
                 IList<Category> categoryList = new List<Category>();

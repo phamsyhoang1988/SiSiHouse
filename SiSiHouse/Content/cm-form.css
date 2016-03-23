@@ -1,4 +1,32 @@
 ﻿
+/* Let's get this party started */
+::-webkit-scrollbar {
+    width: 5px;
+    cursor: pointer;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    background: #3d3d3d;
+    cursor: pointer;
+    -webkit-box-shadow: inset 0 0 4px rgba(0,0,0,0.5);
+}
+
+    ::-webkit-scrollbar-thumb:window-inactive {
+        cursor: pointer;
+        background: #3d3d3d;
+    }
+
 /* Style Create form */
 .form-horizontal .control-label {
     text-align: left;
@@ -505,4 +533,28 @@ textarea {
 
 .mg-right-10 {
     margin-right: 10px;
+}
+
+.content-header a.dropdown-toggle {
+    color: #3b3b3b;
+}
+
+.content-header .open > .dropdown-menu {
+    background: #F4F4F4;
+}
+
+.content-header .open > .dropdown-menu > ul {
+    background: #FFFFFF;
+    margin-bottom: 0;
+}
+
+.content-header .open > .dropdown-menu .clear-condition {
+    text-align: right;
+    padding-right: 5px;
+    border: 1px solid #DFDFDF;
+    border-top: none;
+}
+
+.content-header .open > .dropdown-menu i {
+    cursor: pointer;
 }

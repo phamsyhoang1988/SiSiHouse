@@ -197,6 +197,18 @@ for(var b=b||i(a),c=b.frag.cloneNode(),d=0,e=m(),h=e.length;d<h;d++)c.createElem
                 openDropdown(event);
             });
 
+            $this.click(function (event) {
+                // this helps prevent a double event from firing.
+                // see https://github.com/CWSpear/bootstrap-hover-dropdown/issues/55
+                if (!$parent.hasClass('open') && !$parent.is(event.target)) {
+                    // stop this event, stop executing any code
+                    // in this callback but continue to propagate
+                    return true;
+                }
+
+                openDropdown(event);
+            });
+
             // handle submenus
             $parent.find('.dropdown-submenu').each(function () {
                 var $this = $(this);

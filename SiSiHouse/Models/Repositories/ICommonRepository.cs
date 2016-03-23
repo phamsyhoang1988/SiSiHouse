@@ -7,8 +7,6 @@ namespace SiSiHouse.Models.Repositories
 {
     public interface ICommonRepository
     {
-        IList<Category> GetParentCategoryList();
-
         IList<Brand> GetBrandList();
 
         IList<Category> GetCategoryList();

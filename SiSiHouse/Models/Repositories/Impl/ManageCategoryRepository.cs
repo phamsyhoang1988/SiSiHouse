@@ -25,7 +25,6 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 sqlContent.Append(@"
                     SELECT CATEGORY_ID
-                        , (SELECT CATEGORY_NAME FROM M_CATEGORY WHERE M_CATEGORY.CATEGORY_ID = tbMain.PARENT_CATEGORY_ID) PARENT_CATEGORY_NAME
                         , CATEGORY_NAME
                         , DELETE_FLAG
                         , MODIFIED_DATE
@@ -35,9 +34,6 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 if (!string.IsNullOrEmpty(condition.CATEGORY_NAME))
                     sqlContent.AppendFormat(" AND CATEGORY_NAME LIKE N'{0}' ESCAPE '\\' ", "%" + replaceWildcardCharacters(condition.CATEGORY_NAME) + "%");
-
-                if (condition.PARENT_CATEGORY_ID.HasValue)
-                    sqlContent.AppendFormat(" AND PARENT_CATEGORY_ID = {0}", condition.PARENT_CATEGORY_ID);
 
                 if (!condition.DELETE_FLAG)
                     sqlContent.Append(" AND DELETE_FLAG = '0'");
@@ -74,7 +70,6 @@ namespace SiSiHouse.Models.Repositories.Impl
                 sqlQuery.AppendFormat(@"
                     SELECT CATEGORY_ID
                         , CATEGORY_NAME
-                        , PARENT_CATEGORY_ID
                         , DELETE_FLAG
                         , CREATED_DATE
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = M_CATEGORY.CREATED_USER_ID) CREATED_USER
@@ -110,16 +105,14 @@ namespace SiSiHouse.Models.Repositories.Impl
                     sqlQuery.AppendFormat(@"
                         INSERT INTO M_CATEGORY
                             (CATEGORY_NAME
-                            , PARENT_CATEGORY_ID
                             , DELETE_FLAG
                             , CREATED_DATE
                             , CREATED_USER_ID
                             , MODIFIED_DATE
                             , MODIFIED_USER_ID)
                         VALUES
-                            (N'{0}', {1}, '{2}', '{3}', {4}, '{5}', {6})"
+                            (N'{0}', '{1}', '{2}', {3}, '{4}', {5})"
                       , data.CATEGORY_NAME
-                      , (data.PARENT_CATEGORY_ID.HasValue ? data.PARENT_CATEGORY_ID.Value.ToString() : "null")
                       , Constant.DeleteFlag.NON_DELETE
                       , data.MODIFIED_DATE
                       , data.MODIFIED_USER_ID
@@ -131,13 +124,11 @@ namespace SiSiHouse.Models.Repositories.Impl
                     sqlQuery.AppendFormat(@"
                         UPDATE M_CATEGORY
                             SET CATEGORY_NAME = N'{0}'
-                            , PARENT_CATEGORY_ID = {1}
-                            , DELETE_FLAG = '{2}'
-                            , MODIFIED_DATE = '{3}'
-                            , MODIFIED_USER_ID = {4}
-                        WHERE CATEGORY_ID = {5}"
+                            , DELETE_FLAG = '{1}'
+                            , MODIFIED_DATE = '{2}'
+                            , MODIFIED_USER_ID = {3}
+                        WHERE CATEGORY_ID = {4}"
                      , data.CATEGORY_NAME
-                     , (data.PARENT_CATEGORY_ID.HasValue ? data.PARENT_CATEGORY_ID.Value.ToString() : "null")
                      , data.DELETE_FLAG
                      , data.MODIFIED_DATE
                      , data.MODIFIED_USER_ID

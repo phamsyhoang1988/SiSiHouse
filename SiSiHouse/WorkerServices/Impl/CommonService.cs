@@ -23,18 +23,6 @@ namespace SiSiHouse.WorkerServices.Impl
             this._repository = _repository;
         }
 
-        public IList<SelectListItem> GetParentCategorySelectList()
-        {
-            return _repository.GetParentCategoryList().Select(
-                        f =>
-                        new SelectListItem
-                        {
-                            Value = f.CATEGORY_ID.ToString(),
-                            Text = f.CATEGORY_NAME
-                        })
-                    .ToList();
-        }
-
         public IList<Brand> GetBrandList()
         {
             return _repository.GetBrandList();

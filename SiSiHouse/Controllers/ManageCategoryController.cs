@@ -44,7 +44,6 @@ namespace SiSiHouse.Controllers
         public ActionResult Index()
         {
             var model = new SearchCategoryModel();
-            model.ParentCategorySelectList = this.commonService.GetParentCategorySelectList();
 
             return this.View("List", model);
         }
@@ -52,7 +51,6 @@ namespace SiSiHouse.Controllers
         public ActionResult Update(int id = 0)
         {
             var model = new UpdateCategoryModel();
-            model.ParentCategorySelectList = this.commonService.GetParentCategorySelectList();
 
             if (id > 0)
             {
@@ -85,8 +83,6 @@ namespace SiSiHouse.Controllers
                     }
                 }
 
-                model.ParentCategorySelectList = this.commonService.GetParentCategorySelectList();
-
                 return View("Update", model);
             }
             catch (Exception ex)
@@ -114,7 +110,6 @@ namespace SiSiHouse.Controllers
                     dataList.Add(new object[] {
                         data.CATEGORY_ID
                         , rowIndex
-                        , HttpUtility.HtmlEncode(data.PARENT_CATEGORY_NAME)
                         , HttpUtility.HtmlEncode(data.CATEGORY_NAME)
                         , data.MODIFIED_DATE.Value.ToString("yyyy/MM/dd HH:mm:ss")
                         , HttpUtility.HtmlEncode(data.MODIFIED_USER)

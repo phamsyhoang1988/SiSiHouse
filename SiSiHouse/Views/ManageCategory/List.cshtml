@@ -17,10 +17,6 @@
     <div class="search-form">
         <div class="search-condition row">
             <div class="col-lg-4">
-                @Html.LabelFor(m => m.ParentCategorySelectList, new { @class = "" })
-                @Html.DropDownListFor(m => m.Condition.PARENT_CATEGORY_ID, Model.ParentCategorySelectList, "Lựa chọn", new { @class = "" })
-            </div>
-            <div class="col-lg-4">
                 @Html.LabelFor(m => m.Condition.CATEGORY_NAME, new { @class = "" })
                 @Html.TextBoxFor(m => m.Condition.CATEGORY_NAME, new { maxlength = 200, @placeholder = "Tên loại ..." })
             </div>
@@ -51,8 +47,7 @@
             <tr>
                 <th>ID</th>
                 <th>STT</th>
-                <th>Phân loại chính</th>
-                <th>Tên loại</th>
+                <th>Phân loại</th>
                 <th>Ngày cập nhật</th>
                 <th>Người cập nhật</th>
             </tr>
@@ -85,17 +80,15 @@
         var aoColumnDefs = [
             { "sName": "MODIFIED_DATE", "bSortable": false, "bVisible": false, "aTargets": [0], "sWidth": "0%" },
             { "sName": "MODIFIED_DATE", "bSortable": false, "aTargets": [1], "sWidth": "5%", "sClass": "center" },
-            { "sName": "PARENT_CATEGORY_NAME", "aTargets": [2], "sWidth": "30%", "sClass": "left" },
-            { "sName": "CATEGORY_NAME", "aTargets": [3], "sWidth": "30%", "sClass": "left", "mRender": function (data, type, full) { return '<a class="action-edit ' + full[6] + '" aria-valuetext="' + full[0] + '">' + data + '</a>'; } },
-            { "sName": "MODIFIED_DATE", "aTargets": [4], "sWidth": "20%", "sClass": "center" },
-            { "sName": "MODIFIED_USER", "aTargets": [5], "sWidth": "15%", "sClass": "left" }
+            { "sName": "CATEGORY_NAME", "aTargets": [2], "sWidth": "30%", "sClass": "left", "mRender": function (data, type, full) { return '<a class="action-edit ' + full[5] + '" aria-valuetext="' + full[0] + '">' + data + '</a>'; } },
+            { "sName": "MODIFIED_DATE", "aTargets": [3], "sWidth": "20%", "sClass": "center" },
+            { "sName": "MODIFIED_USER", "aTargets": [4], "sWidth": "15%", "sClass": "left" }
         ];
 
         var dataTable = CreateDataTable('#InfoTable', oSorting, oPaginate, oServerSide, aoColumnDefs);
 
         function serverParams(aoData) {
             aoData.push(
-                { "name": "PARENT_CATEGORY_ID", "value": $("#Condition_PARENT_CATEGORY_ID").val() },
                 { "name": "CATEGORY_NAME", "value": $("#Condition_CATEGORY_NAME").val() },
                 { "name": "DELETE_FLAG", "value": $("#Condition_DELETE_FLAG").prop('checked') }
             );
@@ -137,7 +130,7 @@
         });
 
         $("#btnClear").click(function () {
-            $("#Condition_PARENT_CATEGORY_ID, #Condition_CATEGORY_NAME").val("");
+            $("#Condition_CATEGORY_NAME").val("");
             $("#Condition_DELETE_FLAG").prop('checked', false);
 
             searchByCondition();

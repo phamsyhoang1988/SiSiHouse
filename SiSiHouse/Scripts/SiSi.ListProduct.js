@@ -128,6 +128,15 @@ $(function () {
         dataTable.fnPageChange("first");
     }
 
+    $(".dropdown-menu input:checkbox").change(function () {
+        searchByCondition();
+    });
+
+    $(".clear-condition i").click(function () {
+        $(this).parents('.dropdown-menu').find('input:checkbox').prop('checked', false);
+        searchByCondition();
+    });
+
     $(document).bind('keypress', function (e) {
         var code = e.keyCode || e.which;
         if (code == 13) { //Enter keycode

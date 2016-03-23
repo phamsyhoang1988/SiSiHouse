@@ -16,9 +16,6 @@ namespace SiSiHouse.Models.Entities
         [StringLength(200, ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "E008")]
         public string CATEGORY_NAME { get; set; }
 
-        [DisplayName("Tên loại chính")]
-        public int? PARENT_CATEGORY_ID { get; set; }
-
         public string DELETE_FLAG { get; set; }
 
         [DisplayName("Ngày tạo")]
@@ -36,8 +33,6 @@ namespace SiSiHouse.Models.Entities
 
         [DisplayName("Người cập nhật")]
         public string MODIFIED_USER { get; set; }
-
-        public string PARENT_CATEGORY_NAME { get; set; }
 
         public bool CHECK { get; set; }
     }

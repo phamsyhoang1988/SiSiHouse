@@ -12,7 +12,7 @@
 .product-header ul {
     list-style: none;
     width: 200px;
-    min-height: 115px;
+    min-height: 55px;
     max-height: 115px;
     border: 1px solid #DFDFDF;
     overflow-y : auto;

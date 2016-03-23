@@ -72,6 +72,10 @@
     color: #8BA9A9;
 }
 
+.main-header #header-menu #general-menu ul {
+    margin: 0;
+}
+
 .main-header nav #logo {
     width: 30px;
     height: 30px;
@@ -120,6 +124,9 @@
 
 .main-header ul.dropdown-menu {
     min-width: 100px;
+}
+
+.main-header .navbar-custom-menu ul.dropdown-menu, .main-header #general-menu ul.dropdown-menu {
     text-align: right;
 }
 
@@ -128,7 +135,7 @@
 }
 
 .main-header ul.dropdown-menu li a{
-    padding: 10px;
+    padding: 5px 10px;
     background: #241E20;
 }
 
@@ -267,4 +274,8 @@
 
 #error {
     margin-top: 10%;
+}
+
+.dropdown-menu.login-user {
+    padding-top: 7px !important;
 }

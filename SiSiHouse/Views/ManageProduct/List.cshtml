@@ -42,62 +42,89 @@
             </div>
         </div>
         <div class="search-condition row">
-            <div class="col-lg-3">
-                @Html.LabelFor(m => m.Condition.SEX, new { @class = "" })
-                <ul>
-                    @for (int i = 0; i < Constant.Sex.Items.Count; i++)
-                    {
-                        <li>
-                            
-                            <label>
-                                <input alt="@(i)" class="select-sex" type="checkbox">
-                                @Constant.Sex.Items[i]
-                            </label>
-                        </li>
-                    }
-                </ul>
+            <div class="col-lg-2">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    Giới tính <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-menu row">
+                    <ul>
+                        @for (int i = 0; i < Constant.Sex.Items.Count; i++)
+                        {
+                            <li>
+                                <label class="control-label">
+                                    <input alt="@(i)" class="select-sex" type="checkbox">
+                                    @Constant.Sex.Items[i]
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                    <div class="clear-condition">
+                        <i class="fa fa-refresh"></i>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-3">
-                @Html.LabelFor(m => m.BrandSelectList, new { @class = "" })
-                <ul>
-                    @for (int i = 0; i < Model.BrandSelectList.Count; i++)
-                    {
-                        <li>
-                            <label>
-                                @Html.CheckBoxFor(m => m.BrandSelectList[i].CHECK, new { alt = @Model.BrandSelectList[i].BRAND_ID, @class = "select-brand" })
-                                @Model.BrandSelectList[i].BRAND_NAME
-                            </label>
-                        </li>
-                    }
-                </ul>
+            <div class="col-lg-2">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    Thương hiệu <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-menu row">
+                    <ul>
+                        @for (int i = 0; i < Model.BrandSelectList.Count; i++)
+                        {
+                            <li>
+                                <label class="control-label">
+                                    @Html.CheckBoxFor(m => m.BrandSelectList[i].CHECK, new { alt = @Model.BrandSelectList[i].BRAND_ID, @class = "select-brand" })
+                                    @Model.BrandSelectList[i].BRAND_NAME
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                    <div class="clear-condition">
+                        <i class="fa fa-refresh"></i>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-3">
-                @Html.LabelFor(m => m.CategorySelectList, new { @class = "" })
-                <ul>
-                    @for (int i = 0; i < Model.CategorySelectList.Count; i++)
-                    {
-                        <li>
-                            <label>
-                                @Html.CheckBoxFor(m => m.CategorySelectList[i].CHECK, new { alt = @Model.CategorySelectList[i].CATEGORY_ID, @class = "select-category" })
-                                @Model.CategorySelectList[i].CATEGORY_NAME
-                            </label>
-                        </li>
-                    }
-                </ul>
+            <div class="col-lg-2">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    Phân loại <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-menu row">
+                    <ul>
+                        @for (int i = 0; i < Model.CategorySelectList.Count; i++)
+                        {
+                            <li>
+                                <label class="control-label">
+                                    @Html.CheckBoxFor(m => m.CategorySelectList[i].CHECK, new { alt = @Model.CategorySelectList[i].CATEGORY_ID, @class = "select-category" })
+                                    @Model.CategorySelectList[i].CATEGORY_NAME
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                    <div class="clear-condition">
+                        <i class="fa fa-refresh"></i>
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-3">
-                @Html.LabelFor(m => m.Condition.STATUS_ID, new { @class = "" })
-                <ul>
-                    @for (int i = 0; i < Constant.Status.Items.Count; i++)
-                    {
-                        <li>
-                            <label>
-                                <input alt="@(i)" class="select-status" type="checkbox">
-                                @Constant.Status.Items[i]
-                            </label>
-                        </li>
-                    }
-                </ul>
+            <div class="col-lg-2">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    Trạng thái <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-menu row">
+                    <ul>
+                        @for (int i = 0; i < Constant.Status.Items.Count; i++)
+                        {
+                            <li>
+                                <label class="control-label">
+                                    <input alt="@(i)" class="select-status" type="checkbox">
+                                    @Constant.Status.Items[i]
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                    <div class="clear-condition">
+                        <i class="fa fa-refresh"></i>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="search-action row">
