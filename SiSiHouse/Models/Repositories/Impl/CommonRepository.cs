@@ -187,26 +187,28 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT
                         tbColorID.COLOR_ID
                         , M_COLOR.COLOR_NAME
                     FROM (
                         SELECT COLOR_ID
                         FROM PRODUCT_DETAIL
-                        WHERE PRODUCT_ID = {0}
+                        WHERE PRODUCT_ID = @PRODUCT_ID
                             AND QUANTITY > 0
                         GROUP BY COLOR_ID
                         ) tbColorID
                         INNER JOIN M_COLOR
-                            ON tbColorID.COLOR_ID = M_COLOR.COLOR_ID", productID);
+                            ON tbColorID.COLOR_ID = M_COLOR.COLOR_ID");
 
                 IList<Color> colorList = new List<Color>();
 
                 sqlConnection.Open();
 
                 colorList = sqlConnection.Query<Color>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(), new {
+                        PRODUCT_ID = productID
+                    }
                 ).ToList();
 
                 sqlConnection.Dispose();
@@ -222,19 +224,24 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT SIZE
                     FROM PRODUCT_DETAIL
-                    WHERE PRODUCT_ID = {0}
-                        AND COLOR_ID = {1}
-                        AND QUANTITY > 0", productID, colorID);
+                    WHERE PRODUCT_ID = @PRODUCT_ID
+                        AND COLOR_ID = @COLOR_ID
+                        AND QUANTITY > 0");
 
                 IList<ProductDetail> sizeList = new List<ProductDetail>();
 
                 sqlConnection.Open();
 
                 sizeList = sqlConnection.Query<ProductDetail>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        PRODUCT_ID = productID,
+                        COLOR_ID = colorID
+                    }
                 ).ToList();
 
                 sqlConnection.Dispose();
@@ -250,17 +257,23 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT PRODUCT_DETAIL_ID, QUANTITY
                     FROM PRODUCT_DETAIL
-                    WHERE PRODUCT_ID = {0}
-                        AND COLOR_ID = {1}
-                        AND SIZE = '{2}'", productID, colorID, size);
+                    WHERE PRODUCT_ID = @PRODUCT_ID
+                        AND COLOR_ID = @COLOR_ID
+                        AND SIZE = @SIZE");
 
                 sqlConnection.Open();
 
                 var detail = sqlConnection.Query<ProductDetail>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        PRODUCT_ID = productID,
+                        COLOR_ID = colorID,
+                        SIZE = size
+                    }
                 ).FirstOrDefault();
 
                 sqlConnection.Dispose();
@@ -270,31 +283,36 @@ namespace SiSiHouse.Models.Repositories.Impl
             }
         }
 
-        public IList<Artwork> GetArtworkList(long productID)
+        public IList<Picture> GetPictureList(long productID)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
-                    SELECT ARTWORK_ID
+                sqlQuery.Append(@"
+                    SELECT PICTURE_ID
                         , FILE_PATH
                         , FILE_PATH FILE_PATH_OLD
-                    FROM ARTWORK
-                    WHERE PRODUCT_ID = {0}", productID);
+                    FROM PICTURE
+                    WHERE PRODUCT_ID = @PRODUCT_ID
+                    ORDER BY DISPLAY_FLAG DESC");
 
-                IList<Artwork> artworkList = new List<Artwork>();
+                IList<Picture> pictureList = new List<Picture>();
 
                 sqlConnection.Open();
 
-                artworkList = sqlConnection.Query<Artwork>(
-                    sqlQuery.ToString()
+                pictureList = sqlConnection.Query<Picture>(
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        PRODUCT_ID = productID
+                    }
                 ).ToList();
 
                 sqlConnection.Dispose();
                 sqlConnection.Close();
 
-                return artworkList;
+                return pictureList;
             }
         }
     }

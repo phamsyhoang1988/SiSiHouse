@@ -40,7 +40,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , DELETE_FLAG
                         , MODIFIED_DATE
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = PRODUCT.MODIFIED_USER_ID) MODIFIED_USER
-                        , (SELECT TOP 1 FILE_PATH FROM ARTWORK WHERE PRODUCT_ID = PRODUCT.PRODUCT_ID) AS ARTWORK
+                        , (SELECT TOP 1 FILE_PATH FROM PICTURE WHERE PICTURE.PRODUCT_ID = PRODUCT.PRODUCT_ID AND PICTURE.DISPLAY_FLAG = '1') AS PICTURE
                     FROM PRODUCT
                     WHERE 1 = 1");
 
@@ -132,7 +132,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = PRODUCT.MODIFIED_USER_ID) MODIFIED_USER
                         , (SELECT BRAND_NAME FROM M_BRAND WHERE M_BRAND.BRAND_ID = PRODUCT.BRAND_ID) BRAND_NAME
                         , (SELECT CATEGORY_NAME FROM M_CATEGORY WHERE M_CATEGORY.CATEGORY_ID = PRODUCT.CATEGORY_ID) CATEGORY_NAME
-                        , (SELECT TOP 1 FILE_PATH FROM ARTWORK WHERE PRODUCT_ID = PRODUCT.PRODUCT_ID) AS ARTWORK
+                        , (SELECT TOP 1 FILE_PATH FROM PICTURE WHERE PICTURE.PRODUCT_ID = PRODUCT.PRODUCT_ID AND PICTURE.DISPLAY_FLAG = '1') AS PICTURE
                     FROM PRODUCT
                     WHERE PRODUCT_ID = {0}", productID);
 
@@ -212,7 +212,7 @@ namespace SiSiHouse.Models.Repositories.Impl
 
         public bool UpdateProductInfo(Product data
             , IList<ProductDetail> dataDetail
-            , IList<Artwork> dataArtwork
+            , IList<Picture> dataPicture
             , out long newProductID)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -354,7 +354,7 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 if (result > 0)
                 {
-                    result = UpdateArtwork(sqlConnection, newProductID, dataArtwork, data.MODIFIED_DATE.Value, data.MODIFIED_USER_ID);
+                    result = UpdatePicture(sqlConnection, newProductID, dataPicture, data.MODIFIED_DATE.Value, data.MODIFIED_USER_ID);
                 }
 
                 sqlConnection.Dispose();
@@ -364,13 +364,13 @@ namespace SiSiHouse.Models.Repositories.Impl
             }
         }
 
-        private int UpdateArtwork(SqlConnection sqlConnection, long productID, IList<Artwork> dataArtwork, DateTime createdDate, long createdUserID)
+        private int UpdatePicture(SqlConnection sqlConnection, long productID, IList<Picture> dataPicture, DateTime createdDate, long createdUserID)
         {
             int result = 1;
 
-            if (dataArtwork != null && dataArtwork.Count > 0)
+            if (dataPicture != null && dataPicture.Count > 0)
             {
-                foreach (var data in dataArtwork)
+                foreach (var data in dataPicture)
                 {
                     if (data.DELETED.HasValue && data.DELETED.Value)
                     {
@@ -378,11 +378,11 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                         sqlDelete.AppendFormat(@"
                             DELETE FROM
-                                ARTWORK
+                                PICTURE
                             WHERE
                                 PRODUCT_ID = {0}
-                                AND ARTWORK_ID = {1}
-                        ", productID, data.ARTWORK_ID);
+                                AND PICTURE_ID = {1}
+                        ", productID, data.PICTURE_ID);
 
                         result = sqlConnection.Execute(sqlDelete.ToString());
                     }
@@ -391,20 +391,20 @@ namespace SiSiHouse.Models.Repositories.Impl
                         var sqlUpdate = new StringBuilder();
 
                         sqlUpdate.AppendFormat(@"
-                            UPDATE ARTWORK
+                            UPDATE PICTURE
                                 SET FILE_PATH = N'{0}'
                             WHERE PRODUCT_ID = {1}
-                            AND ARTWORK_ID = {2}
-                        ", data.FILE_PATH, productID, data.ARTWORK_ID);
+                            AND PICTURE_ID = {2}
+                        ", data.FILE_PATH, productID, data.PICTURE_ID);
 
                         result = sqlConnection.Execute(sqlUpdate.ToString());
                     }
-                    else if (1 > data.ARTWORK_ID && !string.IsNullOrEmpty(data.FILE_PATH))
+                    else if (1 > data.PICTURE_ID && !string.IsNullOrEmpty(data.FILE_PATH))
                     {
                         var sqlInsert = new StringBuilder();
 
                         sqlInsert.AppendFormat(@"
-                            INSERT INTO ARTWORK
+                            INSERT INTO PICTURE
                                 (PRODUCT_ID
                                 , FILE_PATH
                                 , CREATED_DATE

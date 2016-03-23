@@ -67,7 +67,7 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT CATEGORY_ID
                         , CATEGORY_NAME
                         , DELETE_FLAG
@@ -76,7 +76,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , MODIFIED_DATE
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = M_CATEGORY.MODIFIED_USER_ID) MODIFIED_USER
                     FROM M_CATEGORY
-                    WHERE CATEGORY_ID = {0}", categoryID);
+                    WHERE CATEGORY_ID = @CATEGORY_ID");
 
                 Category categoryInfo = new Category();
 
@@ -84,7 +84,11 @@ namespace SiSiHouse.Models.Repositories.Impl
                 sqlConnection.Open();
 
                 categoryInfo = sqlConnection.Query<Category>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        CATEGORY_ID = categoryID
+                    }
                 ).FirstOrDefault();
 
                 sqlConnection.Dispose();
@@ -102,7 +106,7 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 if (data.CATEGORY_ID == 0)
                 {
-                    sqlQuery.AppendFormat(@"
+                    sqlQuery.Append(@"
                         INSERT INTO M_CATEGORY
                             (CATEGORY_NAME
                             , DELETE_FLAG
@@ -111,35 +115,32 @@ namespace SiSiHouse.Models.Repositories.Impl
                             , MODIFIED_DATE
                             , MODIFIED_USER_ID)
                         VALUES
-                            (N'{0}', '{1}', '{2}', {3}, '{4}', {5})"
-                      , data.CATEGORY_NAME
-                      , Constant.DeleteFlag.NON_DELETE
-                      , data.MODIFIED_DATE
-                      , data.MODIFIED_USER_ID
-                      , data.MODIFIED_DATE
-                      , data.MODIFIED_USER_ID);
+                            (@CATEGORY_NAME, @DELETE_FLAG, @CREATED_DATE, @CREATED_USER_ID, @MODIFIED_DATE, @MODIFIED_USER_ID)");
                 }
                 else
                 {
-                    sqlQuery.AppendFormat(@"
+                    sqlQuery.Append(@"
                         UPDATE M_CATEGORY
-                            SET CATEGORY_NAME = N'{0}'
-                            , DELETE_FLAG = '{1}'
-                            , MODIFIED_DATE = '{2}'
-                            , MODIFIED_USER_ID = {3}
-                        WHERE CATEGORY_ID = {4}"
-                     , data.CATEGORY_NAME
-                     , data.DELETE_FLAG
-                     , data.MODIFIED_DATE
-                     , data.MODIFIED_USER_ID
-                     , data.CATEGORY_ID);
+                            SET CATEGORY_NAME = @CATEGORY_NAME
+                            , DELETE_FLAG = @DELETE_FLAG
+                            , MODIFIED_DATE = @MODIFIED_DATE
+                            , MODIFIED_USER_ID = @MODIFIED_USER_ID
+                        WHERE CATEGORY_ID = @CATEGORY_ID");
                 }
 
                 int result = 0;
 
                 sqlConnection.Open();
 
-                result = sqlConnection.Execute(sqlQuery.ToString());
+                result = sqlConnection.Execute(sqlQuery.ToString(), new {
+                    CATEGORY_NAME = data.CATEGORY_NAME,
+                    DELETE_FLAG = string.IsNullOrEmpty(data.DELETE_FLAG) ? Constant.DeleteFlag.NON_DELETE : data.DELETE_FLAG,
+                    CREATED_DATE = data.MODIFIED_DATE,
+                    CREATED_USER_ID = data.MODIFIED_USER_ID,
+                    MODIFIED_DATE = data.MODIFIED_DATE,
+                    MODIFIED_USER_ID = data.MODIFIED_USER_ID,
+                    CATEGORY_ID = data.CATEGORY_ID
+                });
 
                 sqlConnection.Dispose();
                 sqlConnection.Close();

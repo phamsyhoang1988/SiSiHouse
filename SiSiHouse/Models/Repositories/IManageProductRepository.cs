@@ -15,7 +15,7 @@ namespace SiSiHouse.Models.Repositories
 
         IList<ProductDetail> GetProductQuantityList(long productID);
 
-        bool UpdateProductInfo(Product data, IList<ProductDetail> dataDetail, IList<Artwork> dataArtwork, out long newProductID);
+        bool UpdateProductInfo(Product data, IList<ProductDetail> dataDetail, IList<Picture> dataPicture, out long newProductID);
 
         bool UpdateRetail(Product product, IList<Retail> retailList, bool isEdit);
 

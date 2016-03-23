@@ -4,7 +4,7 @@
 $(function () {
     var PRODUCT_ID = 0;
     var ROOT_LINK = 1;
-    var ARTWORK = 2;
+    var PICTURE = 2;
     var PRODUCT_INFO = 3;
     var PRODUCT_DETAIL = 4;
     var PRODUCT_IN_STOCK = 5;
@@ -38,8 +38,8 @@ $(function () {
             , "mRender": function (data, type, full) { return SiSi.utility.nvl(data) ? '<a href="' + data + '" target="_blank"><i class="fa fa-eye"></i> Xem</a>' : ''; }
         },
         {
-            "sName": "MODIFIED_DATE", "bSortable": false, "aTargets": [ARTWORK], "sWidth": "8%", "sClass": "center"
-            , "mRender": function (data, type, full) { return BuildArtwork(full[PRODUCT_ID], data); }
+            "sName": "MODIFIED_DATE", "bSortable": false, "aTargets": [PICTURE], "sWidth": "8%", "sClass": "center"
+            , "mRender": function (data, type, full) { return BuildPicture(full[PRODUCT_ID], data); }
         },
         {
             "sName": "PRODUCT_NAME", "aTargets": [PRODUCT_INFO], "sWidth": "21%", "sClass": "left productName"
@@ -91,8 +91,8 @@ $(function () {
         return link;
     }
 
-    function BuildArtwork(id, file) {
-        var html = '<img src="' + file + '" class="tb-display-artwork">';
+    function BuildPicture(id, file) {
+        var html = '<img src="' + file + '" class="tb-display-picture">';
 
         return BuildLinkToUpdate(id, html, '');
     }

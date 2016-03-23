@@ -58,9 +58,9 @@ namespace SiSiHouse.WorkerServices.Impl
             return _repository.GetDetailInStock(productID, colorID, size);
         }
 
-        public IList<Artwork> GetArtworkList(long productID)
+        public IList<Picture> GetPictureList(long productID)
         {
-            return _repository.GetArtworkList(productID);
+            return _repository.GetPictureList(productID);
         }
     }
 }

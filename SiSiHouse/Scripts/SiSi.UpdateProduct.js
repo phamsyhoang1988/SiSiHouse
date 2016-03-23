@@ -388,75 +388,75 @@ $(document).on('change', '.ddlSelectColor', function () {
 // END - Module product detail
 
 
-// START - Module artwork
-function ResetArtworkDetail() {
-    $('.artwork-detail').each(function (index, value) {
-        var artworkID = 'ArtworkList[' + index + '].ARTWORK_ID';
+// START - Module picture
+function ResetPictureDetail() {
+    $('.picture-detail').each(function (index, value) {
+        var pictureID = 'PictureList[' + index + '].PICTURE_ID';
 
-        $(this).find('.artwork-id').attr('name', artworkID);
+        $(this).find('.picture-id').attr('name', pictureID);
 
         if ($(this).hasClass('old-value')) {
-            var filepathOld = 'ArtworkList[' + index + '].FILE_PATH_OLD';
-            var changed = 'ArtworkList[' + index + '].CHANGED';
-            var deleted = 'ArtworkList[' + index + '].DELETED';
+            var filepathOld = 'PictureList[' + index + '].FILE_PATH_OLD';
+            var changed = 'PictureList[' + index + '].CHANGED';
+            var deleted = 'PictureList[' + index + '].DELETED';
 
-            $(this).find('.artwork-filepath-old').attr('name', filepathOld);
-            $(this).find('.artwork-changed').attr('name', changed);
-            $(this).find('.artwork-deleted').attr('name', deleted);
+            $(this).find('.picture-filepath-old').attr('name', filepathOld);
+            $(this).find('.picture-changed').attr('name', changed);
+            $(this).find('.picture-deleted').attr('name', deleted);
         }
     });
 }
 
-$('.btnAddArtwork').click(function (e) {
-    var html = '<div class="form-group col-lg-3 artwork-detail">'
-        + ' <input class="artwork-id" type="hidden">'
+$('.btnAddPicture').click(function (e) {
+    var html = '<div class="form-group col-lg-3 picture-detail">'
+        + ' <input class="picture-id" type="hidden">'
         + ' <div class="col-lg-7">'
-        + ' <img src="/Images/no_image.png" title="Chưa có ảnh" class="display-artwork" />'
+        + ' <img src="/Images/no_image.png" title="Chưa có ảnh" class="display-picture" />'
         + ' </div>'
         + ' <div class="col-lg-5">'
-        + ' <input class="artwork-file" name="artworkFiles" type="file">'
-        + ' <button class="btn dark btnSelectArtwork pull-right" type="button"><i class="fa fa-image"></i></button>'
-        + ' <button class="btn dark btnDeleteArtwork pull-right" type="button"><i class="fa fa-remove"></i></button>'
+        + ' <input class="picture-file" name="pictureFiles" type="file">'
+        + ' <button class="btn dark btnSelectPicture pull-right" type="button"><i class="fa fa-image"></i></button>'
+        + ' <button class="btn dark btnDeletePicture pull-right" type="button"><i class="fa fa-remove"></i></button>'
         + ' </div>'
         + ' </div>';
 
-    if ($('.artwork-detail').length > 0)
-        $('.artwork-detail:last').after(html);
+    if ($('.picture-detail').length > 0)
+        $('.picture-detail:last').after(html);
     else
-        $('.artwork-list').append(html);
+        $('.picture-list').append(html);
 
-    var $targetContent = $('.artwork-detail:last');
-    var artworkID = $targetContent.index() * -1;
+    var $targetContent = $('.picture-detail:last');
+    var pictureID = $targetContent.index() * -1;
 
-    $targetContent.find('.artwork-id').val(artworkID);
+    $targetContent.find('.picture-id').val(pictureID);
 
-    ResetArtworkDetail();
+    ResetPictureDetail();
 });
 
-$(document).off('.btnDeleteArtwork');
-$(document).on('click', '.btnDeleteArtwork', function () {
-    var $targetContent = $(this).parents('.artwork-detail');
+$(document).off('.btnDeletePicture');
+$(document).on('click', '.btnDeletePicture', function () {
+    var $targetContent = $(this).parents('.picture-detail');
 
     if ($targetContent.hasClass('old-value')) {
         $targetContent.hide();
-        $targetContent.find('.artwork-deleted').val(true);
+        $targetContent.find('.picture-deleted').val(true);
     } else {
         $targetContent.remove();
     }
 
-    ResetArtworkDetail();
+    ResetPictureDetail();
 });
 
-$(document).off('.btnSelectArtwork');
-$(document).on('click', '.btnSelectArtwork', function () {
-    var $targetContent = $(this).parents('.artwork-detail');
-    $targetContent.find('.artwork-file').click();
+$(document).off('.btnSelectPicture');
+$(document).on('click', '.btnSelectPicture', function () {
+    var $targetContent = $(this).parents('.picture-detail');
+    $targetContent.find('.picture-file').click();
 });
 
-$(document).off('.artwork-file');
-$(document).on('change', '.artwork-file', function () {
-    var $targetContent = $(this).parents('.artwork-detail');
-    var $imgElement = $targetContent.find('.display-artwork');
+$(document).off('.picture-file');
+$(document).on('change', '.picture-file', function () {
+    var $targetContent = $(this).parents('.picture-detail');
+    var $imgElement = $targetContent.find('.display-picture');
     var file = $(this).prop('files')[0];
 
     if (typeof (file) !== 'undefined') {
@@ -469,8 +469,8 @@ $(document).on('change', '.artwork-file', function () {
         reader.readAsDataURL(file);
 
         if ($targetContent.hasClass('old-value')) {
-            $targetContent.find('.artwork-changed').val(true);
+            $targetContent.find('.picture-changed').val(true);
         }
     }
 });
-// END - Module artwork
+// END - Module picture

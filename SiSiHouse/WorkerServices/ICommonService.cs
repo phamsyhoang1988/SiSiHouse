@@ -23,6 +23,6 @@ namespace SiSiHouse.WorkerServices
 
         ProductDetail GetDetailInStock(long productID, int colorID, string size);
 
-        IList<Artwork> GetArtworkList(long productID);
+        IList<Picture> GetPictureList(long productID);
     }
 }

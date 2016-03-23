@@ -45,14 +45,14 @@ namespace SiSiHouse.WorkerServices.Impl
 
         public bool UpdateProductInfo(Product data
             , IList<ProductDetail> dataDetail
-            , IList<Artwork> dataArtwork
+            , IList<Picture> dataPicture
             , out long newProductID)
         {
             var res = false;
 
             using (var transaction = new TransactionScope())
             {
-                res = _repository.UpdateProductInfo(data, dataDetail, dataArtwork, out newProductID);
+                res = _repository.UpdateProductInfo(data, dataDetail, dataPicture, out newProductID);
 
                 if (res)
                     transaction.Complete();

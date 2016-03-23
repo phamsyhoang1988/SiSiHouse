@@ -20,7 +20,7 @@ $(function () {
     };
     var aoColumnDefs = [
         { "sName": "MODIFIED_DATE", "bSortable": false, "bVisible": false, "aTargets": [0], "sWidth": "0%" },
-        { "sName": "MODIFIED_DATE", "bSortable": false, "aTargets": [1], "sWidth": "8%", "sClass": "center", "mRender": function (data, type, full) { return '<img src="' + data + '" class="tb-display-artwork">'; } },
+        { "sName": "MODIFIED_DATE", "bSortable": false, "aTargets": [1], "sWidth": "8%", "sClass": "center", "mRender": function (data, type, full) { return '<img src="' + data + '" class="tb-display-picture">'; } },
         { "sName": "PRODUCT_CODE", "aTargets": [2], "bVisible": false },
         { "sName": "PRODUCT_NAME", "aTargets": [3], "sWidth": "21%", "sClass": "left", "mRender": function (data, type, full) { return '<div>Mã: ' + full[2] + '</div><div>Tên: ' + data + '</div>'; } },
         { "sName": "BRAND_NAME", "aTargets": [4], "bVisible": false },

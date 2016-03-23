@@ -71,7 +71,7 @@ namespace SiSiHouse.Controllers
 
             if (id > 0)
             {
-                model.ArtworkList = this.commonService.GetArtworkList(id);
+                model.PictureList = this.commonService.GetPictureList(id);
 
                 model.ProductInfo = this.mainService.GetProductInfo(id);
                 model.ProductDetailList = this.mainService.GetProductDetailList(id);
@@ -83,7 +83,7 @@ namespace SiSiHouse.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateData(UpdateProductModel model, IEnumerable<HttpPostedFileBase> artworkFiles)
+        public ActionResult UpdateData(UpdateProductModel model, IEnumerable<HttpPostedFileBase> pictureFiles)
         {
             List<string> newFiles = new List<string>();
             string srcPath = string.Empty;
@@ -97,17 +97,17 @@ namespace SiSiHouse.Controllers
                     model.ProductInfo.MODIFIED_DATE = DateTime.Now;
                     model.ProductInfo.MODIFIED_USER_ID = loginUser.USER_ID;
 
-                    srcPath = Server.MapPath(Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_ARTWORK], model.ProductInfo.PRODUCT_ID.ToString()));
+                    srcPath = Server.MapPath(Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_PICTURE], model.ProductInfo.PRODUCT_ID.ToString()));
                     int index = 0;
 
                     // save file to destination folder
-                    foreach (var file in artworkFiles)
+                    foreach (var file in pictureFiles)
                     {
                         if (file != null)
                         {
                             string newFile = UploadFile.SaveFile(file, srcPath);
 
-                            model.ArtworkList[index].FILE_PATH = newFile;
+                            model.PictureList[index].FILE_PATH = newFile;
                             newFiles.Add(newFile);
                         }
 
@@ -116,9 +116,9 @@ namespace SiSiHouse.Controllers
 
                     long newProductID = 0;
 
-                    if (this.mainService.UpdateProductInfo(model.ProductInfo, model.ProductQuantityList, model.ArtworkList, out newProductID))
+                    if (this.mainService.UpdateProductInfo(model.ProductInfo, model.ProductQuantityList, model.PictureList, out newProductID))
                     {
-                        string desPath = Server.MapPath(Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_ARTWORK], newProductID.ToString()));
+                        string desPath = Server.MapPath(Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_PICTURE], newProductID.ToString()));
 
                         // case insert new
                         if (model.ProductInfo.PRODUCT_ID == 0)
@@ -126,22 +126,22 @@ namespace SiSiHouse.Controllers
                             // move file from temp folder to new project folder
                             UploadFile.CreateFolder(desPath);
 
-                            foreach (var artwork in model.ArtworkList)
+                            foreach (var picture in model.PictureList)
                             {
-                                if (!string.IsNullOrEmpty(artwork.FILE_PATH))
+                                if (!string.IsNullOrEmpty(picture.FILE_PATH))
                                 {
-                                    UploadFile.MoveFile(Path.Combine(srcPath, artwork.FILE_PATH), Path.Combine(desPath, artwork.FILE_PATH));
+                                    UploadFile.MoveFile(Path.Combine(srcPath, picture.FILE_PATH), Path.Combine(desPath, picture.FILE_PATH));
                                 }
                             }
                         }
                         else // case update
                         {
                             // delete file changed or deleted
-                            foreach (var artwork in model.ArtworkList)
+                            foreach (var picture in model.PictureList)
                             {
-                                if (artwork.ARTWORK_ID > 0 && ((artwork.DELETED.HasValue && artwork.DELETED.Value) || (artwork.CHANGED.HasValue && artwork.CHANGED.Value)))
+                                if (picture.PICTURE_ID > 0 && ((picture.DELETED.HasValue && picture.DELETED.Value) || (picture.CHANGED.HasValue && picture.CHANGED.Value)))
                                 {
-                                    UploadFile.DeleteFile(Path.Combine(desPath, artwork.FILE_PATH_OLD));
+                                    UploadFile.DeleteFile(Path.Combine(desPath, picture.FILE_PATH_OLD));
                                 }
                             }
                         }
@@ -199,7 +199,7 @@ namespace SiSiHouse.Controllers
                 if (id > 0)
                 {
                     model.ProductInfo = this.mainService.GetProductInfo(id);
-                    model.ProductInfo.ARTWORK = this.GetArtworkPath(id, model.ProductInfo.ARTWORK);
+                    model.ProductInfo.PICTURE = this.GetPicturePath(id, model.ProductInfo.PICTURE);
                     model.ColorSelectListByProduct = this.GetColorSelectListByProduct(id);
                 }
 
@@ -300,13 +300,13 @@ namespace SiSiHouse.Controllers
                     dataList.Add(new object[] {
                         data.PRODUCT_ID
                         , data.ROOT_LINK
-                        , this.GetArtworkPath(data.PRODUCT_ID, data.ARTWORK)
+                        , this.GetPicturePath(data.PRODUCT_ID, data.PICTURE)
                         , "<div>Mã: " + data.PRODUCT_CODE + "</div><div>Tên: " + HttpUtility.HtmlEncode(data.PRODUCT_NAME) + "</div>"
                         , "<div>Hãng: " + HttpUtility.HtmlEncode(data.BRAND_NAME) + "</div><div>Loại: " + HttpUtility.HtmlEncode(data.CATEGORY_NAME) + "</div>"
                         , this.BuildProductInStock(data.PRODUCT_ID)
                         , this.GetStatusName(data.STATUS_ID.ToString())
                         , this.BuildSalePrice(data.STATUS_ID.ToString(), data.SALE_PRICE, data.SALE_OFF_PRICE)
-                        , data.REAL_PRICE.ToString("#,##0")
+                        , Utility.InitialDecimal(data.REAL_PRICE).ToString("#,##0")
                         , "<div>" + data.MODIFIED_DATE.Value.ToString("yyyy/MM/dd") + "</div><div>" + data.MODIFIED_DATE.Value.ToString("HH:mm:ss") + "</div>"
                         , data.DELETE_FLAG
                         , data.STATUS_ID

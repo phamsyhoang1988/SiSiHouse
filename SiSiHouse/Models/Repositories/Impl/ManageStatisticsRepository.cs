@@ -95,7 +95,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                 sqlContent.AppendFormat(@"
                     SELECT
                         RETAIL.PRODUCT_ID
-                        , (SELECT TOP 1 FILE_PATH FROM ARTWORK WHERE PRODUCT_ID = RETAIL.PRODUCT_ID) AS ARTWORK
+                        , (SELECT TOP 1 FILE_PATH FROM PICTURE WHERE PICTURE.PRODUCT_ID = RETAIL.PRODUCT_ID AND PICTURE.DISPLAY_FLAG = '1') AS PICTURE
                         , PRODUCT.PRODUCT_CODE
                         , PRODUCT.PRODUCT_NAME
                         , M_BRAND.BRAND_NAME

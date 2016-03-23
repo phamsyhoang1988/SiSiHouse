@@ -93,42 +93,42 @@
         <div class="form-group">
             <label class="col-lg-2 control-label">Thư viện</label>
             <div class="col-lg-10">
-                <button class="btn dark btnAddArtwork" type="button"><i class="fa fa-plus"></i> Ảnh</button>
+                <button class="btn dark btnAddPicture" type="button"><i class="fa fa-plus"></i> Ảnh</button>
             </div>
         </div>
-        <div class="form-group artwork-list">
-            @if (Model.ArtworkList.Count > 0)
+        <div class="form-group picture-list">
+            @if (Model.PictureList.Count > 0)
             {
-                for (int i = 0; i < Model.ArtworkList.Count; i++)
+                for (int i = 0; i < Model.PictureList.Count; i++)
                 {
-                    <div class="form-group col-lg-3 artwork-detail old-value">
-                        @Html.HiddenFor(m => m.ArtworkList[i].ARTWORK_ID, new { @class = "artwork-id" })
-                        @Html.HiddenFor(m => m.ArtworkList[i].FILE_PATH_OLD, new { @class = "artwork-filepath-old" })
-                        @Html.HiddenFor(m => m.ArtworkList[i].CHANGED, new { @class = "artwork-changed" })
-                        @Html.HiddenFor(m => m.ArtworkList[i].DELETED, new { @class = "artwork-deleted" })
+                    <div class="form-group col-lg-3 picture-detail old-value">
+                        @Html.HiddenFor(m => m.PictureList[i].PICTURE_ID, new { @class = "picture-id" })
+                        @Html.HiddenFor(m => m.PictureList[i].FILE_PATH_OLD, new { @class = "picture-filepath-old" })
+                        @Html.HiddenFor(m => m.PictureList[i].CHANGED, new { @class = "picture-changed" })
+                        @Html.HiddenFor(m => m.PictureList[i].DELETED, new { @class = "picture-deleted" })
                         <div class="col-lg-7">
-                            <img src="@Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_ARTWORK], Model.ProductInfo.PRODUCT_ID.ToString(), Model.ArtworkList[i].FILE_PATH)" title="@Model.ArtworkList[i].FILE_PATH" class="display-artwork" />
+                            <img src="@Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_PICTURE], Model.ProductInfo.PRODUCT_ID.ToString(), Model.PictureList[i].FILE_PATH)" title="@Model.PictureList[i].FILE_PATH" class="display-picture" />
                         </div>
                         <div class="col-lg-5">
-                            <input class="artwork-file" name="artworkFiles" type="file" />
-                            <button class="btn dark btnSelectArtwork pull-right" type="button"><i class="fa fa-image"></i></button>
-                            <button class="btn dark btnDeleteArtwork pull-right" type="button"><i class="fa fa-remove"></i></button>
+                            <input class="picture-file" name="pictureFiles" type="file" />
+                            <button class="btn dark btnSelectPicture pull-right" type="button"><i class="fa fa-image"></i></button>
+                            <button class="btn dark btnDeletePicture pull-right" type="button"><i class="fa fa-remove"></i></button>
                         </div>
                     </div>
                 }
             }
             else
             {
-                <div class="form-group col-lg-3 artwork-detail">
-                    <input class="artwork-id" name="ArtworkList[0].ARTWORK_ID" type="hidden" value="0">
+                <div class="form-group col-lg-3 picture-detail">
+                    <input class="picture-id" name="PictureList[0].PICTURE_ID" type="hidden" value="0">
 
                     <div class="col-lg-7">
-                        <img src="~/Images/no_image.png" title="Chưa có ảnh" class="display-artwork" />
+                        <img src="~/Images/no_image.png" title="Chưa có ảnh" class="display-picture" />
                     </div>
                     <div class="col-lg-5">
-                        <input class="artwork-file" name="artworkFiles" type="file" />
-                        <button class="btn dark btnSelectArtwork pull-right" type="button"><i class="fa fa-image"></i></button>
-                        <button class="btn dark btnDeleteArtwork pull-right" type="button"><i class="fa fa-remove"></i></button>
+                        <input class="picture-file" name="pictureFiles" type="file" />
+                        <button class="btn dark btnSelectPicture pull-right" type="button"><i class="fa fa-image"></i></button>
+                        <button class="btn dark btnDeletePicture pull-right" type="button"><i class="fa fa-remove"></i></button>
                     </div>
                 </div>
             }

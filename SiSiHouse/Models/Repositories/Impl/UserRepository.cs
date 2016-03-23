@@ -24,22 +24,28 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT USER_ID
                         , ACCOUNT
                         , FULL_NAME
                         , ROLE_ID
                     FROM M_USER
-                    WHERE ACCOUNT = '{0}'
-                    AND PASSWORD = '{1}'
-                    AND DELETE_FLAG ='0'", account, password);
+                    WHERE ACCOUNT = @ACCOUNT
+                    AND PASSWORD = @PASSWORD
+                    AND DELETE_FLAG = @DELETE_FLAG");
 
                 User user = null;
 
                 sqlConnection.Open();
 
                 user = sqlConnection.Query<User>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        ACCOUNT = account,
+                        PASSWORD = password,
+                        DELETE_FLAG = Constant.DeleteFlag.NON_DELETE
+                    }
                 ).FirstOrDefault();
 
                 sqlConnection.Dispose();
@@ -129,7 +135,7 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT USER_ID
                         , ACCOUNT
                         , PASSWORD
@@ -144,14 +150,18 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , MODIFIED_DATE
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = tbMain.MODIFIED_USER_ID) MODIFIED_USER
                     FROM M_USER tbMain
-                    WHERE USER_ID = {0}", userID);
+                    WHERE USER_ID = @USER_ID");
 
                 User userInfo = new User();
 
                 sqlConnection.Open();
 
                 userInfo = sqlConnection.Query<User>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        USER_ID = userID
+                    }
                 ).FirstOrDefault();
 
                 sqlConnection.Dispose();
@@ -170,15 +180,20 @@ namespace SiSiHouse.Models.Repositories.Impl
                 sqlQuery.AppendFormat(@"
                     SELECT COUNT(USER_ID)
                     FROM M_USER
-                    WHERE ACCOUNT = '{0}'
-                        AND USER_ID <> {1}", account, userID);
+                    WHERE ACCOUNT = @ACCOUNT
+                        AND USER_ID <> @USER_ID", account, userID);
 
                 int countUser = 0;
 
                 sqlConnection.Open();
 
                 countUser = sqlConnection.Query<int>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        ACCOUNT = account,
+                        USER_ID = userID
+                    }
                 ).FirstOrDefault();
 
                 sqlConnection.Dispose();
@@ -196,7 +211,7 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 if (data.USER_ID == 0)
                 {
-                    sqlQuery.AppendFormat(@"
+                    sqlQuery.Append(@"
                         INSERT INTO M_USER
                             (ACCOUNT
                             , PASSWORD
@@ -212,56 +227,51 @@ namespace SiSiHouse.Models.Repositories.Impl
                             , MODIFIED_DATE
                             , MODIFIED_USER_ID)
                         VALUES
-                            ('{0}', '{1}', N'{2}', {3}, '{4}', '{5}', N'{6}', N'{7}', '{8}', '{9}', {10}, '{11}', {12})"
-                    , data.ACCOUNT
-                    , (string.IsNullOrEmpty(data.ACCOUNT) ? "" : data.PASSWORD)
-                    , data.FULL_NAME
-                    , data.ROLE_ID
-                    , data.MOBILE
-                    , data.EMAIL
-                    , data.PRIVATE_PAGE
-                    , data.ADDRESS
-                    , Constant.DeleteFlag.NON_DELETE
-                    , data.MODIFIED_DATE
-                    , data.MODIFIED_USER_ID
-                    , data.MODIFIED_DATE
-                    , data.MODIFIED_USER_ID);
+                            (@ACCOUNT, @PASSWORD, @FULL_NAME, @ROLE_ID, @MOBILE, @EMAIL, @PRIVATE_PAGE, @ADDRESS, @DELETE_FLAG
+                            , @CREATED_DATE, @CREATED_USER_ID, @MODIFIED_DATE, @MODIFIED_USER_ID)");
                 }
                 else
                 {
-                    sqlQuery.AppendFormat(@"
+                    sqlQuery.Append(@"
                         UPDATE M_USER
-                            SET ACCOUNT = '{0}'
-                            , PASSWORD = '{1}'
-                            , FULL_NAME = N'{2}'
-                            , ROLE_ID = {3}
-                            , MOBILE = '{4}'
-                            , EMAIL = '{5}'
-                            , PRIVATE_PAGE = N'{6}'
-                            , ADDRESS = N'{7}'
-                            , DELETE_FLAG = '{8}'
-                            , MODIFIED_DATE = '{9}'
-                            , MODIFIED_USER_ID = {10}
-                        WHERE USER_ID = {11}"
-                    , data.ACCOUNT
-                    , (string.IsNullOrEmpty(data.ACCOUNT) ? "" : data.PASSWORD)
-                    , data.FULL_NAME
-                    , data.ROLE_ID
-                    , data.MOBILE
-                    , data.EMAIL
-                    , data.PRIVATE_PAGE
-                    , data.ADDRESS
-                    , data.DELETE_FLAG
-                    , data.MODIFIED_DATE
-                    , data.MODIFIED_USER_ID
-                    , data.USER_ID);
+                            SET ACCOUNT = @ACCOUNT
+                            , PASSWORD = @PASSWORD
+                            , FULL_NAME = @FULL_NAME
+                            , ROLE_ID = @ROLE_ID
+                            , MOBILE = @MOBILE
+                            , EMAIL = @EMAIL
+                            , PRIVATE_PAGE = @PRIVATE_PAGE
+                            , ADDRESS = @ADDRESS
+                            , DELETE_FLAG = @DELETE_FLAG
+                            , MODIFIED_DATE = @MODIFIED_DATE
+                            , MODIFIED_USER_ID = @MODIFIED_USER_ID
+                        WHERE USER_ID = @USER_ID");
                 }
 
                 int result = 0;
 
                 sqlConnection.Open();
 
-                result = sqlConnection.Execute(sqlQuery.ToString());
+                result = sqlConnection.Execute(
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        USER_ID = data.USER_ID,
+                        ACCOUNT = data.ACCOUNT,
+                        PASSWORD = data.PASSWORD,
+                        FULL_NAME = data.FULL_NAME,
+                        ROLE_ID = data.ROLE_ID,
+                        MOBILE = data.MOBILE,
+                        EMAIL = data.EMAIL,
+                        PRIVATE_PAGE = data.PRIVATE_PAGE,
+                        ADDRESS = data.ADDRESS,
+                        DELETE_FLAG = string.IsNullOrEmpty(data.DELETE_FLAG) ? Constant.DeleteFlag.NON_DELETE : data.DELETE_FLAG,
+                        CREATED_DATE = data.MODIFIED_DATE,
+                        CREATED_USER_ID = data.MODIFIED_USER_ID,
+                        MODIFIED_DATE = data.MODIFIED_DATE,
+                        MODIFIED_USER_ID = data.MODIFIED_USER_ID
+                    }
+                );
 
                 sqlConnection.Dispose();
                 sqlConnection.Close();

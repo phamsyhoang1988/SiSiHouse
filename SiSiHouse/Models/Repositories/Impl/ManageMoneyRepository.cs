@@ -73,7 +73,7 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT MONEY_ID
                         , MONEY_NAME
                         , MONEY_SIGN
@@ -88,13 +88,17 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , MODIFIED_DATE
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = M_MONEY.MODIFIED_USER_ID) MODIFIED_USER
                     FROM M_MONEY
-                    WHERE MONEY_ID = {0}", moneyID);
+                    WHERE MONEY_ID = @MONEY_ID");
 
                 Money moneyInfo = new Money();
 
                 sqlConnection.Open();
                 moneyInfo = sqlConnection.Query<Money>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        MONEY_ID = moneyID
+                    }
                 ).FirstOrDefault();
 
                 sqlConnection.Dispose();
@@ -112,7 +116,7 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 if (data.MONEY_ID == 0)
                 {
-                    sqlQuery.AppendFormat(@"
+                    sqlQuery.Append(@"
                         INSERT INTO M_MONEY
                             (MONEY_NAME
                             , MONEY_SIGN
@@ -127,52 +131,47 @@ namespace SiSiHouse.Models.Repositories.Impl
                             , MODIFIED_DATE
                             , MODIFIED_USER_ID)
                         VALUES
-                            (N'{0}', N'{1}', '{2}', {3}, {4}, {5}, N'{6}', '{7}', '{8}', {9}, '{10}', {11})"
-                    , data.MONEY_NAME
-                    , data.MONEY_SIGN
-                    , data.APPLIED_DATE
-                    , data.EXCHANGE_RATE
-                    , data.WEIGHT_POSTAGE
-                    , data.WAGE
-                    , data.DESCRIPTION
-                    , Constant.DeleteFlag.NON_DELETE
-                    , data.MODIFIED_DATE
-                    , data.MODIFIED_USER_ID
-                    , data.MODIFIED_DATE
-                    , data.MODIFIED_USER_ID);
+                            (@MONEY_NAME, @MONEY_SIGN, @APPLIED_DATE, @EXCHANGE_RATE, @WEIGHT_POSTAGE, @WAGE
+                            , @DESCRIPTION, @DELETE_FLAG, @CREATED_DATE, @CREATED_USER_ID, @MODIFIED_DATE, @MODIFIED_USER_ID)");
                 }
                 else
                 {
-                    sqlQuery.AppendFormat(@"
+                    sqlQuery.Append(@"
                         UPDATE M_MONEY
-                            SET MONEY_NAME = N'{0}'
-                            , MONEY_SIGN = N'{1}'
-                            , APPLIED_DATE = '{2}'
-                            , EXCHANGE_RATE = {3}
-                            , WEIGHT_POSTAGE = {4}
-                            , WAGE = {5}
-                            , DESCRIPTION = N'{6}'
-                            , DELETE_FLAG = '{7}'
-                            , MODIFIED_DATE = '{8}'
-                            , MODIFIED_USER_ID = {9}
-                        WHERE MONEY_ID = {10}"
-                    , data.MONEY_NAME
-                    , data.MONEY_SIGN
-                    , data.APPLIED_DATE
-                    , data.EXCHANGE_RATE
-                    , data.WEIGHT_POSTAGE
-                    , data.WAGE
-                    , data.DESCRIPTION
-                    , data.DELETE_FLAG
-                    , data.MODIFIED_DATE
-                    , data.MODIFIED_USER_ID
-                    , data.MONEY_ID);
+                            SET MONEY_NAME = @MONEY_NAME
+                            , MONEY_SIGN = @MONEY_SIGN
+                            , APPLIED_DATE = @APPLIED_DATE
+                            , EXCHANGE_RATE = @EXCHANGE_RATE
+                            , WEIGHT_POSTAGE = @WEIGHT_POSTAGE
+                            , WAGE = @WAGE
+                            , DESCRIPTION = @DESCRIPTION
+                            , DELETE_FLAG = @DELETE_FLAG
+                            , MODIFIED_DATE = @MODIFIED_DATE
+                            , MODIFIED_USER_ID = @MODIFIED_USER_ID
+                        WHERE MONEY_ID = @MONEY_ID");
                 }
 
                 int result = 0;
 
                 sqlConnection.Open();
-                result = sqlConnection.Execute(sqlQuery.ToString());
+                result = sqlConnection.Execute(
+                    sqlQuery.ToString(),
+                    new {
+                        MONEY_ID = data.MONEY_ID,
+                        MONEY_NAME = data.MONEY_NAME,
+                        MONEY_SIGN = data.MONEY_SIGN,
+                        APPLIED_DATE = data.APPLIED_DATE,
+                        EXCHANGE_RATE = data.EXCHANGE_RATE,
+                        WEIGHT_POSTAGE = data.WEIGHT_POSTAGE,
+                        WAGE = data.WAGE,
+                        DESCRIPTION = data.DESCRIPTION,
+                        DELETE_FLAG = string.IsNullOrEmpty(data.DELETE_FLAG) ? Constant.DeleteFlag.NON_DELETE : data.DELETE_FLAG,
+                        CREATED_DATE = data.MODIFIED_DATE,
+                        CREATED_USER_ID = data.MODIFIED_USER_ID,
+                        MODIFIED_DATE = data.MODIFIED_DATE,
+                        MODIFIED_USER_ID = data.MODIFIED_USER_ID
+                    }
+                );
 
                 sqlConnection.Dispose();
                 sqlConnection.Close();

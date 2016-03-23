@@ -252,7 +252,7 @@
     <Compile Include="Models\Conditions\MoneyCondition.cs" />
     <Compile Include="Models\Conditions\CategoryCondition.cs" />
     <Compile Include="ViewModels\ExportExcelModel.cs" />
-    <Compile Include="Models\Entities\Artwork.cs" />
+    <Compile Include="Models\Entities\Picture.cs" />
     <Compile Include="Models\Entities\Color.cs" />
     <Compile Include="Models\Entities\Statistics.cs" />
     <Compile Include="Models\Entities\Retail.cs" />

@@ -171,7 +171,7 @@ namespace SiSiHouse.Controllers
 
                 foreach (var data in dataList)
                 {
-                    var cost = data.QUANTITY * data.REAL_PRICE;
+                    var cost = data.QUANTITY * Utility.InitialDecimal(data.REAL_PRICE);
                     var profit = data.SALES - cost;
 
                     totalQuantity += data.QUANTITY;
@@ -180,7 +180,7 @@ namespace SiSiHouse.Controllers
 
                     resultList.Add(new object[] {
                         data.PRODUCT_ID
-                        , this.GetArtworkPath(data.PRODUCT_ID, data.ARTWORK)
+                        , this.GetPicturePath(data.PRODUCT_ID, data.PICTURE)
                         , data.PRODUCT_CODE
                         , HttpUtility.HtmlEncode(data.PRODUCT_NAME)
                         , HttpUtility.HtmlEncode(data.BRAND_NAME)

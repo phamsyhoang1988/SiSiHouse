@@ -78,7 +78,7 @@
                 index++;
                 row++;
 
-                var cost = product.QUANTITY * product.REAL_PRICE;
+                var cost = product.QUANTITY * InitialDecimal(product.REAL_PRICE);
                 var profit = product.SALES - cost;
                 var profitRate = product.SALES == 0 ? "0 %" : ((profit / product.SALES) * 100).ToString("#,##0.00") + " %";
 
@@ -121,6 +121,16 @@
 
             xlsxCreator.Pos(0, Constant.ExportRevenue.START_ROW, Constant.ExportRevenue.END_COLUMN, row - 1).Attr.FontName = "Calibri";
             xlsxCreator.Pos(0, Constant.ExportRevenue.START_ROW, Constant.ExportRevenue.END_COLUMN, row - 1).Attr.FontPoint = 12;
+        }
+
+        public static decimal InitialDecimal(decimal? data)
+        {
+            return data.HasValue ? data.Value : 0;
+        }
+
+        public static int InitialInteger(int? data)
+        {
+            return data.HasValue ? data.Value : 0;
         }
     }
 }

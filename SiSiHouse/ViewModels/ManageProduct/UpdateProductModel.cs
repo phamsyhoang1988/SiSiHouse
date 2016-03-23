@@ -28,7 +28,7 @@ namespace SiSiHouse.ViewModels.ManageProduct
 
         public IList<Color> ColorSelectList { get; set; }
 
-        public IList<Artwork> ArtworkList { get; set; }
+        public IList<Picture> PictureList { get; set; }
 
         public IList<ProductDetail> ProductDetailList { get; set; }
 
@@ -39,7 +39,7 @@ namespace SiSiHouse.ViewModels.ManageProduct
             ProductInfo = new Product();
             ProductDetailList = new List<ProductDetail>();
             ProductQuantityList = new List<ProductDetail>();
-            ArtworkList = new List<Artwork>();
+            PictureList = new List<Picture>();
             BrandSelectList = new List<SelectListItem>();
             CategorySelectList = new List<SelectListItem>();
             MoneySelectList = new List<Money>();

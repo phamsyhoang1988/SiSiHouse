@@ -46,26 +46,26 @@
     padding-right: 10px;
 }
 
-.product-regist .artwork-detail {
+.product-regist .picture-detail {
     margin-right: 49px;
     padding: 5px;
     border: 1px solid #d2d6de;
 }
 
-.product-regist .artwork-file {
+.product-regist .picture-file {
     display: none;
 }
 
-.product-regist .artwork-detail button {
+.product-regist .picture-detail button {
     width: 50px;
     display: list-item;
 }
 
-.product-regist .btnSelectArtwork {
+.product-regist .btnSelectPicture {
     margin-bottom: 25px;
 }
 
-.retail-regist .display-artwork {
+.retail-regist .display-picture {
     max-width: 160px;
     max-height: 120px;
 }
@@ -83,7 +83,7 @@
     width: 43px;
 }
 
-.product-regist .display-artwork {
+.product-regist .display-picture {
     max-width: 97px;
     max-height: 81px;
     cursor: pointer;

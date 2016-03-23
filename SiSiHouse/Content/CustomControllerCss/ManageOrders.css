@@ -1,7 +1,7 @@
 ﻿
 /* Custom style for form*/
 
-.display-artwork {
+.display-picture {
     max-width: 80px;
     max-height: 80px;
     cursor: pointer;
@@ -39,21 +39,21 @@
     padding-right: 10px;
 }
 
-.orders-regist .artwork-detail {
+.orders-regist .picture-detail {
     margin-right: 49px;
     padding: 5px;
     border: 1px solid #d2d6de;
 }
 
-.orders-regist .artwork-file {
+.orders-regist .picture-file {
     display: none;
 }
 
-.orders-regist .artwork-detail button {
+.orders-regist .picture-detail button {
     width: 50px;
     display: list-item;
 }
 
-.orders-regist .btnSelectArtwork {
+.orders-regist .btnSelectPicture {
     margin-bottom: 25px;
 }*/

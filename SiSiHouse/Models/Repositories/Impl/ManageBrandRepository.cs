@@ -67,7 +67,7 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT BRAND_ID
                         , BRAND_NAME
                         , DESCRIPTION
@@ -77,14 +77,18 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , MODIFIED_DATE
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = M_BRAND.MODIFIED_USER_ID) MODIFIED_USER
                     FROM M_BRAND
-                    WHERE BRAND_ID = {0}", brandID);
+                    WHERE BRAND_ID = @BRAND_ID");
 
                 Brand brandInfo = new Brand();
 
                 sqlConnection.Open();
 
                 brandInfo = sqlConnection.Query<Brand>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        BRAND_ID = brandID
+                    }
                 ).FirstOrDefault();
 
                 sqlConnection.Dispose();
@@ -102,7 +106,7 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 if (data.BRAND_ID == 0)
                 {
-                    sqlQuery.AppendFormat(@"
+                    sqlQuery.Append(@"
                         INSERT INTO M_BRAND
                             (BRAND_NAME
                             , DESCRIPTION
@@ -112,38 +116,37 @@ namespace SiSiHouse.Models.Repositories.Impl
                             , MODIFIED_DATE
                             , MODIFIED_USER_ID)
                         VALUES
-                            (N'{0}', N'{1}', '{2}', '{3}', {4}, '{5}', {6})"
-                      , data.BRAND_NAME
-                      , data.DESCRIPTION
-                      , Constant.DeleteFlag.NON_DELETE
-                      , data.MODIFIED_DATE
-                      , data.MODIFIED_USER_ID
-                      , data.MODIFIED_DATE
-                      , data.MODIFIED_USER_ID);
+                            (@BRAND_NAME, @DESCRIPTION, @DELETE_FLAG, @CREATED_DATE, @CREATED_USER_ID, @MODIFIED_DATE, @MODIFIED_USER_ID)");
                 }
                 else
                 {
-                    sqlQuery.AppendFormat(@"
+                    sqlQuery.Append(@"
                         UPDATE M_BRAND
-                            SET BRAND_NAME = N'{0}'
-                            , DESCRIPTION = N'{1}'
-                            , DELETE_FLAG = '{2}'
-                            , MODIFIED_DATE = '{3}'
-                            , MODIFIED_USER_ID = {4}
-                        WHERE BRAND_ID = {5}"
-                     , data.BRAND_NAME
-                     , data.DESCRIPTION
-                     , data.DELETE_FLAG
-                     , data.MODIFIED_DATE
-                     , data.MODIFIED_USER_ID
-                     , data.BRAND_ID);
+                            SET BRAND_NAME = @BRAND_NAME
+                            , DESCRIPTION = @DESCRIPTION
+                            , DELETE_FLAG = @DELETE_FLAG
+                            , MODIFIED_DATE = @MODIFIED_DATE
+                            , MODIFIED_USER_ID = @MODIFIED_USER_ID
+                        WHERE BRAND_ID = @BRAND_ID");
                 }
 
                 int result = 0;
 
                 sqlConnection.Open();
 
-                result = sqlConnection.Execute(sqlQuery.ToString());
+                result = sqlConnection.Execute(
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        BRAND_ID = data.BRAND_ID,
+                        BRAND_NAME = data.BRAND_NAME,
+                        DESCRIPTION = data.DESCRIPTION,
+                        DELETE_FLAG = string.IsNullOrEmpty(data.DELETE_FLAG) ? Constant.DeleteFlag.NON_DELETE : data.DELETE_FLAG,
+                        CREATED_DATE = data.MODIFIED_DATE,
+                        CREATED_USER_ID = data.MODIFIED_USER_ID,
+                        MODIFIED_DATE = data.MODIFIED_DATE,
+                        MODIFIED_USER_ID = data.MODIFIED_USER_ID
+                    });
 
                 sqlConnection.Dispose();
                 sqlConnection.Close();

@@ -12,12 +12,10 @@ namespace SiSiHouse.Models.Entities
         public long PRODUCT_ID { get; set; }
 
         [DisplayName("Mã sản phẩm")]
-        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "E002")]
         [StringLength(50, ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "E008")]
         public string PRODUCT_CODE { get; set; }
 
         [DisplayName("Tên sản phẩm")]
-        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "E002")]
         [StringLength(100, ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "E008")]
         public string PRODUCT_NAME { get; set; }
 
@@ -28,25 +26,23 @@ namespace SiSiHouse.Models.Entities
         public int CATEGORY_ID { get; set; }
 
         [DisplayName("Trạng thái")]
-        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "E002")]
         public int? STATUS_ID { get; set; }
 
         [DisplayName("Giới tính")]
-        [Required(ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "E002")]
         public int SEX { get; set; }
 
         [DisplayName("Giá nhập vào")]
-        public decimal IMPORT_PRICE { get; set; }
+        public decimal? IMPORT_PRICE { get; set; }
 
         [DisplayName("Nguồn hàng")]
         [Range(1, int.MaxValue, ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "E004")]
-        public int MONEY_TYPE_ID { get; set; }
+        public int? MONEY_TYPE_ID { get; set; }
 
-        public decimal EXCHANGE_RATE { get; set; }
+        public decimal? EXCHANGE_RATE { get; set; }
 
-        public decimal WEIGHT_POSTAGE { get; set; }
+        public decimal? WEIGHT_POSTAGE { get; set; }
 
-        public int WAGE { get; set; }
+        public int? WAGE { get; set; }
 
         [DisplayName("Trọng lượng")]
         public decimal? WEIGHT { get; set; }
@@ -55,7 +51,7 @@ namespace SiSiHouse.Models.Entities
         public DateTime? IMPORT_DATE { get; set; }
 
         [DisplayName("Thực giá")]
-        public decimal REAL_PRICE { get; set; }
+        public decimal? REAL_PRICE { get; set; }
 
         [DisplayName("Giá bán ra")]
         public decimal? SALE_PRICE { get; set; }
@@ -98,7 +94,7 @@ namespace SiSiHouse.Models.Entities
 
         public string MONEY_SIGN { get; set; }
 
-        public string ARTWORK { get; set; }
+        public string PICTURE { get; set; }
 
         public string COLOR_NAME { get; set; }
 

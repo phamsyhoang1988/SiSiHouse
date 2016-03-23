@@ -28,7 +28,7 @@ namespace SiSiHouse.Common
 
         public static readonly string SMTP_SUPPORT = "smtpSupport";
 
-        public static readonly string SAVE_ARTWORK = "baseArtwork";
+        public static readonly string SAVE_PICTURE = "basePicture";
 
         public static readonly string SAVE_CLIP = "baseClip";
 

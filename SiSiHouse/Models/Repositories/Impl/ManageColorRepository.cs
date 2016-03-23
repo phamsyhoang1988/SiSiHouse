@@ -68,7 +68,7 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT COLOR_ID
                         , COLOR_NAME
                         , COLOR_CODE
@@ -76,14 +76,18 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , MODIFIED_DATE
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = M_COLOR.MODIFIED_USER_ID) MODIFIED_USER
                     FROM M_COLOR
-                    WHERE COLOR_ID = {0}", colorID);
+                    WHERE COLOR_ID = @COLOR_ID");
 
                 Color colorInfo = new Color();
 
                 sqlConnection.Open();
 
                 colorInfo = sqlConnection.Query<Color>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        COLOR_ID = colorID
+                    }
                 ).FirstOrDefault();
 
                 sqlConnection.Dispose();
@@ -101,7 +105,7 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 if (data.COLOR_ID == 0)
                 {
-                    sqlQuery.AppendFormat(@"
+                    sqlQuery.Append(@"
                         INSERT INTO M_COLOR
                             (COLOR_NAME
                             , COLOR_CODE
@@ -111,38 +115,38 @@ namespace SiSiHouse.Models.Repositories.Impl
                             , MODIFIED_DATE
                             , MODIFIED_USER_ID)
                         VALUES
-                            (N'{0}', '{1}', '{2}', '{3}', {4}, '{5}', {6})"
-                      , data.COLOR_NAME
-                      , data.COLOR_CODE
-                      , Constant.DeleteFlag.NON_DELETE
-                      , data.MODIFIED_DATE
-                      , data.MODIFIED_USER_ID
-                      , data.MODIFIED_DATE
-                      , data.MODIFIED_USER_ID);
+                            (@COLOR_NAME, @COLOR_CODE, @DELETE_FLAG, @CREATED_DATE, @CREATED_USER_ID, @MODIFIED_DATE, @MODIFIED_USER_ID)");
                 }
                 else
                 {
-                    sqlQuery.AppendFormat(@"
+                    sqlQuery.Append(@"
                         UPDATE M_COLOR
-                            SET COLOR_NAME = N'{0}'
-                            , COLOR_CODE = '{1}'
-                            , DELETE_FLAG = '{2}'
-                            , MODIFIED_DATE = '{3}'
-                            , MODIFIED_USER_ID = {4}
-                        WHERE COLOR_ID = {5}"
-                     , data.COLOR_NAME
-                     , data.COLOR_CODE
-                     , data.DELETE_FLAG
-                     , data.MODIFIED_DATE
-                     , data.MODIFIED_USER_ID
-                     , data.COLOR_ID);
+                            SET COLOR_NAME = @COLOR_NAME
+                            , COLOR_CODE = @COLOR_CODE
+                            , DELETE_FLAG = @DELETE_FLAG
+                            , MODIFIED_DATE = @MODIFIED_DATE
+                            , MODIFIED_USER_ID = @MODIFIED_USER_ID
+                        WHERE COLOR_ID = @COLOR_ID");
                 }
 
                 int result = 0;
 
                 sqlConnection.Open();
 
-                result = sqlConnection.Execute(sqlQuery.ToString());
+                result = sqlConnection.Execute(
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        COLOR_ID = data.COLOR_ID,
+                        COLOR_NAME = data.COLOR_NAME,
+                        COLOR_CODE = data.COLOR_CODE,
+                        DELETE_FLAG = string.IsNullOrEmpty(data.DELETE_FLAG) ? Constant.DeleteFlag.NON_DELETE : data.DELETE_FLAG,
+                        CREATED_DATE = data.MODIFIED_DATE,
+                        CREATED_USER_ID = data.MODIFIED_USER_ID,
+                        MODIFIED_DATE = data.MODIFIED_DATE,
+                        MODIFIED_USER_ID = data.MODIFIED_USER_ID
+                    }
+                );
 
                 sqlConnection.Dispose();
                 sqlConnection.Close();

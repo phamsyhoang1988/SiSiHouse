@@ -308,9 +308,9 @@ namespace SiSiHouse.Controllers
             logger.Debug(sb.ToString());
         }
 
-        protected string GetArtworkPath(long productID, string fileName)
+        protected string GetPicturePath(long productID, string fileName)
         {
-            string filePath = string.IsNullOrEmpty(fileName) ? "" : Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_ARTWORK], productID.ToString(), fileName);
+            string filePath = string.IsNullOrEmpty(fileName) ? "" : Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_PICTURE], productID.ToString(), fileName);
 
             return filePath;
         }

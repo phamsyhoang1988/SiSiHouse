@@ -5,13 +5,15 @@ using SiSiHouse.Resources;
 
 namespace SiSiHouse.Models.Entities
 {
-    public class Artwork
+    public class Picture
     {
         public long PRODUCT_ID { get; set; }
 
-        public long ARTWORK_ID { get; set; }
+        public long PICTURE_ID { get; set; }
 
         public string FILE_PATH { get; set; }
+
+        public string DISPLAY_FLAG { get; set; }
 
         public DateTime? CREATED_DATE { get; set; }
 
