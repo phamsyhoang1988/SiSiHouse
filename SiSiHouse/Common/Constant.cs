@@ -104,6 +104,13 @@ namespace SiSiHouse.Common
             }.AsReadOnly();
         }
 
+        public class DisplayPicture
+        {
+            public const string MAIN = "1";
+
+            public const string EXTRA = "0";
+        }
+
         public class WindowName
         {
             public const string COOKIE_NAME = "WindowName";

@@ -256,7 +256,7 @@ namespace SiSiHouse.Controllers
             {
                 try
                 {
-                    if (this.mainService.DeleteProduct(id))
+                    if (this.mainService.DeleteProduct(id, GetLoginUser().USER_ID))
                     {
                         JsonResult result = Json(
                             new
@@ -433,7 +433,7 @@ namespace SiSiHouse.Controllers
                 detail += "Màu " + productDetail.COLOR_NAME + " (" + productDetail.SIZE + "): " + productDetail.QUANTITY.ToString() + "\n";
             }
 
-            string status = totalQuantity > 0 ? "Còn " + totalQuantity.ToString() : "hết hàng";
+            string status = totalQuantity > 0 ? "Còn " + totalQuantity.ToString() : "Hết hàng";
 
             return "<i class='lbl-link' title='" + detail + "'>" + status + "</i>";
         }

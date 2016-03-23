@@ -106,7 +106,7 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT PRODUCT_ID
                         , PRODUCT_CODE
                         , PRODUCT_NAME
@@ -127,6 +127,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , SALE_PRICE
                         , SALE_OFF_PRICE
                         , CLIP_PATH
+                        , ROOT_LINK
                         , DELETE_FLAG
                         , MODIFIED_DATE
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = PRODUCT.MODIFIED_USER_ID) MODIFIED_USER
@@ -134,14 +135,18 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , (SELECT CATEGORY_NAME FROM M_CATEGORY WHERE M_CATEGORY.CATEGORY_ID = PRODUCT.CATEGORY_ID) CATEGORY_NAME
                         , (SELECT TOP 1 FILE_PATH FROM PICTURE WHERE PICTURE.PRODUCT_ID = PRODUCT.PRODUCT_ID AND PICTURE.DISPLAY_FLAG = '1') AS PICTURE
                     FROM PRODUCT
-                    WHERE PRODUCT_ID = {0}", productID);
+                    WHERE PRODUCT_ID = @PRODUCT_ID");
 
                 Product productInfo = new Product();
 
                 sqlConnection.Open();
 
                 productInfo = sqlConnection.Query<Product>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        PRODUCT_ID = productID
+                    }
                 ).FirstOrDefault();
 
                 sqlConnection.Dispose();
@@ -157,19 +162,22 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT COLOR_ID
                     FROM PRODUCT_DETAIL
-                    WHERE PRODUCT_ID = {0}
-                    GROUP BY COLOR_ID"
-                    , productID);
+                    WHERE PRODUCT_ID = @PRODUCT_ID
+                    GROUP BY COLOR_ID");
 
                 IList<ProductDetail> productDetailList = new List<ProductDetail>();
 
                 sqlConnection.Open();
 
                 productDetailList = sqlConnection.Query<ProductDetail>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        PRODUCT_ID = productID
+                    }
                 ).ToList();
 
                 sqlConnection.Dispose();
@@ -185,7 +193,7 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlQuery = new StringBuilder();
 
-                sqlQuery.AppendFormat(@"
+                sqlQuery.Append(@"
                     SELECT PRODUCT_ID
                         , PRODUCT_DETAIL_ID
                         , COLOR_ID
@@ -193,14 +201,18 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , SIZE
                         , QUANTITY
                     FROM PRODUCT_DETAIL
-                    WHERE PRODUCT_ID = {0}", productID);
+                    WHERE PRODUCT_ID = @PRODUCT_ID");
 
                 IList<ProductDetail> list = new List<ProductDetail>();
 
                 sqlConnection.Open();
 
                 list = sqlConnection.Query<ProductDetail>(
-                    sqlQuery.ToString()
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        PRODUCT_ID = productID
+                    }
                 ).ToList();
 
                 sqlConnection.Dispose();
@@ -223,7 +235,7 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 if (data.PRODUCT_ID == 0)
                 {
-                    sqlUpdate.AppendFormat(@"
+                    sqlUpdate.Append(@"
                         INSERT INTO PRODUCT
                             (PRODUCT_CODE
                             , PRODUCT_NAME
@@ -250,84 +262,40 @@ namespace SiSiHouse.Models.Repositories.Impl
                             , REAL_PRICE
                             , ROOT_LINK)
                         VALUES
-                            ('{0}', N'{1}', {2}, {3}, {4}, N'{5}', N'{6}', {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, '{16}', '{17}', {18}, '{19}', {20}, {21}, {22}, N'{23}');
+                            (@PRODUCT_CODE, @PRODUCT_NAME, @BRAND_ID, @CATEGORY_ID, @STATUS_ID, @COMPOSITION, @DESCRIPTION
+                            , @MONEY_TYPE_ID, @EXCHANGE_RATE, @WEIGHT_POSTAGE, @WAGE, @IMPORT_PRICE, @WEIGHT, @SALE_PRICE
+                            , @SALE_OFF_PRICE, @IMPORT_DATE, @DELETE_FLAG, @CREATED_DATE, @CREATED_USER_ID, @MODIFIED_DATE, @MODIFIED_USER_ID
+                            , @SEX, @REAL_PRICE, @ROOT_LINK);
                         SELECT
-                            SCOPE_IDENTITY();"
-                    , data.PRODUCT_CODE
-                    , data.PRODUCT_NAME
-                    , data.BRAND_ID
-                    , data.CATEGORY_ID
-                    , data.STATUS_ID
-                    , data.COMPOSITION
-                    , data.DESCRIPTION
-                    , data.MONEY_TYPE_ID
-                    , data.EXCHANGE_RATE
-                    , data.WEIGHT_POSTAGE
-                    , data.WAGE
-                    , data.IMPORT_PRICE
-                    , (data.WEIGHT.HasValue ? data.WEIGHT.Value.ToString() : "NULL")
-                    , (data.SALE_PRICE.HasValue ? data.SALE_PRICE.Value.ToString() : "NULL")
-                    , (data.SALE_OFF_PRICE.HasValue ? data.SALE_OFF_PRICE.Value.ToString() : "NULL")
-                    , (data.IMPORT_DATE.HasValue ? "'" + data.IMPORT_DATE.Value.ToString() + "'" : "NULL")
-                    , Constant.DeleteFlag.NON_DELETE
-                    , data.MODIFIED_DATE
-                    , data.MODIFIED_USER_ID
-                    , data.MODIFIED_DATE
-                    , data.MODIFIED_USER_ID
-                    , data.SEX
-                    , data.REAL_PRICE
-                    , data.ROOT_LINK);
+                            SCOPE_IDENTITY();");
                 }
                 else
                 {
-                    sqlUpdate.AppendFormat(@"
+                    sqlUpdate.Append(@"
                         UPDATE PRODUCT
-                            SET PRODUCT_NAME = N'{0}'
-                            , BRAND_ID = {1}
-                            , CATEGORY_ID = {2}
-                            , STATUS_ID = {3}
-                            , COMPOSITION = N'{4}'
-                            , DESCRIPTION = N'{5}'
-                            , MONEY_TYPE_ID = {6}
-                            , EXCHANGE_RATE = {7}
-                            , WEIGHT_POSTAGE = {8}
-                            , WAGE = {9}
-                            , IMPORT_PRICE = {10}
-                            , WEIGHT = {11}
-                            , SALE_PRICE = {12}
-                            , SALE_OFF_PRICE = {13}
-                            , IMPORT_DATE = {14}
-                            , DELETE_FLAG = '{15}'
-                            , MODIFIED_DATE = '{16}'
-                            , MODIFIED_USER_ID = {17}
-                            , SEX = {18}
-                            , REAL_PRICE = {19}
-                            , PRODUCT_CODE = N'{20}'
-                            , ROOT_LINK = N'{21}'
-                        WHERE PRODUCT_ID = {22}"
-                    , data.PRODUCT_NAME
-                    , data.BRAND_ID
-                    , data.CATEGORY_ID
-                    , data.STATUS_ID
-                    , data.COMPOSITION
-                    , data.DESCRIPTION
-                    , data.MONEY_TYPE_ID
-                    , data.EXCHANGE_RATE
-                    , data.WEIGHT_POSTAGE
-                    , data.WAGE
-                    , data.IMPORT_PRICE
-                    , (data.WEIGHT.HasValue ? data.WEIGHT.Value.ToString() : "NULL")
-                    , (data.SALE_PRICE.HasValue ? data.SALE_PRICE.Value.ToString() : "NULL")
-                    , (data.SALE_OFF_PRICE.HasValue ? data.SALE_OFF_PRICE.Value.ToString() : "NULL")
-                    , (data.IMPORT_DATE.HasValue ? "'" + data.IMPORT_DATE.Value.ToString() + "'" : "NULL")
-                    , data.DELETE_FLAG
-                    , data.MODIFIED_DATE
-                    , data.MODIFIED_USER_ID
-                    , data.SEX
-                    , data.REAL_PRICE
-                    , data.PRODUCT_CODE
-                    , data.ROOT_LINK
-                    , data.PRODUCT_ID);
+                            SET PRODUCT_CODE = @PRODUCT_CODE
+                            , PRODUCT_NAME = @PRODUCT_NAME
+                            , BRAND_ID = @BRAND_ID
+                            , CATEGORY_ID = @CATEGORY_ID
+                            , STATUS_ID = @STATUS_ID
+                            , COMPOSITION = @COMPOSITION
+                            , DESCRIPTION = @DESCRIPTION
+                            , MONEY_TYPE_ID = @MONEY_TYPE_ID
+                            , EXCHANGE_RATE = @EXCHANGE_RATE
+                            , WEIGHT_POSTAGE = @WEIGHT_POSTAGE
+                            , WAGE = @WAGE
+                            , IMPORT_PRICE = @IMPORT_PRICE
+                            , WEIGHT = @WEIGHT
+                            , SALE_PRICE = @SALE_PRICE
+                            , SALE_OFF_PRICE = @SALE_OFF_PRICE
+                            , IMPORT_DATE = @IMPORT_DATE
+                            , DELETE_FLAG = @DELETE_FLAG
+                            , MODIFIED_DATE = @MODIFIED_DATE
+                            , MODIFIED_USER_ID = @MODIFIED_USER_ID
+                            , SEX = @SEX
+                            , REAL_PRICE = @REAL_PRICE
+                            , ROOT_LINK = @ROOT_LINK
+                        WHERE PRODUCT_ID = @PRODUCT_ID");
                 }
 
                 int result = 0;
@@ -335,7 +303,36 @@ namespace SiSiHouse.Models.Repositories.Impl
                 sqlConnection.Open();
                 if (data.PRODUCT_ID == 0)
                 {
-                    result = sqlConnection.ExecuteScalar<int>(sqlUpdate.ToString());
+                    result = sqlConnection.ExecuteScalar<int>(
+                        sqlUpdate.ToString(),
+                        new
+                        {
+                            PRODUCT_CODE = data.PRODUCT_CODE,
+                            PRODUCT_NAME = data.PRODUCT_NAME,
+                            BRAND_ID = data.BRAND_ID,
+                            CATEGORY_ID = data.CATEGORY_ID,
+                            STATUS_ID = data.STATUS_ID,
+                            COMPOSITION = data.COMPOSITION,
+                            DESCRIPTION = data.DESCRIPTION,
+                            MONEY_TYPE_ID = data.MONEY_TYPE_ID,
+                            EXCHANGE_RATE = data.EXCHANGE_RATE,
+                            WEIGHT_POSTAGE = data.WEIGHT_POSTAGE,
+                            WAGE = data.WAGE,
+                            IMPORT_PRICE = data.IMPORT_PRICE,
+                            WEIGHT = data.WEIGHT,
+                            SALE_PRICE = data.SALE_PRICE,
+                            SALE_OFF_PRICE = data.SALE_OFF_PRICE,
+                            IMPORT_DATE = data.IMPORT_DATE,
+                            DELETE_FLAG = Constant.DeleteFlag.NON_DELETE,
+                            CREATED_DATE = data.MODIFIED_DATE,
+                            CREATED_USER_ID = data.MODIFIED_USER_ID,
+                            MODIFIED_DATE = data.MODIFIED_DATE,
+                            MODIFIED_USER_ID = data.MODIFIED_USER_ID,
+                            SEX = data.SEX,
+                            REAL_PRICE = data.REAL_PRICE,
+                            ROOT_LINK = data.ROOT_LINK,
+                        }
+                    );
 
                     if (result > 0)
                     {
@@ -344,7 +341,35 @@ namespace SiSiHouse.Models.Repositories.Impl
                 }
                 else
                 {
-                    result = sqlConnection.Execute(sqlUpdate.ToString());
+                    result = sqlConnection.Execute(
+                        sqlUpdate.ToString(),
+                        new
+                        {
+                            PRODUCT_ID = data.PRODUCT_ID,
+                            PRODUCT_CODE = data.PRODUCT_CODE,
+                            PRODUCT_NAME = data.PRODUCT_NAME,
+                            BRAND_ID = data.BRAND_ID,
+                            CATEGORY_ID = data.CATEGORY_ID,
+                            STATUS_ID = data.STATUS_ID,
+                            COMPOSITION = data.COMPOSITION,
+                            DESCRIPTION = data.DESCRIPTION,
+                            MONEY_TYPE_ID = data.MONEY_TYPE_ID,
+                            EXCHANGE_RATE = data.EXCHANGE_RATE,
+                            WEIGHT_POSTAGE = data.WEIGHT_POSTAGE,
+                            WAGE = data.WAGE,
+                            IMPORT_PRICE = data.IMPORT_PRICE,
+                            WEIGHT = data.WEIGHT,
+                            SALE_PRICE = data.SALE_PRICE,
+                            SALE_OFF_PRICE = data.SALE_OFF_PRICE,
+                            IMPORT_DATE = data.IMPORT_DATE,
+                            DELETE_FLAG = data.DELETE_FLAG,
+                            MODIFIED_DATE = data.MODIFIED_DATE,
+                            MODIFIED_USER_ID = data.MODIFIED_USER_ID,
+                            SEX = data.SEX,
+                            REAL_PRICE = data.REAL_PRICE,
+                            ROOT_LINK = data.ROOT_LINK,
+                        }
+                    );
                 }
 
                 if (result > 0)
@@ -376,46 +401,71 @@ namespace SiSiHouse.Models.Repositories.Impl
                     {
                         var sqlDelete = new StringBuilder();
 
-                        sqlDelete.AppendFormat(@"
+                        sqlDelete.Append(@"
                             DELETE FROM
                                 PICTURE
                             WHERE
-                                PRODUCT_ID = {0}
-                                AND PICTURE_ID = {1}
-                        ", productID, data.PICTURE_ID);
+                                PRODUCT_ID = @PRODUCT_ID
+                                AND PICTURE_ID = @PICTURE_ID");
 
-                        result = sqlConnection.Execute(sqlDelete.ToString());
+                        result = sqlConnection.Execute(
+                            sqlDelete.ToString(),
+                            new
+                            {
+                                PRODUCT_ID = productID,
+                                PICTURE_ID = data.PICTURE_ID
+                            }
+                        );
                     }
                     else if (data.CHANGED.HasValue && data.CHANGED.Value)
                     {
                         var sqlUpdate = new StringBuilder();
 
-                        sqlUpdate.AppendFormat(@"
+                        sqlUpdate.Append(@"
                             UPDATE PICTURE
-                                SET FILE_PATH = N'{0}'
-                            WHERE PRODUCT_ID = {1}
-                            AND PICTURE_ID = {2}
-                        ", data.FILE_PATH, productID, data.PICTURE_ID);
+                                SET FILE_PATH = @FILE_PATH
+                                    , DISPLAY_FLAG = @DISPLAY_FLAG
+                            WHERE PRODUCT_ID = @PRODUCT_ID
+                            AND PICTURE_ID = @PICTURE_ID");
 
-                        result = sqlConnection.Execute(sqlUpdate.ToString());
+                        result = sqlConnection.Execute(
+                            sqlUpdate.ToString(),
+                            new
+                            {
+                                FILE_PATH = data.FILE_PATH,
+                                DISPLAY_FLAG = string.IsNullOrEmpty(data.DISPLAY_FLAG) ? Constant.DisplayPicture.MAIN : data.DISPLAY_FLAG,
+                                PRODUCT_ID = productID,
+                                PICTURE_ID = data.PICTURE_ID
+                            }
+                        );
                     }
                     else if (1 > data.PICTURE_ID && !string.IsNullOrEmpty(data.FILE_PATH))
                     {
                         var sqlInsert = new StringBuilder();
 
-                        sqlInsert.AppendFormat(@"
+                        sqlInsert.Append(@"
                             INSERT INTO PICTURE
                                 (PRODUCT_ID
                                 , FILE_PATH
+                                , DISPLAY_FLAG
                                 , CREATED_DATE
                                 , CREATED_USER_ID)
                             VALUES
-                                ({0}, N'{1}', '{2}', {3});
+                                (@PRODUCT_ID, @FILE_PATH, @DISPLAY_FLAG, @CREATED_DATE, @CREATED_USER_ID);
                             SELECT
-                                SCOPE_IDENTITY();
-                        ", productID, data.FILE_PATH, createdDate, createdUserID);
+                                SCOPE_IDENTITY();");
 
-                        result = sqlConnection.ExecuteScalar<int>(sqlInsert.ToString());
+                        result = sqlConnection.ExecuteScalar<int>(
+                            sqlInsert.ToString(),
+                            new
+                            {
+                                FILE_PATH = data.FILE_PATH,
+                                DISPLAY_FLAG = string.IsNullOrEmpty(data.DISPLAY_FLAG) ? Constant.DEFAULT_VALUE : data.DISPLAY_FLAG,
+                                PRODUCT_ID = productID,
+                                CREATED_DATE = createdDate,
+                                CREATED_USER_ID = createdUserID,
+                            }
+                        );
                     }
 
                     if (result == 0 && !string.IsNullOrEmpty(data.FILE_PATH))
@@ -438,52 +488,71 @@ namespace SiSiHouse.Models.Repositories.Impl
                     {
                         var sqlDelete = new StringBuilder();
 
-                        sqlDelete.AppendFormat(@"
+                        sqlDelete.Append(@"
                             DELETE FROM
                                 PRODUCT_DETAIL
                             WHERE
-                                PRODUCT_ID = {0}
-                                AND PRODUCT_DETAIL_ID = {1}
-                        ", productID, data.PRODUCT_DETAIL_ID);
+                                PRODUCT_ID = @PRODUCT_ID
+                                AND PRODUCT_DETAIL_ID = @PRODUCT_DETAIL_ID");
 
-                        result = sqlConnection.Execute(sqlDelete.ToString());
+                        result = sqlConnection.Execute(
+                            sqlDelete.ToString(),
+                            new
+                            {
+                                PRODUCT_ID = productID,
+                                PRODUCT_DETAIL_ID = data.PRODUCT_DETAIL_ID
+                            }
+                        );
                     }
                     else if (data.PRODUCT_DETAIL_ID > 0)
                     {
                         var sqlUpdate = new StringBuilder();
 
-                        sqlUpdate.AppendFormat(@"
+                        sqlUpdate.Append(@"
                             UPDATE PRODUCT_DETAIL
-                                SET COLOR_ID = {0}
-                                , SIZE = '{1}'
-                                , QUANTITY = {2}
-                            WHERE PRODUCT_ID = {3}
-                            AND PRODUCT_DETAIL_ID = {4} "
-                            , data.COLOR_ID
-                            , data.SIZE
-                            , data.QUANTITY
-                            , productID
-                            , data.PRODUCT_DETAIL_ID);
+                                SET COLOR_ID = @COLOR_ID
+                                , SIZE = @SIZE
+                                , QUANTITY = @QUANTITY
+                            WHERE PRODUCT_ID = @PRODUCT_ID
+                            AND PRODUCT_DETAIL_ID = @PRODUCT_DETAIL_ID ");
 
-                        result = sqlConnection.Execute(sqlUpdate.ToString());
+                        result = sqlConnection.Execute(
+                            sqlUpdate.ToString(),
+                            new
+                            {
+                                COLOR_ID = data.COLOR_ID,
+                                SIZE = data.SIZE,
+                                QUANTITY = data.QUANTITY,
+                                PRODUCT_ID = productID,
+                                PRODUCT_DETAIL_ID = data.PRODUCT_DETAIL_ID
+                            }
+                        );
                     }
                     else if (data.PRODUCT_DETAIL_ID < 0)
                     {
                         var sqlInsert = new StringBuilder();
 
-                        sqlInsert.AppendFormat(@"
+                        sqlInsert.Append(@"
                             INSERT INTO PRODUCT_DETAIL
                                 (PRODUCT_ID
                                 , COLOR_ID
                                 , SIZE
                                 , QUANTITY)
                             VALUES
-                                ({0}, {1}, '{2}', {3});
+                                (@PRODUCT_ID, @COLOR_ID, @SIZE, @QUANTITY);
                             SELECT
-                                SCOPE_IDENTITY();
-                        ",  productID, data.COLOR_ID, data.SIZE, data.QUANTITY);
+                                SCOPE_IDENTITY();");
 
-                        result = sqlConnection.ExecuteScalar<int>(sqlInsert.ToString());
+                        result = sqlConnection.ExecuteScalar<int>(
+                            sqlInsert.ToString(),
+                            new
+                            {
+                                PRODUCT_ID = productID,
+                                COLOR_ID = data.COLOR_ID,
+                                SIZE = data.SIZE,
+                                QUANTITY = data.QUANTITY
+                            }
+                        );
                     }
 
                     if (result == 0)
@@ -523,12 +592,13 @@ namespace SiSiHouse.Models.Repositories.Impl
         {
             int result = 0;
             string retailCode ="R" + product.MODIFIED_DATE.Value.ToString("yyyyMMddHHmmss");
+            var currentDate = DateTime.Now;
 
             foreach (var data in retailList)
             {
                 var sqlInsert = new StringBuilder();
 
-                sqlInsert.AppendFormat(@"
+                sqlInsert.Append(@"
                     INSERT INTO RETAIL
                         (RETAIL_CODE
                         , PRODUCT_ID
@@ -542,39 +612,50 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , MODIFIED_DATE
                         , MODIFIED_USER_ID)
                     VALUES
-                        ('{0}', {1}, {2}, {3}, '{4}', {5}, {6}, '{7}', {8}, '{9}', {10})"
-                    , retailCode
-                    , product.PRODUCT_ID
-                    , data.PRODUCT_DETAIL_ID
-                    , data.COLOR_ID
-                    , data.SIZE
-                    , data.QUANTITY
-                    , data.TOTAL_PRICE
-                    , product.MODIFIED_DATE
-                    , product.MODIFIED_USER_ID
-                    , product.MODIFIED_DATE
-                    , product.MODIFIED_USER_ID);
+                        (@RETAIL_CODE, @PRODUCT_ID, @PRODUCT_DETAIL_ID, @COLOR_ID, @SIZE, @QUANTITY, @TOTAL_PRICE
+                        , @CREATED_DATE, @CREATED_USER_ID, @MODIFIED_DATE, @MODIFIED_USER_ID)");
 
-                result = sqlConnection.Execute(sqlInsert.ToString());
+                result = sqlConnection.Execute(
+                    sqlInsert.ToString(),
+                    new
+                    {
+                        RETAIL_CODE = retailCode,
+                        PRODUCT_ID = product.PRODUCT_ID,
+                        PRODUCT_DETAIL_ID = data.PRODUCT_DETAIL_ID,
+                        COLOR_ID = data.COLOR_ID,
+                        SIZE = data.SIZE,
+                        QUANTITY = data.QUANTITY,
+                        TOTAL_PRICE = data.TOTAL_PRICE,
+                        CREATED_DATE = currentDate,
+                        CREATED_USER_ID = data.MODIFIED_USER_ID,
+                        MODIFIED_DATE = currentDate,
+                        MODIFIED_USER_ID = data.MODIFIED_USER_ID
+                    }
+                );
 
                 if (result > 0)
                 {
                     var sqlUpdate = new StringBuilder();
 
-                    sqlUpdate.AppendFormat(@"
+                    sqlUpdate.Append(@"
                         UPDATE PRODUCT_DETAIL
-                            SET QUANTITY = (QUANTITY - {0})
-                        WHERE PRODUCT_ID = {1}
-                        AND PRODUCT_DETAIL_ID = {2}
-                        AND COLOR_ID = {3}
-                        AND SIZE = '{4}'"
-                        , data.QUANTITY
-                        , product.PRODUCT_ID
-                        , data.PRODUCT_DETAIL_ID
-                        , data.COLOR_ID
-                        , data.SIZE);
+                            SET QUANTITY = (QUANTITY - @QUANTITY)
+                        WHERE PRODUCT_ID = @PRODUCT_ID
+                        AND PRODUCT_DETAIL_ID = @PRODUCT_DETAIL_ID
+                        AND COLOR_ID = @COLOR_ID
+                        AND SIZE = @SIZE");
 
-                    result = sqlConnection.Execute(sqlUpdate.ToString());
+                    result = sqlConnection.Execute(
+                        sqlUpdate.ToString(),
+                        new
+                        {
+                            QUANTITY = data.QUANTITY,
+                            PRODUCT_ID = product.PRODUCT_ID,
+                            PRODUCT_DETAIL_ID = data.PRODUCT_DETAIL_ID,
+                            COLOR_ID = data.COLOR_ID,
+                            SIZE = data.SIZE
+                        }
+                    );
                 }
 
                 if (result == 0)
@@ -585,44 +666,68 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlCount = new StringBuilder();
 
-                sqlCount.AppendFormat(@"
+                sqlCount.Append(@"
                     SELECT COUNT(PRODUCT_ID)
                     FROM PRODUCT_DETAIL
-                    WHERE PRODUCT_ID = {0}
-                        AND QUANTITY > 0", product.PRODUCT_ID);
+                    WHERE PRODUCT_ID = @PRODUCT_ID
+                        AND QUANTITY > 0");
 
-                int quantity = sqlConnection.ExecuteScalar<int>(sqlCount.ToString());
+                int quantity = sqlConnection.ExecuteScalar<int>(
+                    sqlCount.ToString(),
+                    new
+                    {
+                        PRODUCT_ID = product.PRODUCT_ID
+                    }
+                );
 
                 if (quantity == 0) {
                     var sqlUpdate = new StringBuilder();
 
-                    sqlUpdate.AppendFormat(@"
+                    sqlUpdate.Append(@"
                         UPDATE PRODUCT
-                            SET STATUS_ID = 3
-                        WHERE PRODUCT_ID = {0}" , product.PRODUCT_ID);
+                            SET STATUS_ID = @STATUS_ID
+                        WHERE PRODUCT_ID = @PRODUCT_ID");
 
-                    result = sqlConnection.Execute(sqlUpdate.ToString());
+                    result = sqlConnection.Execute(
+                        sqlUpdate.ToString(),
+                        new
+                        {
+                            STATUS_ID = Convert.ToInt32(Constant.Status.OUT_OF_STOCK),
+                            PRODUCT_ID = product.PRODUCT_ID
+                        }
+                    );
                 }
             }
 
             return result;
         }
 
-        public bool DeleteProduct(long productID)
+        public bool DeleteProduct(long productID, long userID)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 int result = 0;
                 var sqlUpdate = new StringBuilder();
 
-                sqlUpdate.AppendFormat(@"
+                sqlUpdate.Append(@"
                     UPDATE PRODUCT
-                    SET DELETE_FLAG = '1'
-                    WHERE PRODUCT_ID = {0}", productID);
+                    SET DELETE_FLAG = @DELETE_FLAG
+                        , MODIFIED_DATE = @MODIFIED_DATE
+                        , MODIFIED_USER_ID = @MODIFIED_USER_ID
+                    WHERE PRODUCT_ID = @PRODUCT_ID");
 
                 sqlConnection.Open();
 
-                result = sqlConnection.Execute(sqlUpdate.ToString());
+                result = sqlConnection.Execute(
+                    sqlUpdate.ToString(),
+                    new
+                    {
+                        DELETE_FLAG = Constant.DeleteFlag.DELETE,
+                        MODIFIED_DATE = DateTime.Now,
+                        MODIFIED_USER_ID = userID,
+                        PRODUCT_ID = productID
+                    }
+                );
 
                 sqlConnection.Dispose();
                 sqlConnection.Close();

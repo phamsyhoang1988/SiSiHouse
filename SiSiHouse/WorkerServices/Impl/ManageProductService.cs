@@ -76,13 +76,13 @@ namespace SiSiHouse.WorkerServices.Impl
             return res;
         }
 
-        public bool DeleteProduct(long productID)
+        public bool DeleteProduct(long productID, long userID)
         {
             var res = false;
 
             using (var transaction = new TransactionScope())
             {
-                res = _repository.DeleteProduct(productID);
+                res = _repository.DeleteProduct(productID, userID);
 
                 if (res)
                     transaction.Complete();

@@ -20,6 +20,6 @@ namespace SiSiHouse.WorkerServices
 
         bool UpdateRetail(Product product, IList<Retail> retailList, bool isEdit);
 
-        bool DeleteProduct(long productID);
+        bool DeleteProduct(long productID, long userID);
     }
 }
