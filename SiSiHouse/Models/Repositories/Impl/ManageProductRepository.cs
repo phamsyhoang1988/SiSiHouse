@@ -417,28 +417,6 @@ namespace SiSiHouse.Models.Repositories.Impl
                             }
                         );
                     }
-                    else if (data.CHANGED.HasValue && data.CHANGED.Value)
-                    {
-                        var sqlUpdate = new StringBuilder();
-
-                        sqlUpdate.Append(@"
-                            UPDATE PICTURE
-                                SET FILE_PATH = @FILE_PATH
-                                    , DISPLAY_FLAG = @DISPLAY_FLAG
-                            WHERE PRODUCT_ID = @PRODUCT_ID
-                            AND PICTURE_ID = @PICTURE_ID");
-
-                        result = sqlConnection.Execute(
-                            sqlUpdate.ToString(),
-                            new
-                            {
-                                FILE_PATH = data.FILE_PATH,
-                                DISPLAY_FLAG = string.IsNullOrEmpty(data.DISPLAY_FLAG) ? Constant.DisplayPicture.MAIN : data.DISPLAY_FLAG,
-                                PRODUCT_ID = productID,
-                                PICTURE_ID = data.PICTURE_ID
-                            }
-                        );
-                    }
                     else if (1 > data.PICTURE_ID && !string.IsNullOrEmpty(data.FILE_PATH))
                     {
                         var sqlInsert = new StringBuilder();
@@ -464,6 +442,26 @@ namespace SiSiHouse.Models.Repositories.Impl
                                 PRODUCT_ID = productID,
                                 CREATED_DATE = createdDate,
                                 CREATED_USER_ID = createdUserID,
+                            }
+                        );
+                    }
+                    else
+                    {
+                        var sqlUpdate = new StringBuilder();
+
+                        sqlUpdate.Append(@"
+                            UPDATE PICTURE
+                                SET DISPLAY_FLAG = @DISPLAY_FLAG
+                            WHERE PRODUCT_ID = @PRODUCT_ID
+                            AND PICTURE_ID = @PICTURE_ID");
+
+                        result = sqlConnection.Execute(
+                            sqlUpdate.ToString(),
+                            new
+                            {
+                                DISPLAY_FLAG = string.IsNullOrEmpty(data.DISPLAY_FLAG) ? Constant.DisplayPicture.MAIN : data.DISPLAY_FLAG,
+                                PRODUCT_ID = productID,
+                                PICTURE_ID = data.PICTURE_ID
                             }
                         );
                     }

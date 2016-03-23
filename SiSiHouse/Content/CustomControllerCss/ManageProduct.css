@@ -48,7 +48,7 @@
 
 .product-regist .picture-detail {
     margin-right: 49px;
-    padding: 5px;
+    padding: 0 5px;
     border: 1px solid #d2d6de;
 }
 
@@ -84,7 +84,24 @@
 }
 
 .product-regist .display-picture {
-    max-width: 97px;
-    max-height: 81px;
+    max-width: 152px;
+    max-height: 114px;
     cursor: pointer;
+}
+
+.product-regist .btnDeletePicture {
+    cursor: pointer;
+}
+
+.product-regist .picture-name {
+    min-width: 133px;
+    max-width: 133px;
+    padding: 0;
+    margin: 0;
+}
+
+.product-regist .cbxMainPic {
+    padding: 0;
+    margin: 0;
+    margin-top: -9px;
 }

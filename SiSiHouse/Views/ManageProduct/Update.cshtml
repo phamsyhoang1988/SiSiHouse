@@ -93,9 +93,11 @@
         <div class="form-group">
             <label class="col-lg-2 control-label">Thư viện</label>
             <div class="col-lg-10">
-                <button class="btn dark btnAddPicture" type="button"><i class="fa fa-plus"></i> Ảnh</button>
+                <button class="btn dark btnAddPicture" type="button"><i class="fa fa-picture-o"></i> Thêm ảnh</button>
+                <input id="productPicture" class="picture-file" name="pictureFiles" type="file" multiple />
             </div>
         </div>
+
         <div class="form-group picture-list">
             @if (Model.PictureList.Count > 0)
             {
@@ -103,34 +105,20 @@
                 {
                     <div class="form-group col-lg-3 picture-detail old-value">
                         @Html.HiddenFor(m => m.PictureList[i].PICTURE_ID, new { @class = "picture-id" })
-                        @Html.HiddenFor(m => m.PictureList[i].FILE_PATH_OLD, new { @class = "picture-filepath-old" })
-                        @Html.HiddenFor(m => m.PictureList[i].CHANGED, new { @class = "picture-changed" })
                         @Html.HiddenFor(m => m.PictureList[i].DELETED, new { @class = "picture-deleted" })
-                        <div class="col-lg-7">
+
+                        <div class="col-lg-12 text-right">
+                            <i class="fa fa-remove error btnDeletePicture"></i>
+                        </div>
+                        <div class="col-lg-12">
                             <img src="@Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_PICTURE], Model.ProductInfo.PRODUCT_ID.ToString(), Model.PictureList[i].FILE_PATH)" title="@Model.PictureList[i].FILE_PATH" class="display-picture" />
                         </div>
-                        <div class="col-lg-5">
-                            <input class="picture-file" name="pictureFiles" type="file" />
-                            <button class="btn dark btnSelectPicture pull-right" type="button"><i class="fa fa-image"></i></button>
-                            <button class="btn dark btnDeletePicture pull-right" type="button"><i class="fa fa-remove"></i></button>
+                        <div class="col-lg-12">
+                            <label class="picture-name short-text text-overflow">@Model.PictureList[i].FILE_PATH</label>
+                            @Html.CheckBoxFor(m => m.PictureList[i].IS_MAIN, new { @class = "cbxMainPic" })
                         </div>
                     </div>
                 }
-            }
-            else
-            {
-                <div class="form-group col-lg-3 picture-detail">
-                    <input class="picture-id" name="PictureList[0].PICTURE_ID" type="hidden" value="0">
-
-                    <div class="col-lg-7">
-                        <img src="~/Images/no_image.png" title="Chưa có ảnh" class="display-picture" />
-                    </div>
-                    <div class="col-lg-5">
-                        <input class="picture-file" name="pictureFiles" type="file" />
-                        <button class="btn dark btnSelectPicture pull-right" type="button"><i class="fa fa-image"></i></button>
-                        <button class="btn dark btnDeletePicture pull-right" type="button"><i class="fa fa-remove"></i></button>
-                    </div>
-                </div>
             }
         </div>
     </div>

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using SiSiHouse.Resources;
+using SiSiHouse.Common;
 
 namespace SiSiHouse.Models.Entities
 {
@@ -19,10 +20,12 @@ namespace SiSiHouse.Models.Entities
 
         public long CREATED_USER_ID { get; set; }
 
-        public string FILE_PATH_OLD { get; set; }
-
         public bool? DELETED { get; set; }
 
-        public bool? CHANGED { get; set; }
+        public bool IS_MAIN
+        {
+            get { return (this.DISPLAY_FLAG == Constant.DisplayPicture.MAIN); }
+            set { this.DISPLAY_FLAG = (value ? Constant.DisplayPicture.MAIN : Constant.DisplayPicture.EXTRA); }
+        }
     }
 }

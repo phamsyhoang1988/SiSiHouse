@@ -100,6 +100,16 @@ namespace SiSiHouse.Controllers
                     srcPath = Server.MapPath(Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_PICTURE], model.ProductInfo.PRODUCT_ID.ToString()));
                     int index = 0;
 
+                    foreach (var picture in model.PictureList)
+                    {
+                        if (picture.PICTURE_ID > 0)
+                        {
+                            index++;
+                        } else {
+                            break;
+                        }
+                    }
+
                     // save file to destination folder
                     foreach (var file in pictureFiles)
                     {
@@ -139,9 +149,9 @@ namespace SiSiHouse.Controllers
                             // delete file changed or deleted
                             foreach (var picture in model.PictureList)
                             {
-                                if (picture.PICTURE_ID > 0 && ((picture.DELETED.HasValue && picture.DELETED.Value) || (picture.CHANGED.HasValue && picture.CHANGED.Value)))
+                                if (picture.PICTURE_ID > 0 && (picture.DELETED.HasValue && picture.DELETED.Value))
                                 {
-                                    UploadFile.DeleteFile(Path.Combine(desPath, picture.FILE_PATH_OLD));
+                                    UploadFile.DeleteFile(Path.Combine(desPath, picture.FILE_PATH));
                                 }
                             }
                         }

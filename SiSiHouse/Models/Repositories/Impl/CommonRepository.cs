@@ -292,7 +292,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                 sqlQuery.Append(@"
                     SELECT PICTURE_ID
                         , FILE_PATH
-                        , FILE_PATH FILE_PATH_OLD
+                        , DISPLAY_FLAG
                     FROM PICTURE
                     WHERE PRODUCT_ID = @PRODUCT_ID
                     ORDER BY DISPLAY_FLAG DESC");

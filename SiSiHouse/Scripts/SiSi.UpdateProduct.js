@@ -392,45 +392,31 @@ $(document).on('change', '.ddlSelectColor', function () {
 function ResetPictureDetail() {
     $('.picture-detail').each(function (index, value) {
         var pictureID = 'PictureList[' + index + '].PICTURE_ID';
+        var mainPicture = 'PictureList[' + index + '].IS_MAIN';
 
         $(this).find('.picture-id').attr('name', pictureID);
+        $(this).find('.cbxMainPic').parent().find('input').attr('name', mainPicture);
 
         if ($(this).hasClass('old-value')) {
-            var filepathOld = 'PictureList[' + index + '].FILE_PATH_OLD';
-            var changed = 'PictureList[' + index + '].CHANGED';
             var deleted = 'PictureList[' + index + '].DELETED';
 
-            $(this).find('.picture-filepath-old').attr('name', filepathOld);
-            $(this).find('.picture-changed').attr('name', changed);
             $(this).find('.picture-deleted').attr('name', deleted);
         }
     });
 }
 
+function SetPicture($imgElement, file) {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+        $imgElement.attr('src', e.target.result).attr('title', file.name).addClass('set');
+    };
+
+    reader.readAsDataURL(file);
+}
+
 $('.btnAddPicture').click(function (e) {
-    var html = '<div class="form-group col-lg-3 picture-detail">'
-        + ' <input class="picture-id" type="hidden">'
-        + ' <div class="col-lg-7">'
-        + ' <img src="/Images/no_image.png" title="Chưa có ảnh" class="display-picture" />'
-        + ' </div>'
-        + ' <div class="col-lg-5">'
-        + ' <input class="picture-file" name="pictureFiles" type="file">'
-        + ' <button class="btn dark btnSelectPicture pull-right" type="button"><i class="fa fa-image"></i></button>'
-        + ' <button class="btn dark btnDeletePicture pull-right" type="button"><i class="fa fa-remove"></i></button>'
-        + ' </div>'
-        + ' </div>';
-
-    if ($('.picture-detail').length > 0)
-        $('.picture-detail:last').after(html);
-    else
-        $('.picture-list').append(html);
-
-    var $targetContent = $('.picture-detail:last');
-    var pictureID = $targetContent.index() * -1;
-
-    $targetContent.find('.picture-id').val(pictureID);
-
-    ResetPictureDetail();
+    $('#productPicture').click();
 });
 
 $(document).off('.btnDeletePicture');
@@ -447,30 +433,43 @@ $(document).on('click', '.btnDeletePicture', function () {
     ResetPictureDetail();
 });
 
-$(document).off('.btnSelectPicture');
-$(document).on('click', '.btnSelectPicture', function () {
-    var $targetContent = $(this).parents('.picture-detail');
-    $targetContent.find('.picture-file').click();
-});
+$(document).off('#productPicture');
+$(document).on('change', '#productPicture', function () {
+    var fileList = $(this).prop('files');
 
-$(document).off('.picture-file');
-$(document).on('change', '.picture-file', function () {
-    var $targetContent = $(this).parents('.picture-detail');
-    var $imgElement = $targetContent.find('.display-picture');
-    var file = $(this).prop('files')[0];
+    if (fileList.length > 0) {
+        var html = '<div class="form-group col-lg-3 picture-detail">'
+        + ' <input class="picture-id" type="hidden">'
+        + '<div class="col-lg-12 text-right"> <i class="fa fa-remove error btnDeletePicture"></i></div>'
+        + ' <div class="col-lg-12">'
+        + ' <img src="/Images/no_image.png" title="Chưa có ảnh" class="display-picture" />'
+        + ' </div>'
+        + ' <div class="col-lg-12">'
+        + ' <label class="picture-name short-text text-overflow">&nbsp;</label>'
+        + ' <input class="cbxMainPic" type="checkbox" value="true"><input type="hidden" value="false">'
+        + ' </div>'
+        + ' </div>';
 
-    if (typeof (file) !== 'undefined') {
-        var reader = new FileReader();
+        for (var i = 0; i < fileList.length; i++) {
+            if ($('.picture-detail').length > 0)
+                $('.picture-detail:last').after(html);
+            else
+                $('.picture-list').append(html);
 
-        reader.onload = function (e) {
-            $imgElement.attr('src', e.target.result).attr('title', file.name);
-        };
+            var file = fileList[i];
+            var $targetContent = $('.picture-detail:last');
+            var pictureID = $targetContent.index() * -1;
 
-        reader.readAsDataURL(file);
+            $targetContent.find('.picture-id').val(pictureID);
+            $targetContent.find('.picture-name').text(file.name);
 
-        if ($targetContent.hasClass('old-value')) {
-            $targetContent.find('.picture-changed').val(true);
+            var $imgElement = $targetContent.find('.display-picture');
+
+            SetPicture($imgElement, file);
         }
+
+        ResetPictureDetail();
     }
 });
+
 // END - Module picture
