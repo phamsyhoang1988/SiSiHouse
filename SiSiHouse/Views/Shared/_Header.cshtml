@@ -16,37 +16,37 @@
         <ul>
             @if (currentUser == null)
             {
-                <li class="help">
-                    <a href="@Url.Action("GetIn", "SiSi")" class="login-link" title="Đăng nhập">
-                        My Account
-                    </a>
-                </li>
+            <li class="help">
+                <a href="@Url.Action("GetIn", "SiSi")" class="login-link" title="Đăng nhập">
+                    My Account
+                </a>
+            </li>
             }
             else
             {
-                <li>
-                    <a href="@Url.Action("", "ManageProduct")" title="Quản trị">
-                        Manage
-                    </a>
-                </li>
-                <li class="separator">|</li>
-                <li>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                        My Account
-                    </a>
-                    <ul class="dropdown-menu login-user">
-                        <li>
-                            <a href="@Url.Action("Personal", "SiSi")" class="text-right">
-                                @currentUser.FULL_NAME
-                            </a>
-                        </li>
-                        <li>
-                            <a href="@Url.Action("GetOut", "SiSi")" class="text-right">
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+            <li>
+                <a href="@Url.Action("", "ManageProduct")" title="Quản trị">
+                    Manage
+                </a>
+            </li>
+            <li class="separator">|</li>
+            <li>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    My Account
+                </a>
+                <ul class="dropdown-menu login-user">
+                    <li>
+                        <a href="@Url.Action("Personal", "SiSi")" class="text-right">
+                            @currentUser.FULL_NAME
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("GetOut", "SiSi")" class="text-right">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </li>
             }
         </ul>
     </div>
@@ -63,37 +63,78 @@
                     MAN
                 </a>
                 <div class="dropdown-menu row">
-                    <div class="col-lg-6">
-                        <a href="#">
-                            Đồ Nam
-                        </a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a href="#">
-                            Đồ Nữ
-                        </a>
+                    <div class="sub-menu-content">
+                        <ul class="sub-menu">
+                            <li>
+                                <a>COATS</a>
+                            </li>
+                            <li>
+                                <a>JACKETS</a>
+                            </li>
+                            <li>
+                                <a>BLAZERS</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-menu">
+                            <li>
+                                <a>SWEATSHIRTS</a>
+                            </li>
+                            <li>
+                                <a>SWEATERS</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-menu">
+                            <li>
+                                <a>SHIRTS</a>
+                            </li>
+                            <li>
+                                <a>T-SHIRTS</a>
+                            </li>
+                            <li>
+                                <a>POLOS</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-menu">
+                            <li>
+                                <a>JEANS</a>
+                            </li>
+                            <li>
+                                <a>TROUSERS</a>
+                            </li>
+                            <li>
+                                <a>SHORTS</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                    WOMAN
-                </a>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
                     FOOTWEAR
                 </a>
                 <div class="dropdown-menu row">
-                    <div class="col-lg-6">
-                        <a href="#">
-                            QUẦN
-                        </a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a href="#">
-                            ÁO
-                        </a>
+                    <div class="sub-menu-content">
+                        <ul class="sub-menu">
+                            <li>
+                                <a>SHOES</a>
+                            </li>
+                            <li>
+                                <a>MOCCASINS</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-menu">
+                            <li>
+                                <a>SNEAKERS</a>
+                            </li>
+                            <li>
+                                <a>BOOTS</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-menu">
+                            <li>
+                                <a>OTHERS SHOES</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </li>
@@ -102,15 +143,28 @@
                     ACCESSORIES
                 </a>
                 <div class="dropdown-menu row">
-                    <div class="col-lg-6">
-                        <a href="#">
-                            Đồ Nam
-                        </a>
-                    </div>
-                    <div class="col-lg-6">
-                        <a href="#">
-                            Đồ Nữ
-                        </a>
+                    <div class="sub-menu-content">
+                        <ul class="sub-menu">
+                            <li>
+                                <a>BAGS</a>
+                            </li>
+                            <li>
+                                <a>BELTS</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-menu">
+                            <li>
+                                <a>GLASSES</a>
+                            </li>
+                            <li>
+                                <a>HATS</a>
+                            </li>
+                        </ul>
+                        <ul class="sub-menu">
+                            <li>
+                                <a>OTHERS ACCESSORIES</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </li>
