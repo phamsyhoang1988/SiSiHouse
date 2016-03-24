@@ -82,6 +82,22 @@ namespace SiSiHouse.Common
             }.AsReadOnly();
         }
 
+        public class CategoryType
+        {
+            public const int CLOTHES = 1;
+
+            public const int FOOTWEARS = 2;
+
+            public const int ACCESSORIES = 3;
+
+            public static readonly OrderedDictionary Items = new OrderedDictionary
+            {
+                { CLOTHES, "Quần áo" },
+                { FOOTWEARS, "Giày dép" },
+                { ACCESSORIES, "Phụ kiện" }
+            }.AsReadOnly();
+        }
+
         public class ExportRevenue
         {
             public const string TITLE = "Thống kê doanh thu chi tiết tháng {0} năm {1}";

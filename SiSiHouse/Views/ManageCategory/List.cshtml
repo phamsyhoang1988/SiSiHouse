@@ -21,6 +21,27 @@
                 @Html.TextBoxFor(m => m.Condition.CATEGORY_NAME, new { maxlength = 200, @placeholder = "Tên loại ..." })
             </div>
             <div class="col-lg-4">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    Nhóm hàng <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-menu row">
+                    <ul>
+                        @for (int i = 0; i < Constant.CategoryType.Items.Count; i++)
+                        {
+                            <li>
+                                <label class="control-label">
+                                    <input data-type="@(i + 1)" class="select-type" type="checkbox">
+                                    @Constant.CategoryType.Items[i]
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                    <div class="clear-condition">
+                        <i class="fa fa-refresh"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
                 @Html.CheckBoxFor(m => m.Condition.DELETE_FLAG)
                 @Html.LabelFor(m => m.Condition.DELETE_FLAG, new { @class = "" })
             </div>
@@ -48,6 +69,7 @@
                 <th>ID</th>
                 <th>STT</th>
                 <th>Phân loại</th>
+                <th>Nhóm hàng</th>
                 <th>Ngày cập nhật</th>
                 <th>Người cập nhật</th>
             </tr>
@@ -81,8 +103,9 @@
             { "sName": "MODIFIED_DATE", "bSortable": false, "bVisible": false, "aTargets": [0], "sWidth": "0%" },
             { "sName": "MODIFIED_DATE", "bSortable": false, "aTargets": [1], "sWidth": "5%", "sClass": "center" },
             { "sName": "CATEGORY_NAME", "aTargets": [2], "sWidth": "30%", "sClass": "left", "mRender": function (data, type, full) { return '<a class="action-edit ' + full[5] + '" aria-valuetext="' + full[0] + '">' + data + '</a>'; } },
-            { "sName": "MODIFIED_DATE", "aTargets": [3], "sWidth": "20%", "sClass": "center" },
-            { "sName": "MODIFIED_USER", "aTargets": [4], "sWidth": "15%", "sClass": "left" }
+            { "sName": "TYPE", "aTargets": [3], "sWidth": "20%", "sClass": "left" },
+            { "sName": "MODIFIED_DATE", "aTargets": [4], "sWidth": "20%", "sClass": "center" },
+            { "sName": "MODIFIED_USER", "aTargets": [5], "sWidth": "15%", "sClass": "left" }
         ];
 
         var dataTable = CreateDataTable('#InfoTable', oSorting, oPaginate, oServerSide, aoColumnDefs);
@@ -90,8 +113,21 @@
         function serverParams(aoData) {
             aoData.push(
                 { "name": "CATEGORY_NAME", "value": $("#Condition_CATEGORY_NAME").val() },
+                { "name": "TYPE", "value": getCheckedValue('.select-type') },
                 { "name": "DELETE_FLAG", "value": $("#Condition_DELETE_FLAG").prop('checked') }
             );
+        }
+
+        function getCheckedValue(element) {
+            var value = "";
+
+            $(element).each(function () {
+                if ($(this).prop('checked')) {
+                    value += (value.length > 0 ? ',' : '') + $(this).data('type');
+                }
+            });
+
+            return value;
         }
 
         function displayData(data) {
@@ -110,6 +146,15 @@
         function searchByCondition() {
             dataTable.fnPageChange("first");
         }
+
+        $(".dropdown-menu input:checkbox").change(function () {
+            searchByCondition();
+        });
+
+        $(".clear-condition i").click(function () {
+            $(this).parents('.dropdown-menu').find('input:checkbox').prop('checked', false);
+            searchByCondition();
+        });
 
         function submitEdit(id) {
             var $form = $(".frm-edit");
@@ -131,7 +176,7 @@
 
         $("#btnClear").click(function () {
             $("#Condition_CATEGORY_NAME").val("");
-            $("#Condition_DELETE_FLAG").prop('checked', false);
+            $(".select-type, #Condition_DELETE_FLAG").prop('checked', false);
 
             searchByCondition();
         });

@@ -31,6 +31,13 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label class="col-lg-2 control-label bold">Nhóm hàng</label>
+        <div class="col-lg-4">
+            @Html.DropDownListFor(m => m.CategoryInfo.TYPE, new SelectList(Constant.CategoryType.Items, "Key", "Value"), new { @class = "form-control" })
+        </div>
+    </div>
+
     <div class="form-group btn-group-edit">
         <div class="col-lg-4">
             @Html.HiddenFor(m => m.CategoryInfo.CATEGORY_ID)

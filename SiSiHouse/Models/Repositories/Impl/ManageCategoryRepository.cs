@@ -26,6 +26,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                 sqlContent.Append(@"
                     SELECT CATEGORY_ID
                         , CATEGORY_NAME
+                        , TYPE
                         , DELETE_FLAG
                         , MODIFIED_DATE
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = tbMain.MODIFIED_USER_ID) MODIFIED_USER
@@ -34,6 +35,9 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 if (!string.IsNullOrEmpty(condition.CATEGORY_NAME))
                     sqlContent.AppendFormat(" AND CATEGORY_NAME LIKE N'{0}' ESCAPE '\\' ", "%" + replaceWildcardCharacters(condition.CATEGORY_NAME) + "%");
+
+                if (!string.IsNullOrEmpty(condition.TYPE))
+                    sqlContent.AppendFormat(" AND TYPE IN ({0})", condition.TYPE);
 
                 if (!condition.DELETE_FLAG)
                     sqlContent.Append(" AND DELETE_FLAG = '0'");
@@ -70,6 +74,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                 sqlQuery.Append(@"
                     SELECT CATEGORY_ID
                         , CATEGORY_NAME
+                        , TYPE
                         , DELETE_FLAG
                         , CREATED_DATE
                         , (SELECT FULL_NAME FROM M_USER WHERE M_USER.USER_ID = M_CATEGORY.CREATED_USER_ID) CREATED_USER
@@ -109,19 +114,21 @@ namespace SiSiHouse.Models.Repositories.Impl
                     sqlQuery.Append(@"
                         INSERT INTO M_CATEGORY
                             (CATEGORY_NAME
+                            , TYPE
                             , DELETE_FLAG
                             , CREATED_DATE
                             , CREATED_USER_ID
                             , MODIFIED_DATE
                             , MODIFIED_USER_ID)
                         VALUES
-                            (@CATEGORY_NAME, @DELETE_FLAG, @CREATED_DATE, @CREATED_USER_ID, @MODIFIED_DATE, @MODIFIED_USER_ID)");
+                            (@CATEGORY_NAME, @TYPE, @DELETE_FLAG, @CREATED_DATE, @CREATED_USER_ID, @MODIFIED_DATE, @MODIFIED_USER_ID)");
                 }
                 else
                 {
                     sqlQuery.Append(@"
                         UPDATE M_CATEGORY
                             SET CATEGORY_NAME = @CATEGORY_NAME
+                            , TYPE = @TYPE
                             , DELETE_FLAG = @DELETE_FLAG
                             , MODIFIED_DATE = @MODIFIED_DATE
                             , MODIFIED_USER_ID = @MODIFIED_USER_ID
@@ -134,6 +141,7 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 result = sqlConnection.Execute(sqlQuery.ToString(), new {
                     CATEGORY_NAME = data.CATEGORY_NAME,
+                    TYPE = data.TYPE,
                     DELETE_FLAG = string.IsNullOrEmpty(data.DELETE_FLAG) ? Constant.DeleteFlag.NON_DELETE : data.DELETE_FLAG,
                     CREATED_DATE = data.MODIFIED_DATE,
                     CREATED_USER_ID = data.MODIFIED_USER_ID,

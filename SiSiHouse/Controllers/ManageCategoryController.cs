@@ -1,4 +1,5 @@
-﻿using SiSiHouse.Models.Conditions;
+﻿using SiSiHouse.Common;
+using SiSiHouse.Models.Conditions;
 using SiSiHouse.Models.Entities;
 using SiSiHouse.Resources;
 using SiSiHouse.ViewModels;
@@ -111,6 +112,7 @@ namespace SiSiHouse.Controllers
                         data.CATEGORY_ID
                         , rowIndex
                         , HttpUtility.HtmlEncode(data.CATEGORY_NAME)
+                        , Utility.GetCategoryTypeName(data.TYPE)
                         , data.MODIFIED_DATE.Value.ToString("yyyy/MM/dd HH:mm:ss")
                         , HttpUtility.HtmlEncode(data.MODIFIED_USER)
                         , data.DELETE_FLAG

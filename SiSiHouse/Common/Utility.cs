@@ -163,6 +163,28 @@
             return statusName;
         }
 
+        public static string GetCategoryTypeName(int type)
+        {
+            string typeName = "";
+
+            switch (type)
+            {
+                case Constant.CategoryType.CLOTHES:
+                    typeName = Constant.CategoryType.Items[0].ToString();
+                    break;
+                case Constant.CategoryType.FOOTWEARS:
+                    typeName = Constant.CategoryType.Items[1].ToString();
+                    break;
+                case Constant.CategoryType.ACCESSORIES:
+                    typeName = Constant.CategoryType.Items[2].ToString();
+                    break;
+                default:
+                    break;
+            }
+
+            return typeName;
+        }
+
         public static string GetPicturePath(long productID, string fileName)
         {
             string filePath = string.IsNullOrEmpty(fileName) ? "" : Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_PICTURE], productID.ToString(), fileName);

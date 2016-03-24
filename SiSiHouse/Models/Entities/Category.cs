@@ -16,6 +16,8 @@ namespace SiSiHouse.Models.Entities
         [StringLength(200, ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "E008")]
         public string CATEGORY_NAME { get; set; }
 
+        public int TYPE { get; set; }
+
         public string DELETE_FLAG { get; set; }
 
         [DisplayName("Ngày tạo")]
