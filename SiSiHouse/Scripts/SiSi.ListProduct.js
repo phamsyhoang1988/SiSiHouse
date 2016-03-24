@@ -100,7 +100,7 @@ $(function () {
     function BuildAction(productID, deleted, status, productName) {
         var html = '';
 
-        if (status === 1 || status === 2) {
+        if (Constant.STATUS.SELLING == status || Constant.STATUS.SALE_OFF == status) {
             html += '<div><a data-toggle="modal" data-target="#retailContent" data-whatever="' + productID + '"> <i class="fa fa-cart-plus"></i> Bán lẻ</a></div>'
         }
 

@@ -212,7 +212,7 @@ namespace SiSiHouse.Controllers
                 if (id > 0)
                 {
                     model.ProductInfo = this.mainService.GetProductInfo(id);
-                    model.ProductInfo.PICTURE = this.GetPicturePath(id, model.ProductInfo.PICTURE);
+                    model.ProductInfo.PICTURE = Utility.GetPicturePath(id, model.ProductInfo.PICTURE);
                     model.ColorSelectListByProduct = this.GetColorSelectListByProduct(id);
                 }
 
@@ -313,13 +313,13 @@ namespace SiSiHouse.Controllers
                     dataList.Add(new object[] {
                         data.PRODUCT_ID
                         , data.ROOT_LINK
-                        , this.GetPicturePath(data.PRODUCT_ID, data.PICTURE)
+                        , Utility.GetPicturePath(data.PRODUCT_ID, data.PICTURE)
                         , "<div>Mã: " + data.PRODUCT_CODE + "</div><div>Tên: " + HttpUtility.HtmlEncode(data.PRODUCT_NAME) + "</div>"
                         , "<div>Hãng: " + HttpUtility.HtmlEncode(data.BRAND_NAME) + "</div><div>Loại: " + HttpUtility.HtmlEncode(data.CATEGORY_NAME) + "</div>"
                         , this.BuildProductInStock(data.PRODUCT_ID)
-                        , this.GetStatusName(data.STATUS_ID.ToString())
-                        , this.BuildSalePrice(data.STATUS_ID.ToString(), data.SALE_PRICE, data.SALE_OFF_PRICE)
-                        , Utility.InitialDecimal(data.REAL_PRICE).ToString("#,##0")
+                        , Utility.GetStatusName(data.STATUS_ID)
+                        , this.BuildSalePrice(data.STATUS_ID, data.SALE_PRICE, data.SALE_OFF_PRICE)
+                        , data.REAL_PRICE.HasValue ? data.REAL_PRICE.Value.ToString("#,##0") : ""
                         , "<div>" + data.MODIFIED_DATE.Value.ToString("yyyy/MM/dd") + "</div><div>" + data.MODIFIED_DATE.Value.ToString("HH:mm:ss") + "</div>"
                         , data.DELETE_FLAG
                         , data.STATUS_ID
@@ -417,11 +417,11 @@ namespace SiSiHouse.Controllers
                 }).ToList();
         }
 
-        private string BuildSalePrice(string status, decimal? sale, decimal? saleOff)
+        private string BuildSalePrice(int? status, decimal? sale, decimal? saleOff)
         {
             string html = "";
 
-            if (Constant.Status.SALE_OFF == status)
+            if (Convert.ToInt16(Constant.Status.SALE_OFF) == status)
             {
                 html += "<div class='sale-off'>" + sale.Value.ToString("#,##0") + "</div>";
                 html += "<div class='red'>" + saleOff.Value.ToString("#,##0") + "</div>";
@@ -442,7 +442,7 @@ namespace SiSiHouse.Controllers
 
             foreach (var productDetail in productDetailList)
             {
-                totalQuantity += productDetail.QUANTITY;
+                totalQuantity += Utility.InitialInteger(productDetail.QUANTITY);
                 detail += "Màu " + productDetail.COLOR_NAME + " (" + productDetail.SIZE + "): " + productDetail.QUANTITY.ToString() + "\n";
             }
 

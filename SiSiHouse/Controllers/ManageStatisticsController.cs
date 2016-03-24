@@ -180,7 +180,7 @@ namespace SiSiHouse.Controllers
 
                     resultList.Add(new object[] {
                         data.PRODUCT_ID
-                        , this.GetPicturePath(data.PRODUCT_ID, data.PICTURE)
+                        , Utility.GetPicturePath(data.PRODUCT_ID, data.PICTURE)
                         , data.PRODUCT_CODE
                         , HttpUtility.HtmlEncode(data.PRODUCT_NAME)
                         , HttpUtility.HtmlEncode(data.BRAND_NAME)

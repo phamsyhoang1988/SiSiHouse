@@ -11,14 +11,14 @@ namespace SiSiHouse.Models.Entities
 
         public long PRODUCT_DETAIL_ID { get; set; }
 
-        public int COLOR_ID { get; set; }
+        public int? COLOR_ID { get; set; }
 
         [DisplayName("Size")]
         [StringLength(10, ErrorMessageResourceType = typeof(Messages), ErrorMessageResourceName = "E008")]
         public string SIZE { get; set; }
 
         [DisplayName("Số lượng")]
-        public int QUANTITY { get; set; }
+        public int? QUANTITY { get; set; }
 
         public bool? DELETED { get; set; }
 

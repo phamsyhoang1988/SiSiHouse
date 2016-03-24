@@ -24,7 +24,7 @@ function ValidFormData() {
 
     if (status.length === 0) {
         invalidData.push(Constant.MESSAGE.ERROR.REQUIRED_SELECT + 'trạng thái');
-    } else if (status !== '0') {
+    } else if (status !== Constant.STATUS.WAITING) {
         if ($('#ProductInfo_WEIGHT').val().length === 0) {
             invalidData.push(Constant.MESSAGE.ERROR.REQUIRED + 'trọng lượng sản phẩm');
         }
@@ -37,7 +37,7 @@ function ValidFormData() {
             invalidData.push(Constant.MESSAGE.ERROR.REQUIRED + 'giá bán sản phẩm');
         }
 
-        if (status == '2' && $('#ProductInfo_SALE_OFF_PRICE').val().length == 0) {
+        if (status == Constant.STATUS.SALE_OFF && $('#ProductInfo_SALE_OFF_PRICE').val().length == 0) {
             invalidData.push(Constant.MESSAGE.ERROR.REQUIRED + 'giá khuyến mãi');
         }
     }
@@ -107,15 +107,19 @@ function ValidFormData() {
 $('#btnSubmit').click(function (e) {
     SiSi.utility.removeValidationError();
 
-    var invalidData = ValidFormData();
+    //var invalidData = ValidFormData();
 
-    if (invalidData.length > 0) {
-        SiSi.utility.showClientError(invalidData);
-        return false;
-    }
+    //if (invalidData.length > 0) {
+    //    SiSi.utility.showClientError(invalidData);
+    //    return false;
+    //}
 
     SiSi.utility.ShowConfirmDialog(Constant.MESSAGE.CONFIRM, function (action) {
         if (action) {
+            if ($('.cbxMainPic:checked').length == 0) {
+                $('.cbxMainPic:first').prop('checked', true);
+            }
+
             SiSi.utility.replaceAllMoney();
             $('#frmUpdate').submit();
         }
@@ -498,6 +502,13 @@ $(document).on('click', '.btnDeletePicture', function () {
     }
 
     ResetPictureDetail();
+});
+
+$(document).off('.cbxMainPic');
+$(document).on('change', '.cbxMainPic', function () {
+    if (this.checked) {
+        $('.cbxMainPic').not(this).prop('checked', false);
+    }
 });
 
 // END - Module picture

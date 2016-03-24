@@ -526,7 +526,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                             }
                         );
                     }
-                    else if (data.PRODUCT_DETAIL_ID < 0)
+                    else if (data.PRODUCT_DETAIL_ID < 0 && data.COLOR_ID.HasValue)
                     {
                         var sqlInsert = new StringBuilder();
 
@@ -551,6 +551,10 @@ namespace SiSiHouse.Models.Repositories.Impl
                                 QUANTITY = data.QUANTITY
                             }
                         );
+                    }
+                    else
+                    {
+                        result++;
                     }
 
                     if (result == 0)

@@ -19,7 +19,9 @@ $(function () {
 
     $(document).off('.money');
     $(document).on('focusout', '.money', function () {
-        $(this).val(SiSi.utility.convertIntToMoney(this.value));
+        if (this.value.length > 0) {
+            $(this).val(SiSi.utility.convertIntToMoney(this.value));
+        }
     });
 
     $(document).off('.decimal');

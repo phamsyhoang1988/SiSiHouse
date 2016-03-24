@@ -307,32 +307,5 @@ namespace SiSiHouse.Controllers
 
             logger.Debug(sb.ToString());
         }
-
-        protected string GetPicturePath(long productID, string fileName)
-        {
-            string filePath = string.IsNullOrEmpty(fileName) ? "" : Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_PICTURE], productID.ToString(), fileName);
-
-            return filePath;
-        }
-
-        protected string GetStatusName(string statusID)
-        {
-            string statusName = Constant.Status.Items[3].ToString();
-
-            switch (statusID)
-            {
-                case Constant.Status.WAITING:
-                    statusName = Constant.Status.Items[0].ToString();
-                    break;
-                case Constant.Status.SELLING:
-                    statusName = Constant.Status.Items[1].ToString();
-                    break;
-                case Constant.Status.SALE_OFF:
-                    statusName = Constant.Status.Items[2].ToString();
-                    break;
-            }
-
-            return statusName;
-        }
     }
 }

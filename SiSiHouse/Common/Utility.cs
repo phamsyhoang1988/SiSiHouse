@@ -6,7 +6,9 @@
     using SiSiHouse.ViewModels;
     using System;
     using System.Collections.Generic;
+    using System.Configuration;
     using System.Data;
+    using System.IO;
     using System.Reflection;
     using System.Text;
     using System.Text.RegularExpressions;
@@ -131,6 +133,41 @@
         public static int InitialInteger(int? data)
         {
             return data.HasValue ? data.Value : 0;
+        }
+
+        public static string GetStatusName(int? statusID)
+        {
+            string statusName = "";
+
+            if (statusID.HasValue)
+            {
+                switch (statusID.Value.ToString())
+                {
+                    case Constant.Status.WAITING:
+                        statusName = Constant.Status.Items[0].ToString();
+                        break;
+                    case Constant.Status.SELLING:
+                        statusName = Constant.Status.Items[1].ToString();
+                        break;
+                    case Constant.Status.SALE_OFF:
+                        statusName = Constant.Status.Items[2].ToString();
+                        break;
+                    case Constant.Status.OUT_OF_STOCK:
+                        statusName = Constant.Status.Items[3].ToString();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return statusName;
+        }
+
+        public static string GetPicturePath(long productID, string fileName)
+        {
+            string filePath = string.IsNullOrEmpty(fileName) ? "" : Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.SAVE_PICTURE], productID.ToString(), fileName);
+
+            return filePath;
         }
     }
 }
