@@ -110,18 +110,21 @@ namespace SiSiHouse.Controllers
                         }
                     }
 
-                    // save file to destination folder
-                    foreach (var file in pictureFiles)
+                    if (pictureFiles != null)
                     {
-                        if (file != null)
+                        // save file to destination folder
+                        foreach (var file in pictureFiles)
                         {
-                            string newFile = UploadFile.SaveFile(file, srcPath);
+                            if (file != null)
+                            {
+                                string newFile = UploadFile.SaveFile(file, srcPath);
 
-                            model.PictureList[index].FILE_PATH = newFile;
-                            newFiles.Add(newFile);
+                                model.PictureList[index].FILE_PATH = newFile;
+                                newFiles.Add(newFile);
+                            }
+
+                            index++;
                         }
-
-                        index++;
                     }
 
                     long newProductID = 0;

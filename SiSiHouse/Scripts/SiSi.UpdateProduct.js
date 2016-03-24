@@ -125,6 +125,13 @@ $('#btnSubmit').click(function (e) {
 $("#frmUpdate").submit(function (e) {
     var formData = new FormData(this);
 
+    // append new file to upload
+    if (fileArr.length > 0) {
+        for (var i = 0; i < fileArr.length; i++) {
+            formData.append('pictureFiles', fileArr[i]);
+        }
+    }
+
     $.ajax({
         url: $(this).attr("action"),
         type: 'POST',
@@ -389,6 +396,8 @@ $(document).on('change', '.ddlSelectColor', function () {
 
 
 // START - Module picture
+var fileArr = [];
+
 function ResetPictureDetail() {
     $('.picture-detail').each(function (index, value) {
         var pictureID = 'PictureList[' + index + '].PICTURE_ID';
@@ -417,20 +426,6 @@ function SetPicture($imgElement, file) {
 
 $('.btnAddPicture').click(function (e) {
     $('#productPicture').click();
-});
-
-$(document).off('.btnDeletePicture');
-$(document).on('click', '.btnDeletePicture', function () {
-    var $targetContent = $(this).parents('.picture-detail');
-
-    if ($targetContent.hasClass('old-value')) {
-        $targetContent.hide();
-        $targetContent.find('.picture-deleted').val(true);
-    } else {
-        $targetContent.remove();
-    }
-
-    ResetPictureDetail();
 });
 
 $(document).off('#productPicture');
@@ -465,11 +460,44 @@ $(document).on('change', '#productPicture', function () {
 
             var $imgElement = $targetContent.find('.display-picture');
 
+            // declare index of new file
+            var newIndex = fileArr.length;
+
+            // set index of newfile to delete
+            $targetContent.find('.btnDeletePicture').attr('data-file-index', newIndex);
+
+            // push file to upload
+            fileArr.push(file);
+
+            // display new file to view
             SetPicture($imgElement, file);
         }
 
         ResetPictureDetail();
     }
+});
+
+$(document).off('.btnDeletePicture');
+$(document).on('click', '.btnDeletePicture', function () {
+    var $targetContent = $(this).parents('.picture-detail');
+
+    if ($targetContent.hasClass('old-value')) {
+
+        // hide old file
+        $targetContent.hide();
+        $targetContent.find('.picture-deleted').val(true);
+    } else {
+        // Get index in fileArr to delete
+        var indexFile = $targetContent.find('.btnDeletePicture').data('file-index');
+
+        // delete new file in fileArr
+        fileArr.splice(indexFile, 1);
+
+        // remove html new file
+        $targetContent.remove();
+    }
+
+    ResetPictureDetail();
 });
 
 // END - Module picture

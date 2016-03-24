@@ -23,7 +23,7 @@
     }
 </div>
 
-@using (Html.BeginForm("UpdateData", "ManageProduct", FormMethod.Post, new { @class = "form-horizontal product-regist", id = "frmUpdate" }))
+@using (Html.BeginForm("UpdateData", "ManageProduct", FormMethod.Post, new { @class = "form-horizontal product-regist", id = "frmUpdate", enctype = "multipart/form-data" }))
 {
     <div id="title"></div>
     @Html.ValidationSummary(false)
@@ -94,7 +94,7 @@
             <label class="col-lg-2 control-label">Thư viện</label>
             <div class="col-lg-10">
                 <button class="btn dark btnAddPicture" type="button"><i class="fa fa-picture-o"></i> Thêm ảnh</button>
-                <input id="productPicture" class="picture-file" name="pictureFiles" type="file" multiple />
+                <input id="productPicture" class="picture-file" type="file" multiple="multiple" />
             </div>
         </div>
 
@@ -106,6 +106,7 @@
                     <div class="form-group col-lg-3 picture-detail old-value">
                         @Html.HiddenFor(m => m.PictureList[i].PICTURE_ID, new { @class = "picture-id" })
                         @Html.HiddenFor(m => m.PictureList[i].DELETED, new { @class = "picture-deleted" })
+                        @Html.HiddenFor(m => m.PictureList[i].FILE_PATH)
 
                         <div class="col-lg-12 text-right">
                             <i class="fa fa-remove error btnDeletePicture"></i>
