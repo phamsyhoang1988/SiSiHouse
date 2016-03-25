@@ -56,7 +56,7 @@ body {
 .content-wrapper,
 .right-side,
 .main-footer {
-    margin-top: 40px;
+    margin-top: 120px;
   -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
   -moz-transition: -moz-transform 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
   -o-transition: -o-transform 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
@@ -105,7 +105,7 @@ body {
     bottom: 0;
     width: 100%;
   background: #241E20;
-  padding: 5px 10px;
+  padding: 2px 10px;
 }
 /* Fixed layout */
 .fixed .main-header,

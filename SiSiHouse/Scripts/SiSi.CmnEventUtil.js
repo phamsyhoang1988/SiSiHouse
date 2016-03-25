@@ -41,6 +41,27 @@ $(document).ready(function () {
     window.onload = function () {
         $('#onloadDiv').hide();
     }
+
+    $(window).scroll(function () {
+        // show hide header
+        if ($(this).scrollTop() > 75) {
+            $('.shop-header').addClass('unfolded-header');
+        } else {
+            $('.shop-header').removeClass('unfolded-header');
+        }
+
+        // show hide button scroll to top
+        if ($(this).scrollTop() > 100) {
+            $('#scrollTop').fadeIn();
+        } else {
+            $('#scrollTop').fadeOut();
+        }
+    });
+
+    $('#scrollTop').click(function () {
+        $("html, body").animate({ scrollTop: 0 }, 300);
+        return false;
+    });
 });
 
 // Set window name

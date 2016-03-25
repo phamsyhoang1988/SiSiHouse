@@ -4,7 +4,7 @@
     var currentUser = HttpContext.Current.Session[Constant.SESSION_LOGIN_USER] as LoginUser;
 }
 
-<div id="header-menu" class="navbar navbar-static-top" role="navigation">
+<div id="header-menu">
     <div id="search">
         <form id="searchForm">
             <i id="searchAll" class="fa fa-search"></i>
@@ -14,39 +14,51 @@
 
     <div id="general-menu">
         <ul>
-            @if (currentUser == null)
-            {
-            <li class="help">
-                <a href="@Url.Action("GetIn", "SiSi")" class="login-link" title="Đăng nhập">
-                    My Account
-                </a>
-            </li>
-            }
-            else
-            {
             <li>
-                <a href="@Url.Action("", "ManageProduct")" title="Quản trị">
-                    Manage
+                <a href="https://www.facebook.com/sisihouse.myeyes.yourstyle" target="_blank" title="Facebook">
+                    <i class="fa fa-facebook-official"></i>
                 </a>
             </li>
             <li class="separator">|</li>
             <li>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                    My Account
+                <a href="javascript:void(0);" target="_blank" title="Instagram">
+                    <i class="fa fa-instagram"></i>
                 </a>
-                <ul class="dropdown-menu login-user">
-                    <li>
-                        <a href="@Url.Action("Personal", "SiSi")" class="text-right">
-                            @currentUser.FULL_NAME
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("GetOut", "SiSi")" class="text-right">
-                            Logout
-                        </a>
-                    </li>
-                </ul>
             </li>
+            <li class="separator">|</li>
+            @if (currentUser == null)
+            {
+                <li>
+                    <a href="@Url.Action("GetIn", "SiSi")" title="Login">
+                        My Account
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@Url.Action("", "ManageProduct")" title="Manage">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                </li>
+                <li class="separator">|</li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false" title="My account">
+                        <i class="fa fa-star"></i>
+                    </a>
+                    <ul class="dropdown-menu login-user">
+                        <li>
+                            <a href="@Url.Action("Personal", "SiSi")" class="text-right" title="Setting account">
+                                @currentUser.FULL_NAME
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("GetOut", "SiSi")" class="text-right">
+                                Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             }
         </ul>
     </div>
@@ -59,125 +71,121 @@
     <div id="main-menu">
         <ul>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200" aria-expanded="false" data-sub-menu-id="1">
                     MAN
                 </a>
-                <div class="dropdown-menu row">
-                    <div class="sub-menu-content">
-                        <ul class="sub-menu">
-                            <li>
-                                <a>COATS</a>
-                            </li>
-                            <li>
-                                <a>JACKETS</a>
-                            </li>
-                            <li>
-                                <a>BLAZERS</a>
-                            </li>
-                        </ul>
-                        <ul class="sub-menu">
-                            <li>
-                                <a>SWEATSHIRTS</a>
-                            </li>
-                            <li>
-                                <a>SWEATERS</a>
-                            </li>
-                        </ul>
-                        <ul class="sub-menu">
-                            <li>
-                                <a>SHIRTS</a>
-                            </li>
-                            <li>
-                                <a>T-SHIRTS</a>
-                            </li>
-                            <li>
-                                <a>POLOS</a>
-                            </li>
-                        </ul>
-                        <ul class="sub-menu">
-                            <li>
-                                <a>JEANS</a>
-                            </li>
-                            <li>
-                                <a>TROUSERS</a>
-                            </li>
-                            <li>
-                                <a>SHORTS</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200" aria-expanded="false" data-sub-menu-id="2">
                     FOOTWEAR
                 </a>
-                <div class="dropdown-menu row">
-                    <div class="sub-menu-content">
-                        <ul class="sub-menu">
-                            <li>
-                                <a>SHOES</a>
-                            </li>
-                            <li>
-                                <a>MOCCASINS</a>
-                            </li>
-                        </ul>
-                        <ul class="sub-menu">
-                            <li>
-                                <a>SNEAKERS</a>
-                            </li>
-                            <li>
-                                <a>BOOTS</a>
-                            </li>
-                        </ul>
-                        <ul class="sub-menu">
-                            <li>
-                                <a>OTHERS SHOES</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200" aria-expanded="false" data-sub-menu-id="3">
                     ACCESSORIES
                 </a>
-                <div class="dropdown-menu row">
-                    <div class="sub-menu-content">
-                        <ul class="sub-menu">
-                            <li>
-                                <a>BAGS</a>
-                            </li>
-                            <li>
-                                <a>BELTS</a>
-                            </li>
-                        </ul>
-                        <ul class="sub-menu">
-                            <li>
-                                <a>GLASSES</a>
-                            </li>
-                            <li>
-                                <a>HATS</a>
-                            </li>
-                        </ul>
-                        <ul class="sub-menu">
-                            <li>
-                                <a>OTHERS ACCESSORIES</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200" aria-expanded="false">
                     SPECIAL PRICES
                 </a>
             </li>
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="200" aria-expanded="false">
                     COLLECTION
                 </a>
             </li>
         </ul>
+    </div>
+    <div id="sub-menu">
+        <div class="sub-menu-content 1">
+            <ul class="sub-menu">
+                <li>
+                    <a>COATS</a>
+                </li>
+                <li>
+                    <a>JACKETS</a>
+                </li>
+                <li>
+                    <a>BLAZERS</a>
+                </li>
+            </ul>
+            <ul class="sub-menu">
+                <li>
+                    <a>SWEATSHIRTS</a>
+                </li>
+                <li>
+                    <a>SWEATERS</a>
+                </li>
+            </ul>
+            <ul class="sub-menu">
+                <li>
+                    <a>SHIRTS</a>
+                </li>
+                <li>
+                    <a>T-SHIRTS</a>
+                </li>
+                <li>
+                    <a>POLOS</a>
+                </li>
+            </ul>
+            <ul class="sub-menu">
+                <li>
+                    <a>JEANS</a>
+                </li>
+                <li>
+                    <a>TROUSERS</a>
+                </li>
+                <li>
+                    <a>SHORTS</a>
+                </li>
+            </ul>
+        </div>
+        <div class="sub-menu-content 2">
+            <ul class="sub-menu">
+                <li>
+                    <a>SHOES</a>
+                </li>
+                <li>
+                    <a>MOCCASINS</a>
+                </li>
+            </ul>
+            <ul class="sub-menu">
+                <li>
+                    <a>SNEAKERS</a>
+                </li>
+                <li>
+                    <a>BOOTS</a>
+                </li>
+            </ul>
+            <ul class="sub-menu">
+                <li>
+                    <a>OTHERS SHOES</a>
+                </li>
+            </ul>
+        </div>
+        <div class="sub-menu-content 3">
+            <ul class="sub-menu">
+                <li>
+                    <a>BAGS</a>
+                </li>
+                <li>
+                    <a>BELTS</a>
+                </li>
+            </ul>
+            <ul class="sub-menu">
+                <li>
+                    <a>GLASSES</a>
+                </li>
+                <li>
+                    <a>HATS</a>
+                </li>
+            </ul>
+            <ul class="sub-menu">
+                <li>
+                    <a>OTHERS ACCESSORIES</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>

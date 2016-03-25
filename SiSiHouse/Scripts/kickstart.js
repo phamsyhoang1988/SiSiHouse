@@ -147,18 +147,22 @@ for(var b=b||i(a),c=b.frag.cloneNode(),d=0,e=m(),h=e.length;d<h;d++)c.createElem
         $allDropdowns = $allDropdowns.add(this.parent());
 
         return this.each(function () {
-            var $this = $(this),
-                $parent = $this.parent(),
-                defaults = {
-                    delay: 500,
-                    hoverDelay: 0,
-                    instantlyCloseOthers: true
+            var defaults = {
+                delay: 500,
+                hoverDelay: 0,
+                instantlyCloseOthers: true
                 },
                 data = {
                     delay: $(this).data('delay'),
                     hoverDelay: $(this).data('hover-delay'),
-                    instantlyCloseOthers: $(this).data('close-others')
+                    instantlyCloseOthers: $(this).data('close-others'),
+                    subMenuID: $(this).data('sub-menu-id')
                 },
+                $this = $(this),
+                $parent = $this.parent(),
+                $parentNav = $parent.parents('nav'),
+                $subMenuList = $parentNav.find('.sub-menu-content'),
+                $subMenu = typeof (data.subMenuID) == 'undefined' ? $this.siblings('.dropdown-menu') : $parentNav.find('.sub-menu-content.' + data.subMenuID),
                 showEvent = 'show.bs.dropdown',
                 hideEvent = 'hide.bs.dropdown',
                 // shownEvent  = 'shown.bs.dropdown',
@@ -175,12 +179,15 @@ for(var b=b||i(a),c=b.frag.cloneNode(),d=0,e=m(),h=e.length;d<h;d++)c.createElem
                 //}
                 openDropdown(event);
             }, function () {
+
                 // clear timer for hover event
-                window.clearTimeout(timeoutHover)
+                window.clearTimeout(timeoutHover);
                 timeout = window.setTimeout(function () {
-                    $this.attr('aria-expanded', 'false');
-                    $parent.removeClass('open');
-                    $this.trigger(hideEvent);
+                    $subMenu.fadeOut(100, function () {
+                        $this.attr('aria-expanded', 'false');
+                        $parent.removeClass('open');
+                        $this.trigger(hideEvent);
+                    });
                 }, settings.delay);
             });
 
@@ -195,6 +202,29 @@ for(var b=b||i(a),c=b.frag.cloneNode(),d=0,e=m(),h=e.length;d<h;d++)c.createElem
                 }
 
                 openDropdown(event);
+            });
+
+            $subMenu.hover(function (event) {
+                // this helps prevent a double event from firing.
+                // see https://github.com/CWSpear/bootstrap-hover-dropdown/issues/55
+                if (!$parent.hasClass('open') && !$parent.is(event.target)) {
+                    // stop this event, stop executing any code
+                    // in this callback but continue to propagate
+                    return true;
+                }
+
+                openDropdown(event);
+            }, function () {
+
+                // clear timer for hover event
+                window.clearTimeout(timeoutHover);
+                timeout = window.setTimeout(function () {
+                    $subMenu.fadeOut(200, function () {
+                        $this.attr('aria-expanded', 'false');
+                        $parent.removeClass('open');
+                        $this.trigger(hideEvent);
+                    });
+                }, settings.delay);
             });
 
             $this.click(function (event) {
@@ -241,6 +271,8 @@ for(var b=b||i(a),c=b.frag.cloneNode(),d=0,e=m(),h=e.length;d<h;d++)c.createElem
 
                     // clear timer for hover event
                     window.clearTimeout(timeoutHover);
+                    $subMenuList.removeClass('open');
+                    $subMenu.removeAttr('style').addClass('open');
                     $this.attr('aria-expanded', 'true');
                     $parent.addClass('open');
                     $this.trigger(showEvent);
