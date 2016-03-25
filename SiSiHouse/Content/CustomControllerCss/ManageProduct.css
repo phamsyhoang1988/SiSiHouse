@@ -47,6 +47,7 @@
 }
 
 .product-regist .picture-detail {
+    width: 165px;
     margin-right: 49px;
     padding: 0 5px;
     border: 1px solid #d2d6de;

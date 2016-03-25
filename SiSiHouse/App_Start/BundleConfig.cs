@@ -49,6 +49,8 @@ namespace SiSiHouse
 
             bundles.Add(new ScriptBundle("~/bundles/SalesStatisticsDetail").Include("~/Scripts/SiSi.SalesStatisticsDetail.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/ShowCollection").Include("~/Scripts/SiSi.ShowCollection.js"));
+
 
             /* --- CSS --- */
             bundles.Add(new StyleBundle("~/Content/bootstrap/css/bootstrap").Include("~/Content/bootstrap/css/bootstrap.css"));

@@ -5569,7 +5569,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
         color: #444;
     }
 
-.breadcrumb {
+/*.breadcrumb {
     padding: 8px 15px;
     margin-bottom: 20px;
     list-style: none;
@@ -5589,7 +5589,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 
     .breadcrumb > .active {
         color: #777;
-    }
+    }*/
 
 .pagination {
     display: inline-block;

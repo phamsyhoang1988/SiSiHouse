@@ -228,6 +228,7 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ShowController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IRestoreStateController.cs" />
     <Compile Include="Controllers\ManageStatisticsController.cs" />
@@ -349,6 +350,7 @@
     <Content Include="Content\fontawesome\css\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\img\32px.png" />
     <Content Include="Content\img\40px.png" />
+    <Content Include="Content\img\back_to_top.png" />
     <Content Include="Content\img\breadcrumbs-bg.gif" />
     <Content Include="Content\img\bx_loader.gif" />
     <Content Include="Content\img\controls.png" />
@@ -427,7 +429,7 @@
     <Content Include="Content\fontawesome\css\fonts\FontAwesome.otf" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\loadingAnimation.gif" />
-    <Content Include="Images\logo.jpg" />
+    <Content Include="Content\img\logo.jpg" />
     <Content Include="Images\no_image.png" />
     <Content Include="Images\sort_asc.png" />
     <Content Include="Images\sort_asc_disabled.png" />
@@ -448,6 +450,7 @@
     <Content Include="Scripts\plugins\bootstrap-datepicker.js" />
     <Content Include="Scripts\plugins\drag-on.js" />
     <Content Include="Scripts\plugins\pace.js" />
+    <Content Include="Scripts\SiSi.ShowCollection.js" />
     <Content Include="Scripts\SiSi.SalesStatisticsDetail.js" />
     <Content Include="Scripts\SiSi.SalesStatistics.js" />
     <Content Include="Scripts\SiSi.UpdateOrders.js" />
@@ -544,6 +547,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\SiSi\Personal.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Show\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Show\Collection.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\ProductList.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

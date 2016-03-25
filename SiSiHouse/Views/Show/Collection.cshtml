@@ -1,0 +1,27 @@
+﻿@{
+}
+
+<div id="iPageContent">
+    <div id="sub-nav">
+        <div class="breadcrumb">
+            <i class="fa fa-caret-right"></i>
+            <span>@ViewBag.Title</span>
+        </div>
+        <ul class="pull-right">
+            <li class="views">
+                <ul>
+                    <li>
+                        <i class="fa fa-th-large view-type selected" data-columns="2"></i>
+                    </li>
+                    <li>
+                        <i class="fa fa-th view-type" data-columns="4"></i>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div id="products">
+        @Html.Partial("~/Views/Shared/ProductList.cshtml")
+    </div>
+</div>

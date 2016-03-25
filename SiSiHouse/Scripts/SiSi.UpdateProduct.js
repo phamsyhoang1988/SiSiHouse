@@ -117,7 +117,7 @@ $('#btnSubmit').click(function (e) {
     SiSi.utility.ShowConfirmDialog(Constant.MESSAGE.CONFIRM, function (action) {
         if (action) {
             if ($('.cbxMainPic:checked').length == 0) {
-                $('.cbxMainPic:first').prop('checked', true);
+                $('.cbxMainPic:lt(2)').prop('checked', true);
             }
 
             SiSi.utility.replaceAllMoney();
@@ -450,31 +450,34 @@ $(document).on('change', '#productPicture', function () {
         + ' </div>';
 
         for (var i = 0; i < fileList.length; i++) {
-            if ($('.picture-detail').length > 0)
-                $('.picture-detail:last').after(html);
-            else
-                $('.picture-list').append(html);
-
             var file = fileList[i];
-            var $targetContent = $('.picture-detail:last');
-            var pictureID = $targetContent.index() * -1;
 
-            $targetContent.find('.picture-id').val(pictureID);
-            $targetContent.find('.picture-name').text(file.name);
+            if (file.type.indexOf('image') != -1) {
+                if ($('.picture-detail').length > 0)
+                    $('.picture-detail:last').after(html);
+                else
+                    $('.picture-list').append(html);
 
-            var $imgElement = $targetContent.find('.display-picture');
+                var $targetContent = $('.picture-detail:last');
+                var pictureID = $targetContent.index() * -1;
 
-            // declare index of new file
-            var newIndex = fileArr.length;
+                $targetContent.find('.picture-id').val(pictureID);
+                $targetContent.find('.picture-name').text(file.name);
 
-            // set index of newfile to delete
-            $targetContent.find('.btnDeletePicture').attr('data-file-index', newIndex);
+                var $imgElement = $targetContent.find('.display-picture');
 
-            // push file to upload
-            fileArr.push(file);
+                // declare index of new file
+                var newIndex = fileArr.length;
 
-            // display new file to view
-            SetPicture($imgElement, file);
+                // set index of newfile to delete
+                $targetContent.find('.btnDeletePicture').attr('data-file-index', newIndex);
+
+                // push file to upload
+                fileArr.push(file);
+
+                // display new file to view
+                SetPicture($imgElement, file);
+            }
         }
 
         ResetPictureDetail();
@@ -506,8 +509,8 @@ $(document).on('click', '.btnDeletePicture', function () {
 
 $(document).off('.cbxMainPic');
 $(document).on('change', '.cbxMainPic', function () {
-    if (this.checked) {
-        $('.cbxMainPic').not(this).prop('checked', false);
+    if (this.checked && $('.cbxMainPic:checked').length > 2) {
+        $('.cbxMainPic:checked').not(this).first().prop('checked', false);
     }
 });
 

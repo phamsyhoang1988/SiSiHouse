@@ -6,23 +6,23 @@ using System.Web.Mvc;
 
 namespace SiSiHouse.Controllers
 {
-    public class HomeController : Controller
+    public class ShowController : Controller
     {
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("", "Home");
         }
 
         [AllowAnonymous]
-        public ActionResult About()
+        public ActionResult Collection(string id)
         {
-            return View();
-        }
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("", "Home");
+            }
 
-        [AllowAnonymous]
-        public ActionResult Contact()
-        {
+            ViewBag.Title = id;
             return View();
         }
     }
