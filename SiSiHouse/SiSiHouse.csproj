@@ -358,6 +358,7 @@
     <Content Include="Content\img\icon-arrow-right.png" />
     <Content Include="Content\img\input_image.jpg" />
     <Content Include="Content\img\loginImage.png" />
+    <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\no_image.jpg" />
     <Content Include="Content\img\throbber.gif" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />

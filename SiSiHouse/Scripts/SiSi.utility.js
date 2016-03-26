@@ -199,26 +199,20 @@ SiSi.utility = (function () {
     }
 
     // get data from server by Ajax GET. Return result
-    function getDataByAjax(url, param) {
-        var result;
-
+    function getDataByAjax(url, param, callback) {
         $.ajax({
             type: 'GET',
             url: url,
             data: param,
             dataType: 'json',
-            async: false,
             cache: false,
             success: function (data) {
-                result = data;
+                callback(data);
             },
             error: function (err) {
-                if (err.status == 419) //419: Authentication Timeout
-                    showInformationDialog(Constant.DIALOG.WARNING, Constant.ERR_CONNECT_TIMEOUT, Constant.URL_REDIRECT_TIMEOUT);
-                return;
+                callback(false);
             }
         });
-        return result;
     }
 
     // get data from server by Ajax GET with param is serialize to check valid data. Return result

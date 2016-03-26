@@ -29,16 +29,14 @@
     <div id="onloadDiv">
     </div>
 
-    <div class="wrapper">
-        <header id="header" class="main-header shop-header">
-            @RenderPage("~/Views/Shared/_Header.cshtml")
-        </header>
-        <div class="content-wrapper">
-            @RenderBody()
-        </div>
-        @RenderPage("~/Views/Shared/_Footer.cshtml")
+    <header id="header" class="main-header shop-header">
+        @RenderPage("~/Views/Shared/_Header.cshtml")
+    </header>
+    <div class="">
+        @RenderBody()
     </div>
+    @RenderPage("~/Views/Shared/_Footer.cshtml")
 
-    <a id="scrollTop" href="javascript:void(0);" title="Back to Top">Back to top</a>
+    <a id="scrollTop" href="javascript:void(0);" title="Back to Top"></a>
 </body>
 </html>

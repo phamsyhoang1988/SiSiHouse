@@ -25,5 +25,23 @@ namespace SiSiHouse.Controllers
             ViewBag.Title = id;
             return View();
         }
+
+        [AllowAnonymous]
+        public ActionResult List(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return new EmptyResult();
+            }
+
+            var result = Json(
+                     new
+                     {
+                         data = "co data"
+                     },
+                     JsonRequestBehavior.AllowGet);
+
+            return result;
+        }
     }
 }

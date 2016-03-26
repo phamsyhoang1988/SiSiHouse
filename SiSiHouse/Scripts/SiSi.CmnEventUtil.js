@@ -44,7 +44,7 @@ $(document).ready(function () {
 
     $(window).scroll(function (e) {
         // show hide header
-        if ($(this).scrollTop() > 75) {
+        if ($(this).scrollTop() > 155) {
             $('.shop-header').addClass('unfolded-header');
         } else {
             $('.shop-header').removeClass('unfolded-header');

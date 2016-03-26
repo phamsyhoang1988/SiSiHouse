@@ -1,12 +1,12 @@
 ﻿
+[class^="fa-"], [class*=" fa-"] {
+    padding-right: 3px;
+}
+
 /*
  * Component: Layout frame
  * -------------------------
  */
-
-[class^="fa-"], [class*=" fa-"] {
-    padding-right: 3px;
-}
 
 .main-header {
     top: 0;
@@ -21,15 +21,11 @@
 }
 
 .main-header #header-menu {
-    height: 40px;
+    height: 30px;
     background: #241E20;
 }
 
 .main-header #search {
-    left: 10px;
-    padding-left: 13px;
-    background-repeat: no-repeat;
-    background-position: left center;
     cursor: pointer;
     display: inline-block;
     margin: 0 10px;
@@ -37,7 +33,13 @@
 }
 .main-header #searchAll
 {
-    color: #8BA9A9;
+    color: #CCC;
+    opacity: 0.7;
+}
+
+.main-header #searchAll:hover
+{
+    opacity: 1;
 }
 
 .main-header #search input {
@@ -73,13 +75,22 @@
     color: #8BA9A9;
 }
 
+.main-header #header-menu #general-menu li a {
+    color: #CCC;
+    opacity: 0.7;
+}
+
+.main-header #header-menu #general-menu li a:hover {
+    opacity: 1;
+}
+
 .main-header #header-menu #general-menu ul {
     margin: 0;
 }
 
 .main-header nav #logo {
-    width: 30px;
-    height: 30px;
+    width: 140px;
+    height: 120px;
     position: inherit;
     top: 0;
     text-indent: initial;
@@ -89,8 +100,8 @@
 .main-header nav #logo a {
     width: 100%;
     height: 100%;
-    background: url('img/logo.jpg') no-repeat 0 0;
-    background-size: 30px;
+    background: url('img/logo.png') no-repeat 0 0;
+    background-size: 140px;
     display: block;
     margin: 0;
 }
@@ -101,6 +112,7 @@
 }
 
 .main-header #main-menu {
+    margin-bottom: 10px;
     text-align: center;
 }
 
@@ -108,9 +120,12 @@
     text-transform: uppercase;
     display: inline-block;
     padding: 0px 20px;
-    letter-spacing: 0.01em;
     margin-top: 10px;
     padding-bottom: 5px;
+    font-family: 'Lato';
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
 }
 
 .main-header .navbar-custom-menu {
@@ -184,12 +199,14 @@
 
 .main-header .sub-menu li {
     display: list-item !important;
+    margin-bottom: 17px;
     padding: 0 15%;
+    text-align: inherit;
     font-family: 'Lato';
     font-weight: 400;
+    letter-spacing: 0.1em;
     text-transform: capitalize;
-    text-align: inherit;
-    margin-bottom: 17px;
+    
 }
 
 .main-header .sub-menu li a {
@@ -207,6 +224,12 @@
 
 .main-footer a {
     font-size: 12px;
+    color: #ccc;
+    opacity: 0.7;
+}
+
+.main-footer a:hover {
+    opacity: 1;
 }
 
 .main-footer .navbar-custom-menu {
@@ -360,13 +383,11 @@ header nav #sub-menu {
     bottom: 55px;
     right: 1%;
     display: none;
-    font-size: 10px;
-    color: #4d4d4f;
     text-align: center;
     background: url(img/back_to_top.png) no-repeat 0 0;
-    width: 52px;
-    height: 39px;
-    text-indent: -9999px;
+    background-size: 50px;
+    width: 50px;
+    height: 37px;
     outline: none;
     z-index: 1000;
 }
