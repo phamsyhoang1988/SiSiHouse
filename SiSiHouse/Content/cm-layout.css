@@ -8,6 +8,10 @@
  * -------------------------
  */
 
+body.shop {
+    padding-top: 180px;
+}
+
 .main-header {
     top: 0;
     left: 0;
@@ -108,7 +112,13 @@
 
 .management .main-header nav #logo {
     float: left;
-    margin: 5px;
+    margin: 5px 15px;
+    height: 40px;
+    width: 50px;
+}
+
+.management .main-header nav #logo a {
+    background-size: 50px;
 }
 
 .main-header #main-menu {
@@ -162,7 +172,7 @@
 }
 
 .management .navbar-custom-menu {
-    padding: 10px;
+    padding: 15px 10px 10px;
 }
 
 .management .main-header .navbar-custom-menu ul.dropdown-menu {
@@ -478,6 +488,12 @@ header nav #sub-menu {
     width: 100%;
     height: auto;
     margin-bottom: 50px;
+}
+
+/* Manage */
+
+.manage-menu ul {
+    margin-top: 15px;
 }
 
 

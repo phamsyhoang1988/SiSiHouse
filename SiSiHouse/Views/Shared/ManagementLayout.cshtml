@@ -25,17 +25,15 @@
     @Scripts.Render("~/bundles/jquery/plugins")
     @Scripts.Render("~/bundles/input")
 </head>
-<body>
+<body class="management">
     <div id="onloadDiv">
     </div>
 
-    <div class="wrapper management">
-        <header id="header" class="main-header">
-            @RenderPage("~/Views/Shared/ManagementHeader.cshtml")
-        </header>
-        <div class="content-wrapper">
-            @RenderBody()
-        </div>
+    <header id="header" class="main-header">
+        @RenderPage("~/Views/Shared/ManagementHeader.cshtml")
+    </header>
+    <div class="content-wrapper">
+        @RenderBody()
     </div>
 
     <a id="scrollTop" href="javascript:void(0);" title="Back to Top">Back to top</a>
