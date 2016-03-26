@@ -96,6 +96,10 @@ namespace SiSiHouse.Models.Entities
 
         public string PICTURE { get; set; }
 
+        public string PICTURE_1 { get; set; }
+
+        public string PICTURE_2 { get; set; }
+
         public string COLOR_NAME { get; set; }
 
         public string SIZE { get; set; }

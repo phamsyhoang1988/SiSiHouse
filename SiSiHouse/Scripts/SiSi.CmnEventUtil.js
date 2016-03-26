@@ -56,10 +56,6 @@ $(document).ready(function () {
         } else {
             $('#scrollTop').fadeOut();
         }
-
-        if ($('#products-content').length > 0 && ($(this).innerHeight() + $(this).scrollTop()) >= $('body').height()) {
-            console.log("End of scroll");
-        }
     });
 
     $('#scrollTop').click(function () {

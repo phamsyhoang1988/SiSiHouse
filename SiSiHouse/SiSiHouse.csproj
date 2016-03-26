@@ -248,6 +248,7 @@
     <Compile Include="Helpers\TextBoxExtensions.cs" />
     <Compile Include="Models\Conditions\ColorCondition.cs" />
     <Compile Include="Models\Conditions\OrdersCondition.cs" />
+    <Compile Include="Models\Conditions\CollectionCondition.cs" />
     <Compile Include="Models\Conditions\StatisticsCondition.cs" />
     <Compile Include="Models\Conditions\ProductCondition.cs" />
     <Compile Include="Models\Conditions\MoneyCondition.cs" />
@@ -431,6 +432,7 @@
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\loadingAnimation.gif" />
     <Content Include="Content\img\logo.jpg" />
+    <Content Include="Images\logo.jpg" />
     <Content Include="Images\no_image.png" />
     <Content Include="Images\sort_asc.png" />
     <Content Include="Images\sort_asc_disabled.png" />

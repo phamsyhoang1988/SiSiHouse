@@ -737,5 +737,103 @@ namespace SiSiHouse.Models.Repositories.Impl
                 return (result > 0);
             }
         }
+
+        private StringBuilder BuildSqlGetCollection(CollectionCondition condition)
+        {
+            var sql = new StringBuilder();
+
+            sql.Append(@"
+                    SELECT PRODUCT.PRODUCT_ID
+                        , IMPORT_DATE
+                        , (SELECT TOP 1 FILE_PATH FROM PICTURE WHERE PICTURE.PRODUCT_ID = PRODUCT.PRODUCT_ID AND PICTURE.DISPLAY_FLAG = @DISPLAY_FLAG ORDER BY PICTURE_ID) AS PICTURE_1
+						, (SELECT TOP 1 FILE_PATH FROM PICTURE WHERE PICTURE.PRODUCT_ID = PRODUCT.PRODUCT_ID AND PICTURE.DISPLAY_FLAG = @DISPLAY_FLAG ORDER BY PICTURE_ID DESC) AS PICTURE_2
+                        --, PRODUCT_CODE
+                        --, PRODUCT_NAME
+                        --, (SELECT BRAND_NAME FROM M_BRAND WHERE M_BRAND.BRAND_ID = PRODUCT.BRAND_ID) BRAND_NAME
+                        --, (SELECT CATEGORY_NAME FROM M_CATEGORY WHERE M_CATEGORY.CATEGORY_ID = PRODUCT.CATEGORY_ID) CATEGORY_NAME
+                        --, STATUS_ID
+                        --, SALE_PRICE
+                        --, SALE_OFF_PRICE
+                        --, CLIP_PATH
+                    FROM PRODUCT
+                        LEFT JOIN M_CATEGORY
+                        ON M_CATEGORY.CATEGORY_ID = PRODUCT.CATEGORY_ID
+                    WHERE PRODUCT.DELETE_FLAG = @DELETE_FLAG");
+
+            if (condition.CATEGORY_TYPE.HasValue)
+            {
+                sql.Append(" AND M_CATEGORY.TYPE = @CATEGORY_TYPE ");
+            }
+
+            if (!string.IsNullOrEmpty(condition.CATEGORY_NAME))
+            {
+                sql.Append(" AND M_CATEGORY.CATEGORY_NAME = @CATEGORY_NAME ");
+            }
+
+            //if (!string.IsNullOrEmpty(condition.STATUS_ID))
+            //{
+            //    sqlContent.AppendFormat(" AND STATUS_ID IN ({0})", condition.STATUS_ID);
+            //}
+
+            return sql;
+        }
+
+        public int CountProduct(CollectionCondition condition)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                var sql = new StringBuilder();
+
+                sql.Append("SELECT COUNT(PRODUCT_ID) FROM ( ");
+                sql.Append(this.BuildSqlGetCollection(condition));
+                sql.Append(" ) tbData");
+
+                sqlConnection.Open();
+
+                int count = sqlConnection.Query<int>(
+                    sql.ToString(),
+                    new
+                    {
+                        DELETE_FLAG = Constant.DeleteFlag.NON_DELETE,
+                        DISPLAY_FLAG = Constant.DisplayPicture.MAIN,
+                        CATEGORY_TYPE = condition.CATEGORY_TYPE,
+                        CATEGORY_NAME = condition.CATEGORY_NAME
+                    }
+                ).FirstOrDefault();
+
+                sqlConnection.Dispose();
+                sqlConnection.Close();
+
+                return count;
+            }
+        }
+
+        public IList<Product> GetCollection(CollectionCondition condition, DataTablesModel table)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                var sqlContent = this.BuildSqlGetCollection(condition);
+                var sqlQuery = this.BuildSQLPaging(sqlContent, table);
+                IList<Product> productList = new List<Product>();
+
+                sqlConnection.Open();
+
+                productList = sqlConnection.Query<Product>(
+                    sqlQuery.ToString(),
+                    new
+                    {
+                        DELETE_FLAG = Constant.DeleteFlag.NON_DELETE,
+                        DISPLAY_FLAG = Constant.DisplayPicture.MAIN,
+                        CATEGORY_TYPE = condition.CATEGORY_TYPE,
+                        CATEGORY_NAME = condition.CATEGORY_NAME
+                    }
+                ).ToList();
+
+                sqlConnection.Dispose();
+                sqlConnection.Close();
+
+                return productList;
+            }
+        }
     }
 }

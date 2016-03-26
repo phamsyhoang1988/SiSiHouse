@@ -37,6 +37,8 @@ namespace SiSiHouse.Common
 
         public static string[] AdminManage = new string[] { "ManageStatistics", "ManageBrand", "ManageCategory", "ManageMoney", "ManageColor" };
 
+        public const int DISPLAY_ITEM_PER_PAGE = 20;
+
         public class Role
         {
             public const int USER = 0;
@@ -96,6 +98,17 @@ namespace SiSiHouse.Common
                 { FOOTWEARS, "Giày dép" },
                 { ACCESSORIES, "Phụ kiện" }
             }.AsReadOnly();
+        }
+
+        public class CategoryName
+        {
+            public const string CLOTHES = "clothes";
+            public const string FOOTWEARS = "footwears";
+            public const string ACCESSORIES = "accessories";
+            public const string COATS = "coats";
+            public const string JACKETS = "jackets";
+            public const string SNEAKERS = "sneakers";
+
         }
 
         public class ExportRevenue

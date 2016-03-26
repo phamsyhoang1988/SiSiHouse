@@ -90,5 +90,16 @@ namespace SiSiHouse.WorkerServices.Impl
 
             return res;
         }
+
+        public int CountProduct(CollectionCondition condition)
+        {
+            return _repository.CountProduct(condition);
+
+        }
+
+        public IList<Product> GetCollection(CollectionCondition condition, DataTablesModel table)
+        {
+            return _repository.GetCollection(condition, table);
+        }
     }
 }

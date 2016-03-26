@@ -21,5 +21,9 @@ namespace SiSiHouse.WorkerServices
         bool UpdateRetail(Product product, IList<Retail> retailList, bool isEdit);
 
         bool DeleteProduct(long productID, long userID);
+
+        int CountProduct(CollectionCondition condition);
+
+        IList<Product> GetCollection(CollectionCondition condition, DataTablesModel table);
     }
 }
