@@ -300,6 +300,7 @@
     <Compile Include="ViewModels\ManageBrand\UpdateBrandModel.cs" />
     <Compile Include="ViewModels\ManageUser\LoginViewModel.cs" />
     <Compile Include="ViewModels\ManageUser\UpdateUserModel.cs" />
+    <Compile Include="ViewModels\CollectionItemModel.cs" />
     <Compile Include="WorkerServices\IManageStatisticsService.cs" />
     <Compile Include="WorkerServices\IManageColorService.cs" />
     <Compile Include="WorkerServices\IManageMoneyService.cs" />
@@ -355,6 +356,8 @@
     <Content Include="Content\img\breadcrumbs-bg.gif" />
     <Content Include="Content\img\bx_loader.gif" />
     <Content Include="Content\img\controls.png" />
+    <Content Include="Content\img\four_columns_icon.png" />
+    <Content Include="Content\img\goback_icon.png" />
     <Content Include="Content\img\gray_jean.png" />
     <Content Include="Content\img\icon-arrow-right.png" />
     <Content Include="Content\img\input_image.jpg" />
@@ -362,6 +365,7 @@
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\no_image.jpg" />
     <Content Include="Content\img\throbber.gif" />
+    <Content Include="Content\img\two_columns_icon.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -453,6 +457,7 @@
     <Content Include="Scripts\plugins\bootstrap-datepicker.js" />
     <Content Include="Scripts\plugins\drag-on.js" />
     <Content Include="Scripts\plugins\pace.js" />
+    <Content Include="Scripts\SiSi.ShowItem.js" />
     <Content Include="Scripts\SiSi.ShowCollection.js" />
     <Content Include="Scripts\SiSi.SalesStatisticsDetail.js" />
     <Content Include="Scripts\SiSi.SalesStatistics.js" />
@@ -558,7 +563,7 @@
     <Content Include="Views\Show\Collection.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\ProductList.cshtml" />
+    <Content Include="Views\Show\Item.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

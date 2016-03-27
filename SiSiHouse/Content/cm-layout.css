@@ -487,14 +487,14 @@ header nav #sub-menu {
     margin-bottom: 50px;
 }
 
-/* Manage */
+/* MANAGE */
 
 .manage-menu ul {
     margin-top: 15px;
 }
 
 
-/* Product List */
+/* PRODUCT LIST */
 #iPageContent {
     width: auto;
     height: auto;
@@ -514,6 +514,7 @@ header nav #sub-menu {
 
 #iPageContent #sub-nav .breadcrumb {
     display: inline-block;
+    cursor:default;
 }
 
 #iPageContent #sub-nav .pull-right .views {
@@ -527,26 +528,39 @@ header nav #sub-menu {
     margin-left: 10px;
 }
 
-#iPageContent #sub-nav .pull-right .views li i {
-    font-size: 18px;
+#iPageContent #sub-nav .pull-right .views li#two-columns a {
+    background: url(img/two_columns_icon.png) no-repeat 0 0;
+    text-indent: -9999px;
+    display: block;
+    width: 15px;
+    height: 15px;
+    color: #C77F1D;
     opacity: 0.7;
-    color: #A9A9A9;
-    cursor: pointer;
 }
 
-#iPageContent #sub-nav .pull-right .views li i:hover {
-    opacity: 1;
+#iPageContent #sub-nav .pull-right .views li#four-columns a {
+    background: url(img/four_columns_icon.png) no-repeat 0 0;
+    text-indent: -9999px;
+    display: block;
+    width: 15px;
+    height: 15px;
+    opacity: 0.7;
 }
 
-#iPageContent #sub-nav .pull-right .views li i.selected {
-    opacity: 1;
-    color: #505252;
+#iPageContent #sub-nav .pull-right .views li a.selected, #iPageContent #sub-nav .pull-right .views li a.selected:hover {
+    background-position: 0 -15px !important;
+    opacity: 1 !important;
+}
+
+#iPageContent #sub-nav .pull-right .views li a:hover {
+    background-position: 0 -15px !important;
+    opacity: 0.7 !important;
 }
 
 #iPageContent #products {
     position: relative;
     overflow: hidden;
-    margin: 20px 230px 30px;
+    margin: 20px 230px 70px;
 }
 
 #iPageContent #products #products-content {
@@ -599,8 +613,175 @@ header nav #sub-menu {
     opacity: 1;
 }
 
-
 #iPageContent #products #products-content.four #product-list .product {
     width: 23%;
     margin: 0 2% 2% 0;
+}
+
+
+/* PRODUCT INFO */
+#iPageContent.product-info {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-width: 1024px;
+    overflow: hidden;
+    font-family: Lato,'Trebuchet MS',Helvetica,sans-serif;
+    font-weight: 700;
+}
+
+#iPageContent.product-info #product-detail {
+    color: #505252;
+}
+
+#iPageContent.product-info #product-detail #product-images {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 63%;
+    float: left;
+}
+
+#iPageContent.product-info #product-detail #product-images #product-main-images {
+    width: 100%;
+    min-height: 697px;
+}
+
+#iPageContent.product-info #product-detail #product-images #product-main-images>img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+#iPageContent.product-info #product-detail #product-info {
+    width: 37%;
+    float: right;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding-right: 36px;
+    padding-top: 30px;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper {
+    max-width: 444px;
+    margin: 0 auto;
+    padding-left: 20px;
+    width: 100%;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-actions #goBack {
+    float: left;
+    font-family: Lato,'Trebuchet MS',Helvetica,sans-serif;
+    font-weight: 300;
+    color: #505252;
+    background: transparent url(img/goback_icon.png) left center no-repeat;
+    padding-left: 15px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-actions #shareButtons {
+    float: right;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-actions #shareButtons li {
+    float: left;
+    margin: 3px 5px;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-actions #shareButtons li a#facebook {
+    cursor: pointer;
+    color: #505252;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info {
+    text-align: center;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info #product-ref {
+    font-family: Lato,'Trebuchet MS',Helvetica,sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    margin: 40px 0 0;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info h1.product-name {
+    font-family: 'Lato', Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 25px;
+    line-height: 32px;
+    margin: 16px 0 22px;
+    letter-spacing: 0.10em;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info .product-prices {
+    position: relative;
+    font-family: Lato,'Trebuchet MS',Helvetica,sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    margin-bottom: 32px;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info .product-prices .prices {
+    background-color: #fff;
+    display: inline-block;
+    padding: 0 10px 0 14px;
+    z-index: 1;
+    position: relative;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info .product-prices .prices .currentPrice {
+    display: inline-block;
+    margin: 0;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info .product-prices hr {
+    position: absolute;
+    z-index: 0;
+    width: 90%;
+    border-top: 1px solid #d3d4d4;
+    margin: 0 5%;
+    top: 50%;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info #product-long-desc {
+    font-family: 'Lato', Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    margin: 0 0 22px;
+    font-style: italic;
+    letter-spacing: 0.10em;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-image-thumbs {
+    width: 100%;
+    margin-top: 50px;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-image-thumbs ul {
+    max-width: 290px;
+    margin: 0 auto;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-image-thumbs ul li {
+    display: inline-block;
+    width: 65px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-image-thumbs ul li:hover, #iPageContent.product-info #product-detail #product-info>.wrapper #product-image-thumbs ul li.active {
+    border: 1px solid #d3d4d4;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-image-thumbs ul li img {
+    width: 100%;
+    height: auto;
 }

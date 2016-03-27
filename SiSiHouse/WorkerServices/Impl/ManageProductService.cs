@@ -101,5 +101,10 @@ namespace SiSiHouse.WorkerServices.Impl
         {
             return _repository.GetCollection(condition, table);
         }
+
+        public Product GetCollectionItem(long productID)
+        {
+            return _repository.GetCollectionItem(productID);
+        }
     }
 }

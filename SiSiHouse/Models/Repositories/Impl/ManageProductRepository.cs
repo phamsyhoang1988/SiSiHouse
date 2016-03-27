@@ -17,6 +17,7 @@ namespace SiSiHouse.Models.Repositories.Impl
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["DbConnection"].ConnectionString;
 
+        #region Manage
         public IList<Product> GetProductList(ProductCondition condition, DataTablesModel table, out int totalData)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
@@ -65,7 +66,8 @@ namespace SiSiHouse.Models.Repositories.Impl
                 if (!string.IsNullOrEmpty(condition.CATEGORY_ID))
                     sqlContent.AppendFormat(" AND CATEGORY_ID IN ({0})", condition.CATEGORY_ID);
 
-                if (!string.IsNullOrEmpty(condition.STATUS_ID)) {
+                if (!string.IsNullOrEmpty(condition.STATUS_ID))
+                {
                     sqlContent.AppendFormat(" AND STATUS_ID IN ({0})", condition.STATUS_ID);
                 }
                 else if (condition.IS_SELECT_DIALOG)
@@ -580,7 +582,7 @@ namespace SiSiHouse.Models.Repositories.Impl
 
                 //if (result > 0)
                 //{
-                    result = InsertRetail(sqlConnection, product, retailList);
+                result = InsertRetail(sqlConnection, product, retailList);
                 //}
 
                 sqlConnection.Dispose();
@@ -593,7 +595,7 @@ namespace SiSiHouse.Models.Repositories.Impl
         private int InsertRetail(SqlConnection sqlConnection, Product product, IList<Retail> retailList)
         {
             int result = 0;
-            string retailCode ="R" + product.MODIFIED_DATE.Value.ToString("yyyyMMddHHmmss");
+            string retailCode = "R" + product.MODIFIED_DATE.Value.ToString("yyyyMMddHHmmss");
             var currentDate = DateTime.Now;
 
             foreach (var data in retailList)
@@ -682,7 +684,8 @@ namespace SiSiHouse.Models.Repositories.Impl
                     }
                 );
 
-                if (quantity == 0) {
+                if (quantity == 0)
+                {
                     var sqlUpdate = new StringBuilder();
 
                     sqlUpdate.Append(@"
@@ -737,7 +740,9 @@ namespace SiSiHouse.Models.Repositories.Impl
                 return (result > 0);
             }
         }
+        #endregion
 
+        #region Shop
         private StringBuilder BuildSqlGetCollection(CollectionCondition condition)
         {
             var sql = new StringBuilder();
@@ -835,5 +840,45 @@ namespace SiSiHouse.Models.Repositories.Impl
                 return productList;
             }
         }
+
+        public Product GetCollectionItem(long productID)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                var sql = new StringBuilder();
+
+                sql.Append(@"
+                    SELECT PRODUCT_ID
+                        , PRODUCT_CODE
+                        , PRODUCT_NAME
+                        , STATUS_ID
+                        , SALE_PRICE
+                        , SALE_OFF_PRICE
+                        , DESCRIPTION
+                    FROM PRODUCT
+                    WHERE DELETE_FLAG = @DELETE_FLAG
+                        AND PRODUCT_ID = @PRODUCT_ID");
+
+                IList<Product> productList = new List<Product>();
+
+                sqlConnection.Open();
+
+                Product product = sqlConnection.Query<Product>(
+                    sql.ToString(),
+                    new
+                    {
+                        DELETE_FLAG = Constant.DeleteFlag.NON_DELETE,
+                        PRODUCT_ID = productID
+                    }
+                ).FirstOrDefault();
+
+                sqlConnection.Dispose();
+                sqlConnection.Close();
+
+                return product;
+            }
+        }
+
+        #endregion
     }
 }

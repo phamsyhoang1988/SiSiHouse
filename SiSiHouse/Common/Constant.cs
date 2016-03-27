@@ -37,7 +37,9 @@ namespace SiSiHouse.Common
 
         public static string[] AdminManage = new string[] { "ManageStatistics", "ManageBrand", "ManageCategory", "ManageMoney", "ManageColor" };
 
-        public const int DISPLAY_ITEM_PER_PAGE = 20;
+        public const int DISPLAY_ITEM_PER_PAGE = 4;
+
+        public const string VND = " VNĐ";
 
         public class Role
         {

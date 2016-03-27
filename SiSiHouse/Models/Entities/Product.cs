@@ -107,5 +107,8 @@ namespace SiSiHouse.Models.Entities
         public int QUANTITY { get; set; }
 
         public decimal SALES { get; set; }
+
+        public string DISPLAY_PRICE { get; set; }
+
     }
 }

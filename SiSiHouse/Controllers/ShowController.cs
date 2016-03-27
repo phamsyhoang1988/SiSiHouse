@@ -62,6 +62,41 @@ namespace SiSiHouse.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult Item(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("", "Home");
+            }
+
+            long productID = Convert.ToInt64(id);
+
+            CollectionItemModel model = new CollectionItemModel
+            {
+                ProductInfo = this.mainService.GetCollectionItem(productID),
+                PictureList = this.commonService.GetPictureList(productID)
+            };
+
+            if (Convert.ToInt16(Constant.Status.SALE_OFF) == model.ProductInfo.STATUS_ID)
+            {
+                model.ProductInfo.DISPLAY_PRICE = model.ProductInfo.SALE_OFF_PRICE.HasValue ? model.ProductInfo.SALE_OFF_PRICE.Value.ToString("#,##0") + Constant.VND : "";
+            }
+            else if (model.ProductInfo.SALE_OFF_PRICE.HasValue)
+            {
+                model.ProductInfo.DISPLAY_PRICE = model.ProductInfo.SALE_PRICE.Value.ToString("#,##0") + Constant.VND;
+            }
+
+            foreach (var img in model.PictureList)
+            {
+                img.IMG_SRC = Utility.GetPicturePath(productID, img.FILE_PATH);
+            }
+
+            ViewBag.Title = model.ProductInfo.PRODUCT_NAME;
+
+            return View(model);
+        }
+
         #endregion
 
         #region Ajax Action
@@ -89,8 +124,8 @@ namespace SiSiHouse.Controllers
             {
                 dataList.Add(new object[] {
                     data.PRODUCT_ID
-                    , data.PICTURE_1
-                    , data.PICTURE_2
+                    , Utility.GetPicturePath(data.PRODUCT_ID, data.PICTURE_1)
+                    , Utility.GetPicturePath(data.PRODUCT_ID, data.PICTURE_2)
                 });
             }
 

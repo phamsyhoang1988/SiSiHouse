@@ -22,6 +22,8 @@ namespace SiSiHouse.Models.Entities
 
         public bool? DELETED { get; set; }
 
+        public string IMG_SRC { get; set; }
+
         public bool IS_MAIN
         {
             get { return (this.DISPLAY_FLAG == Constant.DisplayPicture.MAIN); }

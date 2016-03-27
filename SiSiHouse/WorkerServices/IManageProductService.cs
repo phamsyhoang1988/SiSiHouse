@@ -25,5 +25,7 @@ namespace SiSiHouse.WorkerServices
         int CountProduct(CollectionCondition condition);
 
         IList<Product> GetCollection(CollectionCondition condition, DataTablesModel table);
+
+        Product GetCollectionItem(long productID);
     }
 }

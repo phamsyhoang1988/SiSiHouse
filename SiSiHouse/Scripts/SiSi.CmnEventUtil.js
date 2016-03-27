@@ -51,7 +51,7 @@ $(document).ready(function () {
         }
 
         // show hide button scroll to top
-        if ($(this).scrollTop() > 100) {
+        if ($(this).scrollTop() > 200) {
             $('#scrollTop').fadeIn();
         } else {
             $('#scrollTop').fadeOut();
@@ -63,9 +63,9 @@ $(document).ready(function () {
         return false;
     });
 
-    $('i.view-type').click(function () {
+    $('a.view-type').click(function () {
         if (!$(this).hasClass('selected')) {
-            $('i.view-type').removeClass('selected');
+            $('a.view-type').removeClass('selected');
             $(this).addClass('selected');
 
             var columns = $(this).data('columns');
