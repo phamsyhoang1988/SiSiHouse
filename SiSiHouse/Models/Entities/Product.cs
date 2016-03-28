@@ -110,5 +110,8 @@ namespace SiSiHouse.Models.Entities
 
         public string DISPLAY_PRICE { get; set; }
 
+        public long PRODUCT_DETAIL_ID { get; set; }
+
+        public string RETAIL_CODE { get; set; }
     }
 }

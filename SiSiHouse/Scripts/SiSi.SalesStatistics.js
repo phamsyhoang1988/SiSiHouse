@@ -1,6 +1,4 @@
 ﻿
-var productID = 0;
-
 // --- List ---
 $(function () {
     var oSorting = {

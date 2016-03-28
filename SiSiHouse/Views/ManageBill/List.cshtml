@@ -15,17 +15,17 @@
     </h1>
     <div class="search-form">
         <div class="search-condition form-group row">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 @Html.LabelFor(m => m.Condition.PRODUCT_CODE, new { @class = "" })
                 @Html.TextBoxFor(m => m.Condition.PRODUCT_CODE, new { maxlength = 200, @placeholder = "Mã sản phẩm ...", @class = "input-text" })
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 @Html.LabelFor(m => m.Condition.PRODUCT_NAME, new { @class = "" })
                 @Html.TextBoxFor(m => m.Condition.PRODUCT_NAME, new { maxlength = 200, @placeholder = "Tên sản phẩm ...", @class = "input-text" })
             </div>
             <div class="col-lg-4">
                 <label class="lbl-time-range">Ngày cập nhật</label>
-                <div class="input-group date datepicker-days">
+                <div class="input-group col-lg-3 date datepicker-full">
                     @Html.TextBoxFor(m => m.Condition.TARGET_DATE, "{0:yyyy/MM/dd}", new { @class = "form-control", maxlength = 10 })
                     <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                 </div>
@@ -95,27 +95,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2">
-                <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
-                    Trạng thái <i class="fa fa-caret-down"></i>
-                </a>
-                <div class="dropdown-menu row">
-                    <ul>
-                        @for (int i = 0; i < Constant.Status.Items.Count; i++)
-                        {
-                            <li>
-                                <label class="control-label">
-                                    <input alt="@(i)" class="select-status" type="checkbox">
-                                    @Constant.Status.Items[i]
-                                </label>
-                            </li>
-                        }
-                    </ul>
-                    <div class="clear-condition">
-                        <i class="fa fa-refresh"></i>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="search-action row right">
             <button type="button" id="btnSearch" class="btn dark"><i class="fa fa-search"></i> Tìm kiếm</button>
@@ -133,8 +112,11 @@
             <tr>
                 <th>ID</th>
                 <th>Hình ảnh</th>
+                <th></th>
                 <th>Sản phẩm</th>
+                <th></th>
                 <th>Thông tin</th>
+                <th></th>
                 <th>Chi tiết</th>
                 <th>Số lượng</th>
                 <th>Tổng tiền</th>

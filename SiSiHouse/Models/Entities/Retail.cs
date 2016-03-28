@@ -7,7 +7,7 @@ namespace SiSiHouse.Models.Entities
 {
     public class Retail
     {
-        public long RETAIL_CODE { get; set; }
+        public string RETAIL_CODE { get; set; }
 
         public long PRODUCT_ID { get; set; }
 

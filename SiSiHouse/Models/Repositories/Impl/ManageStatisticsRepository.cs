@@ -92,9 +92,11 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sqlContent = new StringBuilder();
 
-                sqlContent.AppendFormat(@"
+                sqlContent.Append(@"
                     SELECT
-                        RETAIL.PRODUCT_ID
+                        RETAIL.RETAIL_CODE
+                        , RETAIL.PRODUCT_ID
+                        , RETAIL.PRODUCT_DETAIL_ID
                         , (SELECT TOP 1 FILE_PATH FROM PICTURE WHERE PICTURE.PRODUCT_ID = RETAIL.PRODUCT_ID AND PICTURE.DISPLAY_FLAG = '1') AS PICTURE
                         , PRODUCT.PRODUCT_CODE
                         , PRODUCT.PRODUCT_NAME
@@ -105,7 +107,8 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , RETAIL.QUANTITY
                         , RETAIL.TOTAL_PRICE SALES
                         , PRODUCT.REAL_PRICE
-                        , RETAIL.MODIFIED_DATE
+                        , RETAIL.CREATED_DATE
+                        , M_USER.FULL_NAME CREATED_USER
                     FROM
                         RETAIL 
                         LEFT JOIN PRODUCT
@@ -116,9 +119,21 @@ namespace SiSiHouse.Models.Repositories.Impl
                             ON PRODUCT.CATEGORY_ID = M_CATEGORY.CATEGORY_ID
                         LEFT JOIN M_COLOR
                             ON RETAIL.COLOR_ID = M_COLOR.COLOR_ID
-                    WHERE
-                        YEAR(RETAIL.CREATED_DATE) = {0}
-                        AND MONTH(RETAIL.CREATED_DATE) = {1} ", condition.TARGET_YEAR, condition.TARGET_MONTH);
+                        LEFT JOIN M_USER
+                            ON M_USER.USER_ID = RETAIL.CREATED_USER_ID
+                    WHERE 1 = 1 ");
+
+                if (condition.TARGET_YEAR > 0 && condition.TARGET_MONTH > 0)
+                    sqlContent.AppendFormat(" AND YEAR(RETAIL.CREATED_DATE) = {0} AND MONTH(RETAIL.CREATED_DATE) = {1} ", condition.TARGET_YEAR, condition.TARGET_MONTH);
+
+                if (!string.IsNullOrEmpty(condition.PRODUCT_CODE))
+                    sqlContent.AppendFormat(" AND PRODUCT.PRODUCT_CODE LIKE '%{0}%'", condition.PRODUCT_CODE);
+
+                if (!string.IsNullOrEmpty(condition.PRODUCT_NAME))
+                    sqlContent.AppendFormat(" AND PRODUCT.PRODUCT_NAME LIKE N'{0}' ESCAPE '\\' ", "%" + this.replaceWildcardCharacters(condition.PRODUCT_NAME) + "%");
+
+                if (condition.TARGET_DATE.HasValue)
+                    sqlContent.AppendFormat(" AND CAST(RETAIL.CREATED_DATE AS DATE) = '{0}'", condition.TARGET_DATE.Value.ToString("yyyy/MM/dd"));
 
                 if (!string.IsNullOrEmpty(condition.SEX))
                     sqlContent.AppendFormat("AND PRODUCT.SEX IN ({0}) ", condition.SEX);
@@ -193,6 +208,38 @@ namespace SiSiHouse.Models.Repositories.Impl
                 sqlConnection.Close();
 
                 return dataList;
+            }
+        }
+
+        public bool DoAction(string retailCode, long productId, long productDetailId, bool isUndo)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                int result = 0;
+                var sqlUpdate = new StringBuilder();
+
+                sqlUpdate.Append(@"
+                    UPDATE PRODUCT
+                    SET DELETE_FLAG = @DELETE_FLAG
+                        , MODIFIED_DATE = @MODIFIED_DATE
+                        , MODIFIED_USER_ID = @MODIFIED_USER_ID
+                    WHERE PRODUCT_ID = @PRODUCT_ID");
+
+                sqlConnection.Open();
+
+                result = sqlConnection.Execute(
+                    sqlUpdate.ToString(),
+                    new
+                    {
+                        DELETE_FLAG = Constant.DeleteFlag.DELETE,
+                        MODIFIED_DATE = DateTime.Now
+                    }
+                );
+
+                sqlConnection.Dispose();
+                sqlConnection.Close();
+
+                return (result > 0);
             }
         }
     }

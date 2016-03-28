@@ -3,6 +3,8 @@
         CONFIRM: 'Vui lòng xác nhận lại thao tác thay đổi dữ liệu.',
         CONFIRM_CREATE_RETAIL: 'Bạn có chắc chắn muốn tạo hóa đơn bán lẻ không ?',
         CONFIRM_DELETE_PRODUCT: 'Bạn có chắc chắn muốn xóa "{0}" không ?',
+        CONFIRM_DELETE_BILL: 'Bạn có chắc chắn muốn xóa hóa đơn "{0}" không ?',
+        CONFIRM_UNDO_BILL: 'Bạn có chắc chắn muốn trả lại hóa đơn "{0}" không ?',
         CREATE_SUSSCES: 'Đã tạo hóa đơn bán lẻ thành công.',
         CONNECT_TIMEOUT: 'Phiên làm việc đã kết thúc. Vui lòng đăng nhập để tiếp tục.',
         ERROR: {
