@@ -397,10 +397,16 @@ header nav #sub-menu {
     text-align: center;
     background: url(img/back_to_top.png) no-repeat 0 0;
     background-size: 50px;
+    background-color: #E8E8E8;
     width: 50px;
     height: 37px;
     outline: none;
     z-index: 1000;
+}
+
+.management #scrollTop {
+    right: 3px;
+    background-color: transparent;
 }
 
 #scrollTop:hover {

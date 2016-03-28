@@ -22,6 +22,8 @@ namespace SiSiHouse.WorkerServices
 
         bool DeleteProduct(long productID, long userID);
 
+        int CountOrdersByProduct(long productID, long productDetailID);
+
         int CountProduct(CollectionCondition condition);
 
         IList<Product> GetCollection(CollectionCondition condition, DataTablesModel table);

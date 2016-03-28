@@ -91,6 +91,11 @@ namespace SiSiHouse.WorkerServices.Impl
             return res;
         }
 
+        public int CountOrdersByProduct(long productID, long productDetailID)
+        {
+            return _repository.CountOrdersByProduct(productID, productDetailID);
+        }
+
         public int CountProduct(CollectionCondition condition)
         {
             return _repository.CountProduct(condition);

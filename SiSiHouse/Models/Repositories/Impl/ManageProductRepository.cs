@@ -740,6 +740,37 @@ namespace SiSiHouse.Models.Repositories.Impl
                 return (result > 0);
             }
         }
+
+        public int CountOrdersByProduct(long productID, long productDetailID)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(connectionString))
+            {
+                var sql = new StringBuilder();
+
+                sql.Append(@"
+                    SELECT COUNT(PRODUCT_ID)
+                    FROM RETAIL
+                    WHERE PRODUCT_ID = @PRODUCT_ID
+                        AND PRODUCT_DETAIL_ID = @PRODUCT_DETAIL_ID ");
+
+                sqlConnection.Open();
+
+                int result = sqlConnection.Query<int>(
+                    sql.ToString(),
+                    new
+                    {
+                        PRODUCT_ID = productID,
+                        PRODUCT_DETAIL_ID = productDetailID
+                    }
+                ).FirstOrDefault();
+
+                sqlConnection.Dispose();
+                sqlConnection.Close();
+
+                return result;
+            }
+        }
+
         #endregion
 
         #region Shop

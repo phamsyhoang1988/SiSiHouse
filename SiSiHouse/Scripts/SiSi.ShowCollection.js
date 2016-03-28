@@ -46,7 +46,7 @@ $(function () {
     }
 
     function BindData(countItem) {
-        SiSi.utility.getDataByAjax('/Show/List/', { type: type, countItem: countItem }, function (result) {
+        SiSi.utility.getDataByAjax(true, '/Show/List/', { type: type, countItem: countItem }, function (result) {
             if (result && result.data.length > 0) {
                 DisplayCollection(result.data);
             }

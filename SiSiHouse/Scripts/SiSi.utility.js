@@ -199,13 +199,14 @@ SiSi.utility = (function () {
     }
 
     // get data from server by Ajax GET. Return result
-    function getDataByAjax(url, param, callback) {
+    function getDataByAjax(async, url, param, callback) {
         $.ajax({
             type: 'GET',
             url: url,
             data: param,
             dataType: 'json',
             cache: false,
+            async: async,
             success: function (data) {
                 callback(data);
             },

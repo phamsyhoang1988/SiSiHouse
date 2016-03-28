@@ -380,6 +380,25 @@ namespace SiSiHouse.Controllers
 
             return new EmptyResult();
         }
+
+        public ActionResult JsonCountOrdersByProduct(long productID, long productDetailID)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                var count = this.mainService.CountOrdersByProduct(productID, productDetailID);
+
+                var result = Json(
+                    new
+                    {
+                        count
+                    },
+                    JsonRequestBehavior.AllowGet);
+
+                return result;
+            }
+
+            return new EmptyResult();
+        }
         #endregion
 
         #region Private method

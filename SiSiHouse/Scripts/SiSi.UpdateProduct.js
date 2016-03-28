@@ -346,31 +346,45 @@ $(document).on('click', '.btnAddSize', function () {
 $(document).off('.btnDeleteSize');
 $(document).on('click', '.btnDeleteSize', function () {
     var $parentContent = $(this).parents('.product-detail');
+    var $targetContent = $(this).parents('.product-quantity-detail');
+    var productID = $('#ProductInfo_PRODUCT_ID').val();
+    var existOrders = false;
 
-    if ($parentContent.find('.product-quantity-detail:not(.deleted)').length > 1) {
-        var $targetContent = $(this).parents('.product-quantity-detail');
+    if ($('#ProductInfo_PRODUCT_ID').val() > 0) {
+        SiSi.utility.getDataByAjax(false, '/ManageProduct/JsonCountOrdersByProduct', { productID: productID, productDetailID: $targetContent.find('.product-detail-id').val() }, function (result) {
+            console.log(result);
 
-        if ($targetContent.hasClass('old-value')) {
-            $targetContent.find('.product-deleted').val(true);
-            $targetContent.addClass('deleted').hide();
-        } else {
-            $targetContent.remove();
-        }
-    } else {
-        if ($parentContent.hasClass('old-value')) {
-            $parentContent.addClass('deleted').hide();
-            $parentContent.find('.product-deleted').val(true);
-            $parentContent.find('.ddlSelectColor').addClass('deleted');
-        } else {
-            if ($('.product-detail:not(.deleted)').length > 1)
-                $parentContent.remove();
-            else {
-                $parentContent.find('.ddlSelectColor, .product-size, .product-quantity, .product-color-id').val('');
+            if (result && result.count > 0) {
+                existOrders = true;
+                SiSi.utility.showInformationDialog(Constant.DIALOG.WARNING, 'Không thể xóa item này vì đã có hóa đơn được tạo.');
             }
-        }
+        });
     }
 
-    ResetProductDetail();
+    if (!existOrders) {
+        if ($parentContent.find('.product-quantity-detail:not(.deleted)').length > 1) {
+            if ($targetContent.hasClass('old-value')) {
+                $targetContent.find('.product-deleted').val(true);
+                $targetContent.addClass('deleted').hide();
+            } else {
+                $targetContent.remove();
+            }
+        } else {
+            if ($parentContent.hasClass('old-value')) {
+                $parentContent.addClass('deleted').hide();
+                $parentContent.find('.product-deleted').val(true);
+                $parentContent.find('.ddlSelectColor').addClass('deleted');
+            } else {
+                if ($('.product-detail:not(.deleted)').length > 1)
+                    $parentContent.remove();
+                else {
+                    $parentContent.find('.ddlSelectColor, .product-size, .product-quantity, .product-color-id').val('');
+                }
+            }
+        }
+
+        ResetProductDetail();
+    }
 });
 
 $(document).off('.ddlSelectColor');
