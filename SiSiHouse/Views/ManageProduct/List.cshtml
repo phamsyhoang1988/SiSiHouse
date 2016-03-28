@@ -12,6 +12,7 @@
 @{
     ViewBag.Title = "Danh sách sản phẩm";
     Layout = "~/Views/Shared/ManagementLayout.cshtml";
+    var currentUser = HttpContext.Current.Session[Constant.SESSION_LOGIN_USER] as LoginUser;
 }
 
 <section class="content-header product-header">
@@ -129,7 +130,10 @@
         </div>
         <div class="search-action row">
             <div class="col-lg-6">
-                <button type="button" id="btnCreate" class="btn dark"><i class="fa fa-plus"></i> Tạo mới </button>
+                @if (Constant.Role.ADMIN == currentUser.ROLE_ID)
+                {
+                    <button type="button" id="btnCreate" class="btn dark"><i class="fa fa-plus"></i> Tạo mới </button>
+                }
             </div>
             <div class="col-lg-6 right">
                 <button type="button" id="btnSearch" class="btn dark"><i class="fa fa-search"></i> Tìm kiếm</button>

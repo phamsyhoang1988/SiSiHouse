@@ -62,21 +62,6 @@ $(document).ready(function () {
         $("html, body").animate({ scrollTop: 0 }, 300);
         return false;
     });
-
-    $('a.view-type').click(function () {
-        if (!$(this).hasClass('selected')) {
-            $('a.view-type').removeClass('selected');
-            $(this).addClass('selected');
-
-            var columns = $(this).data('columns');
-
-            if (columns == '2') {
-                $('#products-content').removeClass('four');
-            } else {
-                $('#products-content').addClass('four');
-            }
-        }
-    });
 });
 
 // Set window name

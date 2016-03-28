@@ -7,7 +7,7 @@ function CreateDataTable(id, oSorting, oPaginate, oServerSide, aoColumnDefs, oIn
     };
     param.bLengthChange = true;
     param.bInfo = oInfo == null ? true : oInfo;
-    param.aLengthMenu = [2, 5, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+    param.aLengthMenu = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
     param.bStateSave = oPaginate.bStateSave;
     param.stateDuration = -1;
     param.sDom = '<"tableHead"ipl>t';

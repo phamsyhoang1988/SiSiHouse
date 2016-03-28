@@ -1,10 +1,9 @@
 ﻿
-
 $(function () {
     var type = $('#hdnCollectionType').val();
     var totalProduct = $('#hdnTotalProduct').val();
     var htmlTempProduct = '<li class="product visible-c">'
-        + '<a class="product-image" href="{link}">'
+        + '<a class="product-image" href="{link}" title="{title}">'
         + '<img class="lazy img-responsive main" src="{picture_1}">'
         + '<img class="lazy img-responsive auxiliar" src="{picture_2}">'
         + '</a>'
@@ -15,7 +14,7 @@ $(function () {
         var html = '';
 
         for (var i = 0; i < dataList.length; i++) {
-            html += htmlTempProduct.replace('{link}', '/Show/Item/' + dataList[i][0]).replace('{picture_1}', dataList[i][1]).replace('{picture_2}', dataList[i][2]);
+            html += htmlTempProduct.replace('{link}', '/Show/Item/' + dataList[i][0]).replace('{title}', dataList[i][1]).replace('{picture_1}', dataList[i][2]).replace('{picture_2}', dataList[i][3]);
         }
 
         if ($('ul#product-list li.product').length > 0) {
@@ -27,6 +26,7 @@ $(function () {
         }
 
         readyScroll = true;
+        $('#loadingCollection').removeClass('show');
     }
 
     function BindData(countItem) {
@@ -46,7 +46,7 @@ $(function () {
 
         return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
     }
-    
+
     $(window).scroll(function (e) {
         if (!readyScroll) {
             return false;
@@ -58,10 +58,32 @@ $(function () {
 
         if (totalProduct > countProduct &&  (wintop / (docheight - winheight)) > scrolltrigger && readyScroll) {
             readyScroll = false;
+            $('#loadingCollection').addClass('show');
+
             BindData(countProduct);
+        }
+    });
+
+    $('a.view-type').click(function () {
+        if (!$(this).hasClass('selected')) {
+            $('a.view-type').removeClass('selected');
+            $(this).addClass('selected');
+
+            var columns = $(this).data('columns');
+
+            if (columns == '2') {
+                $('#products-content').removeClass('four');
+            } else {
+                $('#products-content').addClass('four');
+
+                var countProduct = $('ul#product-list li.product').length;
+
+                if (6 > countProduct) {
+                    BindData(countProduct);
+                }
+            }
         }
     });
 
     BindData(0);
 });
-

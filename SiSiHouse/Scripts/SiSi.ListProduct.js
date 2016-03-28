@@ -34,7 +34,7 @@ $(function () {
     var aoColumnDefs = [
         { "sName": "MODIFIED_DATE", "bSortable": false, "bVisible": false, "aTargets": [PRODUCT_ID], "sWidth": "0%" },
         {
-            "sName": "MODIFIED_DATE", "bSortable": false, "aTargets": [ROOT_LINK], "sWidth": "6%", "sClass": "center"
+            "sName": "MODIFIED_DATE", "bSortable": false, "bVisible": Constant.ROLE.ADMIN == Constant.CurrentUserRole, "aTargets": [ROOT_LINK], "sWidth": "6%", "sClass": "center"
             , "mRender": function (data, type, full) { return SiSi.utility.nvl(data) ? '<a href="' + data + '" target="_blank"><i class="fa fa-eye"></i> Xem</a>' : ''; }
         },
         {
@@ -50,7 +50,7 @@ $(function () {
         { "sName": "STATUS_ID", "aTargets": [PRODUCT_STATUS], "sWidth": "7%", "sClass": "left" },
         { "sName": "SALE_PRICE", "aTargets": [SALES_PRICE], "sWidth": "7%", "sClass": "right" },
         { "sName": "REAL_PRICE", "bVisible": Constant.ROLE.ADMIN == Constant.CurrentUserRole, "aTargets": [REAL_PRICE], "sWidth": "7%", "sClass": "right" },
-        { "sName": "MODIFIED_DATE", "aTargets": [MODIFIED_DATE], "sWidth": "8%", "sClass": "center" },
+        { "sName": "MODIFIED_DATE", "bVisible": Constant.ROLE.ADMIN == Constant.CurrentUserRole, "aTargets": [MODIFIED_DATE], "sWidth": "8%", "sClass": "center" },
         {
             "sName": "PRODUCT_NAME", "bSortable": false, "aTargets": [DELETE_FLAG], "sWidth": "6%", "sClass": "center"
             , "mRender": function (data, type, full) { return BuildAction(full[PRODUCT_ID], data, full[STATUS_ID], full[PRODUCT_NAME]); }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
-    <link href="~/Images/logo.jpg" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/Images/sisi_icon.png" rel="shortcut icon" type="image/x-icon" />
     <meta name="viewport" content="width=device-width" />
 
     <script>
@@ -21,6 +21,8 @@
     @Styles.Render("~/Content/adminLTE/altCss")
     @Styles.Render("~/Content/fontawesome/css/icon")
     @Styles.Render("~/Content/common")
+    @Styles.Render("~/Content/Shop")
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jquery/plugins")
     @Scripts.Render("~/bundles/input")
@@ -34,8 +36,6 @@
     </header>
 
     @RenderBody()
-
-    @RenderPage("~/Views/Shared/_Footer.cshtml")
 
     <a id="scrollTop" href="javascript:void(0);" title="Back to Top"></a>
 </body>

@@ -82,7 +82,7 @@ namespace SiSiHouse.Controllers
             {
                 model.ProductInfo.DISPLAY_PRICE = model.ProductInfo.SALE_OFF_PRICE.HasValue ? model.ProductInfo.SALE_OFF_PRICE.Value.ToString("#,##0") + Constant.VND : "";
             }
-            else if (model.ProductInfo.SALE_OFF_PRICE.HasValue)
+            else if (model.ProductInfo.SALE_PRICE.HasValue)
             {
                 model.ProductInfo.DISPLAY_PRICE = model.ProductInfo.SALE_PRICE.Value.ToString("#,##0") + Constant.VND;
             }
@@ -124,6 +124,7 @@ namespace SiSiHouse.Controllers
             {
                 dataList.Add(new object[] {
                     data.PRODUCT_ID
+                    , data.PRODUCT_NAME
                     , Utility.GetPicturePath(data.PRODUCT_ID, data.PICTURE_1)
                     , Utility.GetPicturePath(data.PRODUCT_ID, data.PICTURE_2)
                 });

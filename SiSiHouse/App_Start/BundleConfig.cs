@@ -58,7 +58,10 @@ namespace SiSiHouse
 
             bundles.Add(new StyleBundle("~/Content/adminLTE/altCss").Include("~/Content/adminLTE/AdminLTE.css"));
 
-            bundles.Add(new StyleBundle("~/Content/fontawesome/css/icon").Include("~/Content/fontawesome/css/font-awesome.css"));
+            bundles.Add(new StyleBundle("~/Content/fontawesome/css/icon").Include(
+                "~/Content/fontawesome/css/font-awesome.css"
+                , "~/Content/fontawesome/css/font-awesome-animation.css"
+            ));
 
             bundles.Add(new StyleBundle("~/Content/common").Include(
                 "~/Content/datepicker.css"
@@ -74,6 +77,8 @@ namespace SiSiHouse
             bundles.Add(new StyleBundle("~/Content/CustomControllerCss/ManageOrders").Include("~/Content/CustomControllerCss/ManageOrders.css"));
 
             bundles.Add(new StyleBundle("~/Content/CustomControllerCss/ManageStatistics").Include("~/Content/CustomControllerCss/ManageStatistics.css"));
+
+            bundles.Add(new StyleBundle("~/Content/Shop").Include("~/Content/Shop.css"));
         }
     }
 }

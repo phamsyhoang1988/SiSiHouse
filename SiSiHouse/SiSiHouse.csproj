@@ -338,6 +338,8 @@
     <Content Include="Content\bootstrap\css\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fontawesome\css\font-awesome-animation.css" />
+    <Content Include="Content\Shop.css" />
     <Content Include="Content\CustomControllerCss\ManageOrders.css" />
     <Content Include="Content\CustomControllerCss\ManageStatistics.css" />
     <Content Include="Content\CustomControllerCss\ManageProduct.css" />
@@ -353,15 +355,9 @@
     <Content Include="Content\img\32px.png" />
     <Content Include="Content\img\40px.png" />
     <Content Include="Content\img\back_to_top.png" />
-    <Content Include="Content\img\breadcrumbs-bg.gif" />
-    <Content Include="Content\img\bx_loader.gif" />
-    <Content Include="Content\img\controls.png" />
     <Content Include="Content\img\four_columns_icon.png" />
     <Content Include="Content\img\goback_icon.png" />
-    <Content Include="Content\img\gray_jean.png" />
     <Content Include="Content\img\icon-arrow-right.png" />
-    <Content Include="Content\img\input_image.jpg" />
-    <Content Include="Content\img\loginImage.png" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\no_image.jpg" />
     <Content Include="Content\img\throbber.gif" />
@@ -435,9 +431,9 @@
     <Content Include="Content\fontawesome\css\fonts\FontAwesome.otf" />
     <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\loadingAnimation.gif" />
-    <Content Include="Content\img\logo.jpg" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Images\no_image.png" />
+    <Content Include="Images\sisi_icon.png" />
     <Content Include="Images\sort_asc.png" />
     <Content Include="Images\sort_asc_disabled.png" />
     <Content Include="Images\sort_both.png" />

@@ -749,7 +749,8 @@ namespace SiSiHouse.Models.Repositories.Impl
 
             sql.Append(@"
                     SELECT PRODUCT.PRODUCT_ID
-                        , IMPORT_DATE
+                        , PRODUCT.IMPORT_DATE
+                        , PRODUCT.PRODUCT_NAME
                         , (SELECT TOP 1 FILE_PATH FROM PICTURE WHERE PICTURE.PRODUCT_ID = PRODUCT.PRODUCT_ID AND PICTURE.DISPLAY_FLAG = @DISPLAY_FLAG ORDER BY PICTURE_ID) AS PICTURE_1
 						, (SELECT TOP 1 FILE_PATH FROM PICTURE WHERE PICTURE.PRODUCT_ID = PRODUCT.PRODUCT_ID AND PICTURE.DISPLAY_FLAG = @DISPLAY_FLAG ORDER BY PICTURE_ID DESC) AS PICTURE_2
                         --, PRODUCT_CODE
@@ -789,10 +790,24 @@ namespace SiSiHouse.Models.Repositories.Impl
             {
                 var sql = new StringBuilder();
 
-                sql.Append("SELECT COUNT(PRODUCT_ID) FROM ( ");
-                sql.Append(this.BuildSqlGetCollection(condition));
-                sql.Append(" ) tbData");
+                sql.Append(@"SELECT COUNT(PRODUCT_ID) FROM (
+                        SELECT PRODUCT.PRODUCT_ID
+                        FROM PRODUCT
+                            LEFT JOIN M_CATEGORY
+                            ON M_CATEGORY.CATEGORY_ID = PRODUCT.CATEGORY_ID
+                        WHERE PRODUCT.DELETE_FLAG = @DELETE_FLAG ");
 
+                if (condition.CATEGORY_TYPE.HasValue)
+                {
+                    sql.Append(" AND M_CATEGORY.TYPE = @CATEGORY_TYPE ");
+                }
+
+                if (!string.IsNullOrEmpty(condition.CATEGORY_NAME))
+                {
+                    sql.Append(" AND M_CATEGORY.CATEGORY_NAME = @CATEGORY_NAME ");
+                }
+
+                sql.Append(" ) tbData ");
                 sqlConnection.Open();
 
                 int count = sqlConnection.Query<int>(
