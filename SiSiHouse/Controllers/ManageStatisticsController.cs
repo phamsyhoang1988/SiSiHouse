@@ -104,6 +104,19 @@ namespace SiSiHouse.Controllers
             }
         }
 
+        public ActionResult Bill()
+        {
+            var model = new SearchStatisticsModel
+            {
+                BrandSelectList = this.commonService.GetBrandList(),
+                CategorySelectList = this.commonService.GetCategoryList()
+            };
+
+            model.Condition.TARGET_DATE = DateTime.Now;
+
+            return this.View("Bill", model);
+        }
+
         #endregion
 
         #region Ajax Action

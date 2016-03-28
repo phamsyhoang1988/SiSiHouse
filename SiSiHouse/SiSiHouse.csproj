@@ -561,6 +561,9 @@
   <ItemGroup>
     <Content Include="Views\Show\Item.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\ManageStatistics\Bill.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

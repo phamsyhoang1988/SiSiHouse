@@ -7,6 +7,12 @@ namespace SiSiHouse.Models.Conditions
 {
     public class StatisticsCondition
     {
+        [DisplayName("Mã sản phẩm")]
+        public string PRODUCT_CODE { get; set; }
+
+        [DisplayName("Tên sản phẩm")]
+        public string PRODUCT_NAME { get; set; }
+
         [DisplayName("Giới tính")]
         public string SEX { get; set; }
 
@@ -20,5 +26,8 @@ namespace SiSiHouse.Models.Conditions
         public int TARGET_YEAR { get; set; }
 
         public int TARGET_MONTH { get; set; }
+
+        [DisplayName("Ngày tạo hóa đơn")]
+        public DateTime? TARGET_DATE { get; set; }
     }
 }

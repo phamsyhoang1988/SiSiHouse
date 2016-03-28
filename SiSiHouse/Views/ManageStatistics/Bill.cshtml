@@ -3,24 +3,32 @@
 
 @Styles.Render("~/Content/table")
 @Scripts.Render("~/bundles/plugins/datatables/dataTable")
-@Styles.Render("~/Content/CustomControllerCss/ManageStatistics")
 
 @{
-    ViewBag.Title = "Thống kê doanh thu chi tiết";
+    ViewBag.Title = "Hóa đơn bán lẻ";
     Layout = "~/Views/Shared/ManagementLayout.cshtml";
 }
 
-<section class="content-header statistics-header">
+<section class="content-header product-header">
     <h1 id="title">
         @ViewBag.Title
     </h1>
     <div class="search-form">
-        @Html.HiddenFor(m => m.Condition.TARGET_YEAR)
-        @Html.HiddenFor(m => m.Condition.TARGET_MONTH)
         <div class="search-condition form-group row">
-            <div class="col-lg-6">
-                <label>Thời điểm: </label>
-                <label class="bold">@Model.Condition.TARGET_YEAR.ToString()/@Model.Condition.TARGET_MONTH.ToString("00")</label>
+            <div class="col-lg-4">
+                @Html.LabelFor(m => m.Condition.PRODUCT_CODE, new { @class = "" })
+                @Html.TextBoxFor(m => m.Condition.PRODUCT_CODE, new { maxlength = 200, @placeholder = "Mã sản phẩm ...", @class = "input-text" })
+            </div>
+            <div class="col-lg-4">
+                @Html.LabelFor(m => m.Condition.PRODUCT_NAME, new { @class = "" })
+                @Html.TextBoxFor(m => m.Condition.PRODUCT_NAME, new { maxlength = 200, @placeholder = "Tên sản phẩm ...", @class = "input-text" })
+            </div>
+            <div class="col-lg-4">
+                <label class="lbl-time-range">Ngày cập nhật</label>
+                <div class="input-group date datepicker-days">
+                    @Html.TextBoxFor(m => m.Condition.TARGET_DATE, "{0:yyyy/MM/dd}", new { @class = "form-control", maxlength = 10 })
+                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                </div>
             </div>
         </div>
         <div class="search-condition row">
@@ -66,7 +74,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-2">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
                     Phân loại <i class="fa fa-caret-down"></i>
                 </a>
@@ -87,20 +95,31 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-2">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="300" aria-expanded="false">
+                    Trạng thái <i class="fa fa-caret-down"></i>
+                </a>
+                <div class="dropdown-menu row">
+                    <ul>
+                        @for (int i = 0; i < Constant.Status.Items.Count; i++)
+                        {
+                            <li>
+                                <label class="control-label">
+                                    <input alt="@(i)" class="select-status" type="checkbox">
+                                    @Constant.Status.Items[i]
+                                </label>
+                            </li>
+                        }
+                    </ul>
+                    <div class="clear-condition">
+                        <i class="fa fa-refresh"></i>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="search-action row">
-            <div class="col-lg-6">
-                @using (Html.BeginForm("ExportRevenue", "ManageStatistics", FormMethod.Post, new { id = "frmExportRevenue" }))
-                {
-                    <input type="hidden" name="targetYear" value="@Model.Condition.TARGET_YEAR" />
-                    <input type="hidden" name="targetMonth" value="@Model.Condition.TARGET_MONTH" />
-                    <button type="submit" id="btnExportExcel" class="btn dark"><i class="fa fa-download"></i> Xuất file</button>
-                }
-            </div>
-            <div class="col-lg-6 right">
-                <button type="button" id="btnSearch" class="btn dark"><i class="fa fa-bar-chart"></i> Thống kê</button>
-                <button type="button" id="btnClear" class=" btn light"><i class="fa fa-refresh"></i> Làm mới</button>
-            </div>
+        <div class="search-action row right">
+            <button type="button" id="btnSearch" class="btn dark"><i class="fa fa-search"></i> Tìm kiếm</button>
+            <button type="button" id="btnClear" class=" btn light"><i class="fa fa-refresh"></i> Làm mới</button>
         </div>
     </div>
     <div class="show-hide-search">
@@ -109,29 +128,24 @@
     </div>
 </section>
 
-<div class="statistics-list data-list row">
+<div class="data-list row">
     <table id="InfoTable" class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th>ID</th>
-                <th></th>
-                <th>Mã</th>
+                <th>Hình ảnh</th>
                 <th>Sản phẩm</th>
-                <th></th>
                 <th>Thông tin</th>
-                <th></th>
                 <th>Chi tiết</th>
                 <th>Số lượng</th>
-                <th>Doanh thu</th>
-                <th>Chi phí</th>
-                <th>Lợi nhuận</th>
-                <th>Tỷ lệ</th>
-                <th>Cập nhật</th>
+                <th>Tổng tiền</th>
+                <th>Ngày tạo</th>
+                <th>Người tạo</th>
+                <th>Thao tác</th>
             </tr>
         </thead>
         <tbody></tbody>
-        <tfoot></tfoot>
     </table>
 </div>
 
-@Scripts.Render("~/bundles/SalesStatisticsDetail")
+@*@Scripts.Render("~/bundles/ListProduct")*@
