@@ -232,6 +232,46 @@ namespace SiSiHouse.Controllers
             return new EmptyResult();
         }
 
+        public ActionResult SearchBill(DataTablesModel model, StatisticsCondition condition)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                int totalItem = 0;
+                var dataList = this.mainService.GetSalesStatisticsDetail(condition, model, out totalItem);
+                IList<object> resultList = new List<object>();
+
+                foreach (var data in dataList)
+                {
+                    resultList.Add(new object[] {
+                        data.PRODUCT_ID
+                        , Utility.GetPicturePath(data.PRODUCT_ID, data.PICTURE)
+                        , data.PRODUCT_CODE
+                        , HttpUtility.HtmlEncode(data.PRODUCT_NAME)
+                        , HttpUtility.HtmlEncode(data.BRAND_NAME)
+                        , HttpUtility.HtmlEncode(data.CATEGORY_NAME)
+                        , HttpUtility.HtmlEncode(data.COLOR_NAME)
+                        , HttpUtility.HtmlEncode(data.SIZE)
+                        , data.QUANTITY
+                        , data.SALES.ToString("#,##0")
+                        , data.MODIFIED_DATE.Value.ToString("yyyy/MM/dd HH:mm:ss")
+                    });
+                }
+
+                var result = Json(
+                    new
+                    {
+                        sEcho = model.sEcho,
+                        iTotalRecords = totalItem,
+                        iTotalDisplayRecords = totalItem,
+                        aaData = resultList
+                    },
+                    JsonRequestBehavior.AllowGet);
+
+                return result;
+            }
+
+            return new EmptyResult();
+        }
         #endregion
     }
 }

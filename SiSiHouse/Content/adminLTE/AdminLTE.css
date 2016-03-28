@@ -144,6 +144,7 @@ body {
 /* General Links */
 a {
   color: #FDE197;
+  cursor: pointer;
 }
 a:hover,
 a:active,

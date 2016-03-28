@@ -548,6 +548,7 @@ textarea {
 
 .content-header a.dropdown-toggle {
     color: #3b3b3b;
+    cursor: pointer;
 }
 
 .content-header .open > .dropdown-menu {

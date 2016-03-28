@@ -119,15 +119,13 @@ $(function () {
 });
 
 // Event show hide search form
-$(document).on('click', '.show-hide-search i', function (e) {
+$(document).on('click', '.show-hide-search', function (e) {
     $('.search-form').stop(true).slideToggle('fast');
 
-    if ($(this).hasClass('fa-chevron-circle-up')) {
-        $(this).addClass('hide');
-        $('.fa-chevron-circle-down').removeClass('hide');
+    if ($('.show-hide-search i').hasClass('fa-chevron-circle-up')) {
+        $('.show-hide-search i').removeClass('fa-chevron-circle-up').addClass('fa-chevron-circle-down');
     } else {
-        $(this).addClass('hide');
-        $('.fa-chevron-circle-up').removeClass('hide');
+        $('.show-hide-search i').removeClass('fa-chevron-circle-down').addClass('fa-chevron-circle-up');
     }
 });
 
