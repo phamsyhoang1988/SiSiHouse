@@ -10,6 +10,22 @@ $(function () {
         + '</li>';
     var readyScroll = true;
 
+    function SetViewType() {
+        var viewType = localStorage.getItem('viewtype');
+
+        if (typeof(viewType) != 'undefined') {
+            $('a.view-type').removeClass('selected');
+
+            if (viewType == '2') {
+                $('#two-columns a').addClass('selected');
+                $('#products-content').removeClass('four');
+            } else {
+                $('#four-columns a').addClass('selected');
+                $('#products-content').addClass('four');
+            }
+        }
+    }
+
     function DisplayCollection(dataList) {
         var html = '';
 
@@ -73,8 +89,11 @@ $(function () {
 
             if (columns == '2') {
                 $('#products-content').removeClass('four');
+                localStorage.setItem('viewtype', '2');
             } else {
                 $('#products-content').addClass('four');
+                localStorage.setItem('viewtype', '4');
+
 
                 var countProduct = $('ul#product-list li.product').length;
 
@@ -85,5 +104,6 @@ $(function () {
         }
     });
 
+    SetViewType();
     BindData(0);
 });
