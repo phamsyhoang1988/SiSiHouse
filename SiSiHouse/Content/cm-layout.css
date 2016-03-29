@@ -283,6 +283,42 @@ header nav #sub-menu {
     border-color: #eee;
 }
 
+/* CONTACT */
+#mdContactUs {
+    overflow: hidden;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+#mdContactUs .modal-dialog {
+    width: 600px;
+    margin-top: 155px;
+}
+
+#mdContactUs hr {
+    margin: 20px 0 10px;
+}
+
+#mdContactUs i {
+    font-size: 24px;
+}
+
+#mdContactUs .text-center div {
+    margin: 3px 0;
+}
+
+#mdContactUs .follow-us {
+    margin-top: 10px;
+}
+
+#mdContactUs .follow-us i {
+    margin: 0 5px;
+    color: #3d3d3d;
+}
+
+#mdContactUs .follow-us i:hover {
+    color: #0e0e0e;
+}
+
 /*
  * Component: Content
  * -------------------------
@@ -397,7 +433,7 @@ header nav #sub-menu {
     text-align: center;
     background: url(img/back_to_top.png) no-repeat 0 0;
     background-size: 50px;
-    background-color: #E8E8E8;
+    background-color: #E7E7E7;
     width: 50px;
     height: 37px;
     outline: none;
@@ -495,6 +531,9 @@ header nav #sub-menu {
 }
 
 /* MANAGE */
+.management {
+    font-family: Arial,Helvetica,sans-serif !important;
+}
 
 .manage-menu ul {
     margin-top: 15px;

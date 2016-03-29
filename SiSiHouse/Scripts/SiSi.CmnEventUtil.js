@@ -106,6 +106,10 @@ $(document).ready(function () {
             window.location.href = '/Show/Search/' + searchValue.trim();
         }
     });
+
+    $('#contactUs').on('click', function (e) {
+        $('#mdContactUs').modal({ backdrop: true });
+    });
 });
 
 // Set window name
