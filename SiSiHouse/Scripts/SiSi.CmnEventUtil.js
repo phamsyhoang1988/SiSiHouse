@@ -107,6 +107,19 @@ $(document).ready(function () {
         }
     });
 
+    $('#txtSearchAll').on('focus', function (e) {
+        $(document).bind('keypress', function (e) {
+            var code = e.keyCode || e.which;
+            if (code == 13) { //Enter keycode
+                $('#searchAll').click();
+            }
+        });
+    });
+
+    $('#txtSearchAll').on('blur', function (e) {
+        $(document).unbind('keypress');
+    });
+
     $('#contactUs').on('click', function (e) {
         $('#mdContactUs').modal({ backdrop: true });
     });
