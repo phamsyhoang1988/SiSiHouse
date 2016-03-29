@@ -341,7 +341,9 @@
     <Content Include="Content\bootstrap\css\bootstrap.css" />
     <Content Include="Content\bootstrap\css\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fontawesome\css\font-awesome-animation.css" />
-    <Content Include="Content\Shop.css" />
+    <Content Include="Content\img\sisi_icon.png" />
+    <Content Include="Content\mobile.css" />
+    <Content Include="Content\shop.css" />
     <Content Include="Content\CustomControllerCss\ManageOrders.css" />
     <Content Include="Content\CustomControllerCss\ManageStatistics.css" />
     <Content Include="Content\CustomControllerCss\ManageProduct.css" />
@@ -477,8 +479,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -566,6 +566,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\ManageBill\List.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\MobileLayout.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Shared\MobileHeader.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

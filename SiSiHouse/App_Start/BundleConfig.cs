@@ -80,7 +80,9 @@ namespace SiSiHouse
 
             bundles.Add(new StyleBundle("~/Content/CustomControllerCss/ManageStatistics").Include("~/Content/CustomControllerCss/ManageStatistics.css"));
 
-            bundles.Add(new StyleBundle("~/Content/Shop").Include("~/Content/Shop.css"));
+            bundles.Add(new StyleBundle("~/Content/Shop").Include("~/Content/shop.css"));
+
+            bundles.Add(new StyleBundle("~/Content/Mobile").Include("~/Content/mobile.css"));
         }
     }
 }

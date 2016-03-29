@@ -11,18 +11,10 @@ namespace SiSiHouse.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
-            return View();
-        }
+            if (Request.Browser.IsMobileDevice)
+            {
 
-        [AllowAnonymous]
-        public ActionResult About()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        public ActionResult Contact()
-        {
+            }
             return View();
         }
     }

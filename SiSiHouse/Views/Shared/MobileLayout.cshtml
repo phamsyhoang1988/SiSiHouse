@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Images/sisi_icon.png" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+
+    <script>
+        function GetPath(path) {
+            var contentPath = '@Url.Content("~/")';
+            var fullPath = path.replace(/^~/, '');
+
+            fullPath = fullPath.replace(/^\//, contentPath);
+
+            return fullPath;
+        }
+    </script>
+
+    @Styles.Render("~/Content/bootstrap/css/bootstrap")
+    @Styles.Render("~/Content/adminLTE/altCss")
+    @Styles.Render("~/Content/fontawesome/css/icon")
+    @Styles.Render("~/Content/common")
+    @Styles.Render("~/Content/Shop")
+    @Styles.Render("~/Content/Mobile")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery/plugins")
+    @Scripts.Render("~/bundles/input")
+</head>
+<body class="mobile">
+    <div class="mobile-content">
+        @RenderPage("~/Views/Shared/MobileHeader.cshtml")
+        @RenderBody()
+    </div>
+
+    <div id="mdContactUs" class="modal fade" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-center">
+                        <h3>CONTACT</h3>
+                    </div>
+                    <hr />
+                    <div class="text-center">
+                        <div>
+                            <i class="fa fa-building"></i>
+                        </div>
+                        <div>0974220985 (Tùng)</div>
+                        <div>Nguyễn Khang, Hà Nội</div>
+                        <div>Monday to Friday: 16:30 – 20:00</div>
+                        <div>Saturday to Sunday: 11:00 – 18:00</div>
+                    </div>
+                    <br />
+                    <div class="text-center">
+                        <div>
+                            <i class="fa fa-university"></i>
+                        </div>
+                        <div>Ngân hàng Vietcombank</div>
+                        <div>Tên tài khoản: Phạm Sĩ Tùng</div>
+                        <div>Số tài khoản: 0301000311770</div>
+                        <div>Chi nhánh: VCB Hoàn Kiếm</div>
+                    </div>
+                    <hr />
+                    <div class="text-center">
+                        <div>Follow us</div>
+                        <div class="follow-us">
+                            <a href="https://www.facebook.com/sisihouse.myeyes.yourstyle" target="_blank" title="Facebook">
+                                <i class="fa fa-facebook-official"></i>
+                            </a>
+                            <a href="https://www.instagram.com/si.si.house/" target="_blank" title="Instagram">
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+﻿@using SiSiHouse.Common;
+
+<div class="mobile-header">
+    <a id="menu_button" class="ui-btn-left">
+        <span></span>
+    </a>
+    <div id="logo_container">
+        <a class="logo-header" href="~/"></a>
+    </div>
+    <div id="header_right">
+        <ul>
+            <li>
+                <a title="Facebook">
+                    <i id="searchAll" class="fa fa-search"></i>
+                </a>
+            </li>
+            <li class="separator">|</li>
+            <li>
+                <a href="https://www.facebook.com/sisihouse.myeyes.yourstyle" target="_blank" title="Facebook">
+                    <i class="fa fa-facebook-official"></i>
+                </a>
+            </li>
+            <li class="separator">|</li>
+            <li>
+                <a href="https://www.instagram.com/si.si.house/" target="_blank" title="Instagram">
+                    <i class="fa fa-instagram"></i>
+                </a>
+            </li>
+            <li class="separator">|</li>
+            <li>
+                <a id="contactUs">
+                    Contact Us
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div id="menu_header">
+    <div id="main-menu">
+        <ul>
+            <li class="dropdown">
+                <a class="has-sub-menu">
+                    CLOTHES
+                </a>
+                <div class="sub-menu-content">
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="@Url.Action("Collection", "Show", new { id = "Clothes" })"><i class="fa fa-angle-right"></i> View All</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Collection", "Show", new { id = "Coats" })"><i class="fa fa-angle-right"></i> Coats</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Collection", "Show", new { id = "Jackets" })"><i class="fa fa-angle-right"></i> Jackets</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Collection", "Show", new { id = "Blazers" })"><i class="fa fa-angle-right"></i> Blazers</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> SweatShirts</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Sweaters</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Shirts</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> T-Shirts</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Polos</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Jeans</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Trousers</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Shorts</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a class="has-sub-menu">
+                    FOOTWEARS
+                </a>
+                <div class="sub-menu-content">
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="@Url.Action("Collection", "Show", new { id = "Footwears" })"><i class="fa fa-angle-right"></i> View All</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Shoes</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Moccasins</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Sneakers</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Boots</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Others</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a class="has-sub-menu">
+                    ACCESSORIES
+                </a>
+                <div class="sub-menu-content">
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="@Url.Action("Collection", "Show", new { id = "Accessories" })"><i class="fa fa-angle-right"></i> View All</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Bags</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Belts</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Glasses</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Hats</a>
+                        </li>
+                        <li>
+                            <a><i class="fa fa-angle-right"></i> Others</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="dropdown">
+                <a>
+                    LOOKBOOK
+                </a>
+            </li>
+            <li class="dropdown">
+                <a>
+                    FACEBOOK
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
