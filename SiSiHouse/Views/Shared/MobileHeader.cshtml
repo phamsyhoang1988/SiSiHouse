@@ -1,7 +1,7 @@
 ﻿@using SiSiHouse.Common;
 
 <div class="mobile-header">
-    <a id="menu_button" class="ui-btn-left">
+    <a id="menu_button">
         <span></span>
     </a>
     <div id="logo_container">
@@ -11,7 +11,7 @@
         <ul>
             <li>
                 <a title="Facebook">
-                    <i id="searchAll" class="fa fa-search"></i>
+                    <i id="showSearchForm" class="fa fa-search"></i>
                 </a>
             </li>
             <li class="separator">|</li>
@@ -35,6 +35,14 @@
         </ul>
     </div>
 </div>
+
+<div id="search_form">
+    <div class="search-input row">
+        <input type="text" id="txtSearchAll" placeholder="Search">
+        <button id="searchAll">OK</button>
+    </div>
+</div>
+
 <div id="menu_header">
     <div id="main-menu">
         <ul>
@@ -143,10 +151,12 @@
                 </a>
             </li>
             <li class="dropdown">
-                <a>
+                <a href="https://www.facebook.com/sisihouse.myeyes.yourstyle" target="_blank">
                     FACEBOOK
                 </a>
             </li>
         </ul>
     </div>
 </div>
+
+<div id="menu_layer"></div>

@@ -40,10 +40,6 @@
 }
 
 $(document).ready(function () {
-    window.onload = function () {
-        $('#onloadDiv').hide();
-    }
-
     $(window).scroll(function (e) {
         // show hide header
         if ($(this).scrollTop() > 155) {
@@ -100,7 +96,7 @@ $(document).ready(function () {
 
     // Event show hide search form
     $('#searchAll').on('click', function (e) {
-        var searchValue = $(this).next().val();
+        var searchValue = $(this).siblings('#txtSearchAll').val();
 
         if (searchValue.trim().length > 0) {
             window.location.href = '/Show/Search/' + searchValue.trim();

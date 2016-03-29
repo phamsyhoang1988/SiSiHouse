@@ -458,6 +458,7 @@
     <Content Include="Scripts\plugins\drag-on.js" />
     <Content Include="Scripts\plugins\pace.js" />
     <Content Include="Scripts\SiSi.Bill.js" />
+    <Content Include="Scripts\SiSi.mobile.CmnEvent.js" />
     <Content Include="Scripts\SiSi.ShowItem.js" />
     <Content Include="Scripts\SiSi.ShowCollection.js" />
     <Content Include="Scripts\SiSi.SalesStatisticsDetail.js" />
