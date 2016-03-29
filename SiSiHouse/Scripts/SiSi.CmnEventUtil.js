@@ -64,38 +64,6 @@ $(document).ready(function () {
         $("html, body").animate({ scrollTop: 0 }, 300);
         return false;
     });
-});
-
-// Set window name
-function SetWindowName(name) {
-    sessionStorage.setItem('WindowName', name);
-    window.name = name;
-}
-
-// Event auto start on load
-$(function () {
-    // set cookie when change screen
-    $(window).on("beforeunload", function (e) {
-        var name = sessionStorage.getItem('WindowName');
-        if (name != null) {
-            document.cookie = 'WindowName=' + name + '; path=/';
-        }
-    });
-
-    if (window.location.pathname !== '/') {
-        $(".sidebar-small-menu, .main-sidebar").find("li").children("a").each(function () {
-            var url = $(this).attr("href");
-            if (url.indexOf(window.location.pathname) > -1) {
-                $(this).parents('.parent-node').addClass("active");
-            }
-        });
-        $(".sidebar-small-menu, .main-sidebar").find("li").children("div").children("a").each(function () {
-            var url = $(this).attr("href");
-            if (url.indexOf(window.location.pathname) > -1) {
-                $(this).parents('.parent-node').addClass("active");
-            }
-        });
-    }
 
     $(".datepicker-years").datepicker({
         format: "yyyy",
@@ -118,33 +86,43 @@ $(function () {
         language: 'vi',
         autoclose: true
     });
+
+    // Event show hide search form
+    $(document).on('click', '.show-hide-search', function (e) {
+        $('.search-form').stop(true).slideToggle('fast');
+
+        if ($('.show-hide-search i').hasClass('fa-chevron-circle-up')) {
+            $('.show-hide-search i').removeClass('fa-chevron-circle-up').addClass('fa-chevron-circle-down');
+        } else {
+            $('.show-hide-search i').removeClass('fa-chevron-circle-down').addClass('fa-chevron-circle-up');
+        }
+    });
+
+    // Event show hide search form
+    $('#searchAll').on('click', function (e) {
+        var searchValue = $(this).next().val();
+
+        if (searchValue.trim().length > 0) {
+            window.location.href = '/Show/Search/' + searchValue.trim();
+        }
+    });
 });
 
-// Event show hide search form
-$(document).on('click', '.show-hide-search', function (e) {
-    $('.search-form').stop(true).slideToggle('fast');
+// Set window name
+function SetWindowName(name) {
+    sessionStorage.setItem('WindowName', name);
+    window.name = name;
+}
 
-    if ($('.show-hide-search i').hasClass('fa-chevron-circle-up')) {
-        $('.show-hide-search i').removeClass('fa-chevron-circle-up').addClass('fa-chevron-circle-down');
-    } else {
-        $('.show-hide-search i').removeClass('fa-chevron-circle-down').addClass('fa-chevron-circle-up');
-    }
-});
-
-// Event show hide menu-left
-$(document).off('.sidebar-toggle');
-$(document).on('click', '.sidebar-toggle', function () {
-    if ($('body').hasClass('sidebar-collapse') === true) {
-        localStorage.setItem('status-menu', 'close');
-    } else {
-        localStorage.setItem('status-menu', 'open');
-    }
-});
-
-// Event show hide menu-left
-$(document).off('.log-out');
-$(document).on('click', '.log-out', function () {
-    localStorage.setItem('status-menu', null);
+// Event auto start on load
+$(function () {
+    // set cookie when change screen
+    $(window).on("beforeunload", function (e) {
+        var name = sessionStorage.getItem('WindowName');
+        if (name != null) {
+            document.cookie = 'WindowName=' + name + '; path=/';
+        }
+    });
 });
 
 // control input on date time picker
@@ -206,4 +184,3 @@ $(document).on('keydown', '.datepicker-full, .input-daterange', function (e) {
         event.stopPropagation();
     }
 });
-

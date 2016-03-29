@@ -99,7 +99,6 @@ namespace SiSiHouse.WorkerServices.Impl
         public int CountProduct(CollectionCondition condition)
         {
             return _repository.CountProduct(condition);
-
         }
 
         public IList<Product> GetCollection(CollectionCondition condition, DataTablesModel table)

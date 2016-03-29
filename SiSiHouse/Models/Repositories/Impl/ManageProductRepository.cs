@@ -802,6 +802,11 @@ namespace SiSiHouse.Models.Repositories.Impl
                 sql.Append(" AND M_CATEGORY.CATEGORY_NAME = @CATEGORY_NAME ");
             }
 
+            if (!string.IsNullOrEmpty(condition.SEARCH_VALUE))
+            {
+                sql.AppendFormat(" AND (PRODUCT.PRODUCT_CODE LIKE '{0}' OR PRODUCT.PRODUCT_NAME LIKE N'{0}' ESCAPE '\\') ", "%" + this.replaceWildcardCharacters(condition.SEARCH_VALUE) + "%");
+            }
+
             //if (!string.IsNullOrEmpty(condition.STATUS_ID))
             //{
             //    sqlContent.AppendFormat(" AND STATUS_ID IN ({0})", condition.STATUS_ID);
@@ -831,6 +836,11 @@ namespace SiSiHouse.Models.Repositories.Impl
                 if (!string.IsNullOrEmpty(condition.CATEGORY_NAME))
                 {
                     sql.Append(" AND M_CATEGORY.CATEGORY_NAME = @CATEGORY_NAME ");
+                }
+
+                if (!string.IsNullOrEmpty(condition.SEARCH_VALUE))
+                {
+                    sql.AppendFormat(" AND (PRODUCT.PRODUCT_CODE LIKE '{0}' OR PRODUCT.PRODUCT_NAME LIKE N'{0}' ESCAPE '\\') ", "%" + this.replaceWildcardCharacters(condition.SEARCH_VALUE) + "%");
                 }
 
                 sql.Append(" ) tbData ");

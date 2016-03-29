@@ -53,7 +53,7 @@ body.shop {
     padding: 0;
     height: 23px;
     background: #241E20;
-    color: white;
+    color: #ccc;
 }
 
 .main-header #header-menu #search, .main-header #header-menu #general-menu {

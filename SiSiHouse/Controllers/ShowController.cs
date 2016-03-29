@@ -58,6 +58,8 @@ namespace SiSiHouse.Controllers
 
             ViewBag.TotalProduct = this.mainService.CountProduct(condition);
             ViewBag.Title = id;
+            ViewBag.Type = id;
+            ViewBag.SearchValue = "";
 
             return View();
         }
@@ -97,25 +99,48 @@ namespace SiSiHouse.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        public ActionResult Search(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("", "Home");
+            }
+
+            CollectionCondition condition = new CollectionCondition
+            {
+                SEARCH_VALUE = id
+            };
+
+            ViewBag.TotalProduct = this.mainService.CountProduct(condition);
+            ViewBag.Title = "Search: " + id;
+            ViewBag.Type = "";
+            ViewBag.SearchValue = id;
+
+            return View("Collection");
+        }
+
         #endregion
 
         #region Ajax Action
         [AllowAnonymous]
-        public ActionResult List(string type, int countItem = 0)
+        public ActionResult List(string type, string searchValue, int countItem = 0)
         {
-            if (string.IsNullOrEmpty(type) || !Request.IsAjaxRequest())
+            if ((string.IsNullOrEmpty(type) && string.IsNullOrEmpty(searchValue)) || !Request.IsAjaxRequest())
             {
                 return new EmptyResult();
             }
 
-            CollectionCondition condition = this.CreateCondition(type.ToLower());
-            DataTablesModel table = new DataTablesModel {
+            DataTablesModel table = new DataTablesModel
+            {
                 iDisplayStart = countItem,
                 iDisplayLength = Constant.DISPLAY_ITEM_PER_PAGE,
                 sColumns = "IMPORT_DATE",
                 iSortCol_0 = 0,
                 sSortDir_0 = "DESC"
             };
+            CollectionCondition condition = this.CreateCondition(type.ToLower());
+            condition.SEARCH_VALUE = searchValue;
 
             var productList = this.mainService.GetCollection(condition, table);
             IList<object> dataList = new List<object>();

@@ -10,5 +10,7 @@ namespace SiSiHouse.Models.Conditions
         public int? CATEGORY_TYPE { get; set; }
 
         public string CATEGORY_NAME { get; set; }
+
+        public string SEARCH_VALUE { get; set; }
     }
 }

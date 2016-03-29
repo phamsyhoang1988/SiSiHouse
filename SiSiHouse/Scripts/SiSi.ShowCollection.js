@@ -1,7 +1,9 @@
 ﻿
 $(function () {
-    var type = $('#hdnCollectionType').val();
     var totalProduct = $('#hdnTotalProduct').val();
+    var type = $('#hdnCollectionType').val();
+    var searchValue = $('#hdnSearchValue').val();
+
     var htmlTempProduct = '<li class="product visible-c">'
         + '<a class="product-image" href="{link}" title="{title}">'
         + '<img class="lazy img-responsive main" src="{picture_1}">'
@@ -46,7 +48,7 @@ $(function () {
     }
 
     function BindData(countItem) {
-        SiSi.utility.getDataByAjax(true, '/Show/List/', { type: type, countItem: countItem }, function (result) {
+        SiSi.utility.getDataByAjax(true, '/Show/List/', { type: type, searchValue: searchValue, countItem: countItem }, function (result) {
             if (result && result.data.length > 0) {
                 DisplayCollection(result.data);
             }
