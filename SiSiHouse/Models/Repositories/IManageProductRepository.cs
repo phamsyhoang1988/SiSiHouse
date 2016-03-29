@@ -17,7 +17,7 @@ namespace SiSiHouse.Models.Repositories
 
         bool UpdateProductInfo(Product data, IList<ProductDetail> dataDetail, IList<Picture> dataPicture, out long newProductID);
 
-        bool UpdateRetail(Product product, IList<Retail> retailList, bool isEdit);
+        bool UpdateRetail(Product product, IList<Retail> retailList, bool isEdit, long updateUserID);
 
         bool DeleteProduct(long productID, long userID);
 

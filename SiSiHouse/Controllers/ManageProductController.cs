@@ -235,7 +235,7 @@ namespace SiSiHouse.Controllers
                     model.ProductInfo.MODIFIED_DATE = DateTime.Now;
                     model.ProductInfo.MODIFIED_USER_ID = loginUser.USER_ID;
 
-                    if (this.mainService.UpdateRetail(model.ProductInfo, model.RetailList, false))
+                    if (this.mainService.UpdateRetail(model.ProductInfo, model.RetailList, false, GetLoginUser().USER_ID))
                     {
                         JsonResult result = Json(
                             new

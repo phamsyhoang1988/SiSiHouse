@@ -80,6 +80,7 @@ namespace SiSiHouse.Controllers
                         , HttpUtility.HtmlEncode(data.CREATED_USER)
                         , data.RETAIL_CODE
                         , data.PRODUCT_DETAIL_ID
+                        , data.STATUS_ID
                     });
                 }
 
@@ -99,19 +100,20 @@ namespace SiSiHouse.Controllers
             return new EmptyResult();
         }
 
-        public ActionResult DoAction(string retailCode, long productId, long productDetailId, bool isUndo)
+        public ActionResult DoAction(BillCondition model)
         {
             if (Request.IsAjaxRequest())
             {
                 try
                 {
-                    if (this.mainService.DoAction(retailCode, productId, productDetailId, isUndo, GetLoginUser().USER_ID))
+                    if (this.mainService.DoAction(model, GetLoginUser().USER_ID))
                     {
+                        string messageSuccess = "Đã " + (model.IS_UNDO ? "trả lại" : "xóa") + " hóa đơn \"" + model.RETAIL_CODE + "\" thành công.";
                         JsonResult result = Json(
                             new
                             {
                                 statusCode = 201,
-                                message = "Đã xóa sản phẩm thành công."
+                                message = messageSuccess
                             },
                             JsonRequestBehavior.AllowGet);
 

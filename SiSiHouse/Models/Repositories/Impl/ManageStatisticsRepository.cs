@@ -109,6 +109,7 @@ namespace SiSiHouse.Models.Repositories.Impl
                         , PRODUCT.REAL_PRICE
                         , RETAIL.CREATED_DATE
                         , M_USER.FULL_NAME CREATED_USER
+                        , PRODUCT.STATUS_ID
                     FROM
                         RETAIL 
                         LEFT JOIN PRODUCT
@@ -211,30 +212,76 @@ namespace SiSiHouse.Models.Repositories.Impl
             }
         }
 
-        public bool DoAction(string retailCode, long productId, long productDetailId, bool isUndo)
+        public bool DoAction(BillCondition model, long updateUserID)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 int result = 0;
-                var sqlUpdate = new StringBuilder();
+                var sqlDelete = new StringBuilder();
 
-                sqlUpdate.Append(@"
-                    UPDATE PRODUCT
-                    SET DELETE_FLAG = @DELETE_FLAG
-                        , MODIFIED_DATE = @MODIFIED_DATE
-                        , MODIFIED_USER_ID = @MODIFIED_USER_ID
-                    WHERE PRODUCT_ID = @PRODUCT_ID");
+                sqlDelete.Append(@"
+                    DELETE FROM
+                        RETAIL
+                    WHERE
+                        RETAIL_CODE = @RETAIL_CODE
+                        AND PRODUCT_ID = @PRODUCT_ID
+                        AND PRODUCT_DETAIL_ID = @PRODUCT_DETAIL_ID");
 
                 sqlConnection.Open();
 
                 result = sqlConnection.Execute(
-                    sqlUpdate.ToString(),
+                    sqlDelete.ToString(),
                     new
                     {
-                        DELETE_FLAG = Constant.DeleteFlag.DELETE,
-                        MODIFIED_DATE = DateTime.Now
+                        RETAIL_CODE = model.RETAIL_CODE,
+                        PRODUCT_ID = model.PRODUCT_ID,
+                        PRODUCT_DETAIL_ID = model.PRODUCT_DETAIL_ID
                     }
                 );
+
+                if (result > 0 && model.IS_UNDO)
+                {
+                    var sqlUndo = new StringBuilder();
+
+                    sqlUndo.Append(@"
+                        UPDATE PRODUCT_DETAIL
+                            SET QUANTITY = (QUANTITY + @QUANTITY)
+                        WHERE PRODUCT_ID = @PRODUCT_ID
+                        AND PRODUCT_DETAIL_ID = @PRODUCT_DETAIL_ID");
+
+                    result = sqlConnection.Execute(
+                        sqlUndo.ToString(),
+                        new
+                        {
+                            QUANTITY = model.QUANTITY,
+                            PRODUCT_ID = model.PRODUCT_ID,
+                            PRODUCT_DETAIL_ID = model.PRODUCT_DETAIL_ID
+                        }
+                    );
+
+                    if (result > 0 && Convert.ToInt16(Constant.Status.OUT_OF_STOCK) == model.STATUS_ID)
+                    {
+                        var sqlUpdate = new StringBuilder();
+
+                        sqlUpdate.Append(@"
+                            UPDATE PRODUCT
+                                SET STATUS_ID = @STATUS_ID
+                                    , MODIFIED_DATE = @MODIFIED_DATE
+                                    , MODIFIED_USER_ID = @MODIFIED_USER_ID
+                            WHERE PRODUCT_ID = @PRODUCT_ID");
+
+                        result = sqlConnection.Execute(
+                            sqlUpdate.ToString(),
+                            new
+                            {
+                                STATUS_ID = Convert.ToInt16(Constant.Status.SELLING),
+                                PRODUCT_ID = model.PRODUCT_ID,
+                                MODIFIED_DATE = DateTime.Now,
+                                MODIFIED_USER_ID = updateUserID
+                            }
+                        );
+                    }
+                }
 
                 sqlConnection.Dispose();
                 sqlConnection.Close();

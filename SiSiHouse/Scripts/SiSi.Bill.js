@@ -14,7 +14,8 @@ $(function () {
         MODIFIED_DATE = 10,
         MODIFIED_USER = 11,
         RETAIL_CODE = 12,
-        PRODUCT_DETAIL_ID = 13;
+        PRODUCT_DETAIL_ID = 13,
+        STATUS_ID = 14;
 
     var oSorting = {
         "bSort": true
@@ -42,7 +43,10 @@ $(function () {
         { "sName": "SALES", "aTargets": [SALES], "sWidth": "8%", "sClass": "right" },
         { "sName": "CREATED_DATE", "aTargets": [MODIFIED_DATE], "sWidth": "9%", "sClass": "left" },
         { "sName": "CREATED_USER", "aTargets": [MODIFIED_USER], "sWidth": "9%", "sClass": "left" },
-        { "sName": "CREATED_DATE", "bVisible": Constant.ROLE.ADMIN == Constant.CurrentUserRole, "bSortable": false, "aTargets": [RETAIL_CODE], "sWidth": "8%", "sClass": "center", "mRender": function (data, type, full) { return BindAction(data, full[PRODUCT_ID], full[PRODUCT_DETAIL_ID]); } }
+        {
+            "sName": "CREATED_DATE", "bVisible": Constant.ROLE.ADMIN == Constant.CurrentUserRole, "bSortable": false, "aTargets": [RETAIL_CODE], "sWidth": "8%", "sClass": "center"
+            , "mRender": function (data, type, full) { return BindAction(data, full[PRODUCT_ID], full[PRODUCT_DETAIL_ID], full[QUANTITY], full[STATUS_ID]); }
+        }
     ];
 
     var dataTable = CreateDataTable('#InfoTable', oSorting, oPaginate, oServerSide, aoColumnDefs);
@@ -60,9 +64,9 @@ $(function () {
         );
     }
 
-    function BindAction(retailCode, productID, productDetailID) {
-        var html = '<div><a class="action-undo" data-retail-code="' + retailCode + '" data-product-id="' + productID + '" data-product-detail-id="' + productDetailID + '"> <i class="fa fa-undo error"></i> Trả lại</a></div>'
-            + '<div><a class="action-delete" data-retail-code="' + retailCode + '" data-product-id="' + productID + '" data-product-detail-id="' + productDetailID + '"> <i class="fa fa-remove error"></i> Xóa</a></div>';
+    function BindAction(retailCode, productID, productDetailID, quantity, statusID) {
+        var html = '<div><a class="action-undo" data-retail-code="' + retailCode + '" data-product-id="' + productID + '" data-product-detail-id="' + productDetailID + '" data-quantity="' + quantity + '" data-status-id="' + statusID + '"> <i class="fa fa-undo error"></i> Trả lại</a></div>'
+            + '<div><a class="action-delete" data-retail-code="' + retailCode + '" data-product-id="' + productID + '" data-product-detail-id="' + productDetailID + '" data-quantity="' + quantity + '" data-status-id="' + statusID + '"> <i class="fa fa-remove error"></i> Xóa</a></div>';
 
         return html;
     }
@@ -113,12 +117,15 @@ $(function () {
     $(document).off(".action-delete");
     $(document).on("click", ".action-delete", function () {
         var retailCode = $(this).data('retail-code');
-        var param = {
-            retailCode: retailCode,
-            productId: $(this).data('product-id'),
-            productDetailId: $(this).data('product-detail-id'),
-            isUndo: false
-        };
+
+        var param = JSON.stringify({
+            RETAIL_CODE: retailCode,
+            PRODUCT_ID: $(this).data('product-id'),
+            PRODUCT_DETAIL_ID: $(this).data('product-detail-id'),
+            QUANTITY: $(this).data('quantity'),
+            STATUS_ID: $(this).data('status-id'),
+            IS_UNDO: false
+        });
 
         DoActionWithBill(param, Constant.MESSAGE.CONFIRM_DELETE_BILL.replace('{0}', retailCode));
     });
@@ -126,12 +133,14 @@ $(function () {
     $(document).off(".action-undo");
     $(document).on("click", ".action-undo", function () {
         var retailCode = $(this).data('retail-code');
-        var param = {
-            retailCode: retailCode,
-            productId: $(this).data('product-id'),
-            productDetailId: $(this).data('product-detail-id'),
-            isUndo: true
-        };
+        var param = JSON.stringify({
+            RETAIL_CODE: retailCode,
+            PRODUCT_ID: $(this).data('product-id'),
+            PRODUCT_DETAIL_ID: $(this).data('product-detail-id'),
+            QUANTITY: $(this).data('quantity'),
+            STATUS_ID: $(this).data('status-id'),
+            IS_UNDO: true
+        });
 
         DoActionWithBill(param, Constant.MESSAGE.CONFIRM_UNDO_BILL.replace('{0}', retailCode));
     });
@@ -141,8 +150,10 @@ $(function () {
             if (action) {
                 $.ajax({
                     url: '/ManageBill/DoAction',
-                    data: param,
                     type: 'POST',
+                    data: param,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
                     processData: false,
                     success: function (data) {
                         if (data.statusCode == 201) { // update success

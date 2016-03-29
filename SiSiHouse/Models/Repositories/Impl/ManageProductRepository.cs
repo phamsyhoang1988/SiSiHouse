@@ -567,23 +567,14 @@ namespace SiSiHouse.Models.Repositories.Impl
             return result;
         }
 
-        public bool UpdateRetail(Product product, IList<Retail> retailList, bool isEdit)
+        public bool UpdateRetail(Product product, IList<Retail> retailList, bool isEdit, long updateUserID)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
                 int result = 0;
                 sqlConnection.Open();
 
-                if (isEdit)
-                {
-                    // xoa data cu di
-                    //result = sqlConnection.Execute(sqlDelete.ToString());
-                }
-
-                //if (result > 0)
-                //{
-                result = InsertRetail(sqlConnection, product, retailList);
-                //}
+                result = InsertRetail(sqlConnection, product, retailList, updateUserID);
 
                 sqlConnection.Dispose();
                 sqlConnection.Close();
@@ -592,7 +583,7 @@ namespace SiSiHouse.Models.Repositories.Impl
             }
         }
 
-        private int InsertRetail(SqlConnection sqlConnection, Product product, IList<Retail> retailList)
+        private int InsertRetail(SqlConnection sqlConnection, Product product, IList<Retail> retailList, long updateUserID)
         {
             int result = 0;
             string retailCode = "R" + product.MODIFIED_DATE.Value.ToString("yyyyMMddHHmmss");
@@ -631,9 +622,9 @@ namespace SiSiHouse.Models.Repositories.Impl
                         QUANTITY = data.QUANTITY,
                         TOTAL_PRICE = data.TOTAL_PRICE,
                         CREATED_DATE = currentDate,
-                        CREATED_USER_ID = data.MODIFIED_USER_ID,
+                        CREATED_USER_ID = updateUserID,
                         MODIFIED_DATE = currentDate,
-                        MODIFIED_USER_ID = data.MODIFIED_USER_ID
+                        MODIFIED_USER_ID = updateUserID
                     }
                 );
 
@@ -691,14 +682,18 @@ namespace SiSiHouse.Models.Repositories.Impl
                     sqlUpdate.Append(@"
                         UPDATE PRODUCT
                             SET STATUS_ID = @STATUS_ID
+                                , MODIFIED_DATE = @MODIFIED_DATE
+                                , MODIFIED_USER_ID = @MODIFIED_USER_ID
                         WHERE PRODUCT_ID = @PRODUCT_ID");
 
                     result = sqlConnection.Execute(
                         sqlUpdate.ToString(),
                         new
                         {
-                            STATUS_ID = Convert.ToInt32(Constant.Status.OUT_OF_STOCK),
-                            PRODUCT_ID = product.PRODUCT_ID
+                            STATUS_ID = Convert.ToInt16(Constant.Status.OUT_OF_STOCK),
+                            PRODUCT_ID = product.PRODUCT_ID,
+                            MODIFIED_DATE = DateTime.Now,
+                            MODIFIED_USER_ID = updateUserID
                         }
                     );
                 }

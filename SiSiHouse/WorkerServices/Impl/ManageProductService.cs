@@ -61,13 +61,13 @@ namespace SiSiHouse.WorkerServices.Impl
             return res;
         }
 
-        public bool UpdateRetail(Product product, IList<Retail> retailList, bool isEdit)
+        public bool UpdateRetail(Product product, IList<Retail> retailList, bool isEdit, long updateUserID)
         {
             var res = false;
 
             using (var transaction = new TransactionScope())
             {
-                res = _repository.UpdateRetail(product, retailList, isEdit);
+                res = _repository.UpdateRetail(product, retailList, isEdit, updateUserID);
 
                 if (res)
                     transaction.Complete();

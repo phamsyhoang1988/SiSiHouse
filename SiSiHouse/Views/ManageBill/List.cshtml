@@ -15,17 +15,17 @@
     </h1>
     <div class="search-form">
         <div class="search-condition form-group row">
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 @Html.LabelFor(m => m.Condition.PRODUCT_CODE, new { @class = "" })
                 @Html.TextBoxFor(m => m.Condition.PRODUCT_CODE, new { maxlength = 200, @placeholder = "Mã sản phẩm ...", @class = "input-text" })
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-4">
                 @Html.LabelFor(m => m.Condition.PRODUCT_NAME, new { @class = "" })
                 @Html.TextBoxFor(m => m.Condition.PRODUCT_NAME, new { maxlength = 200, @placeholder = "Tên sản phẩm ...", @class = "input-text" })
             </div>
             <div class="col-lg-4">
                 <label class="lbl-time-range">Ngày cập nhật</label>
-                <div class="input-group col-lg-3 date datepicker-full">
+                <div class="input-group col-lg-4 date datepicker-full">
                     @Html.TextBoxFor(m => m.Condition.TARGET_DATE, "{0:yyyy/MM/dd}", new { @class = "form-control", maxlength = 10 })
                     <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
                 </div>

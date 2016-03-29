@@ -53,7 +53,7 @@ $(function () {
         { "sName": "MODIFIED_DATE", "bVisible": Constant.ROLE.ADMIN == Constant.CurrentUserRole, "aTargets": [MODIFIED_DATE], "sWidth": "8%", "sClass": "center" },
         {
             "sName": "PRODUCT_NAME", "bSortable": false, "aTargets": [DELETE_FLAG], "sWidth": "6%", "sClass": "center"
-            , "mRender": function (data, type, full) { return BuildAction(full[PRODUCT_ID], data, full[STATUS_ID], full[PRODUCT_NAME]); }
+            , "mRender": function (data, type, full) { return BuildAction(full[PRODUCT_ID], data, full[STATUS_ID], full[PRODUCT_NAME], full[DELETE_FLAG]); }
         }
     ];
 
@@ -97,8 +97,12 @@ $(function () {
         return BuildLinkToUpdate(id, html, '');
     }
 
-    function BuildAction(productID, deleted, status, productName) {
+    function BuildAction(productID, deleted, status, productName, deleteFlag) {
         var html = '';
+
+        if (deleteFlag == 1) {
+            return html;
+        }
 
         if (Constant.STATUS.SELLING == status || Constant.STATUS.SALE_OFF == status) {
             html += '<div><a data-toggle="modal" data-target="#retailContent" data-whatever="' + productID + '"> <i class="fa fa-cart-plus"></i> Bán lẻ</a></div>'

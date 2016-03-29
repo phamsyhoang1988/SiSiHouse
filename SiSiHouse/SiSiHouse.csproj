@@ -250,6 +250,7 @@
     <Compile Include="Models\Conditions\ColorCondition.cs" />
     <Compile Include="Models\Conditions\OrdersCondition.cs" />
     <Compile Include="Models\Conditions\CollectionCondition.cs" />
+    <Compile Include="Models\Conditions\BillCondition.cs" />
     <Compile Include="Models\Conditions\StatisticsCondition.cs" />
     <Compile Include="Models\Conditions\ProductCondition.cs" />
     <Compile Include="Models\Conditions\MoneyCondition.cs" />

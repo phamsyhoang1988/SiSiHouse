@@ -4,6 +4,7 @@ using SiSiHouse.Models.Repositories;
 using SiSiHouse.Models.Repositories.Impl;
 using SiSiHouse.ViewModels;
 using System.Collections.Generic;
+using System.Transactions;
 
 namespace SiSiHouse.WorkerServices.Impl
 {
@@ -34,6 +35,21 @@ namespace SiSiHouse.WorkerServices.Impl
         public IList<Product> GetAllSalesStatisticsDetail(StatisticsCondition condition)
         {
             return _repository.GetAllSalesStatisticsDetail(condition);
+        }
+
+        public bool DoAction(BillCondition model, long UpdateUserID)
+        {
+            var res = false;
+
+            using (var transaction = new TransactionScope())
+            {
+                res = _repository.DoAction(model, UpdateUserID);
+
+                if (res)
+                    transaction.Complete();
+            }
+
+            return res;
         }
     }
 }

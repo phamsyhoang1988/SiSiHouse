@@ -12,5 +12,7 @@ namespace SiSiHouse.WorkerServices
         IList<Product> GetSalesStatisticsDetail(StatisticsCondition condition, DataTablesModel tableSetting, out int totalData);
 
         IList<Product> GetAllSalesStatisticsDetail(StatisticsCondition condition);
+
+        bool DoAction(BillCondition model, long updateUserID);
     }
 }
