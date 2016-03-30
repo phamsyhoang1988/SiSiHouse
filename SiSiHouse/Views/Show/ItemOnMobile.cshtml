@@ -1,21 +1,17 @@
 ﻿@using SiSiHouse.Common
 @model SiSiHouse.ViewModels.CollectionItemModel
 
+@{
+    Layout = "~/Views/Shared/MobileLayout.cshtml";
+}
+
 <div id="iPageContent" class="product-info">
     <section id="product-detail">
-        <div id="product-images" class="">
-            <div id="product-main-images">
-                @foreach (var img in Model.PictureList)
-                {
-                    <img id="@img.PICTURE_ID" src="@img.IMG_SRC" />
-                }
-            </div>
-        </div>
-
         <div id="product-info">
             <div class="wrapper">
                 <div id="product-actions" class="clearfix">
-                    <a id="goBack" href="javascript:history.back();">Back</a>
+                    <span id="product-ref">Ref.  @Model.ProductInfo.PRODUCT_CODE</span>
+
                     <ul id="shareButtons">
                         <li>
                             <a id="facebook" class="social" title="Share on Facebook"><i class="fa fa-facebook"></i></a>
@@ -25,17 +21,16 @@
 
                 <div class="product-p">
                     <div class="product-main-info">
-                        <p id="product-ref">Ref.  @Model.ProductInfo.PRODUCT_CODE</p>
                         <h1 class="product-name">@Model.ProductInfo.PRODUCT_NAME</h1>
                         <div class="product-prices">
-                            @if (!string.IsNullOrEmpty(Model.ProductInfo.DISPLAY_PRICE))
-                            {
-                                <div class="prices">
+                            <div class="prices">
+                                @if (!string.IsNullOrEmpty(Model.ProductInfo.DISPLAY_PRICE))
+                                {
                                     <p class="currentPrice">
                                         @Model.ProductInfo.DISPLAY_PRICE
                                     </p>
-                                </div>
-                            }
+                                }
+                            </div>
                             <hr>
                         </div>
 
@@ -52,13 +47,21 @@
                         <ul>
                             @foreach (var img in Model.PictureList)
                             {
-                                
+
                                 <li><img data-index="@img.PICTURE_ID" src="@img.IMG_SRC" /></li>
-                                
+
                             }
                         </ul>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div id="product-images" class="">
+            <div id="product-main-images">
+                @foreach (var img in Model.PictureList)
+                {
+                    <img id="@img.PICTURE_ID" src="@img.IMG_SRC" />
+                }
             </div>
         </div>
     </section>

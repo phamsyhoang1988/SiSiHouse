@@ -289,6 +289,14 @@ header nav #sub-menu {
     font-family: Arial,Helvetica,sans-serif;
 }
 
+#mdContactUs #closeContact {
+    font-size: 12px;
+    color: #BBB;
+    position: fixed;
+    right: 5px;
+    top: 5px;
+}
+
 #mdContactUs .modal-dialog {
     width: 600px;
     margin-top: 155px;
@@ -751,7 +759,7 @@ header nav #sub-menu {
     text-align: center;
 }
 
-#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info #product-ref {
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-ref {
     font-family: Lato,'Trebuchet MS',Helvetica,sans-serif;
     font-weight: 300;
     font-size: 15px;
@@ -778,7 +786,7 @@ header nav #sub-menu {
 #iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info .product-prices .prices {
     background-color: #fff;
     display: inline-block;
-    padding: 0 10px 0 14px;
+    padding: 0 10px;
     z-index: 1;
     position: relative;
 }

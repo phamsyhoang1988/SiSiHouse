@@ -1,16 +1,24 @@
 ﻿
+html {
+  overflow-y: hidden;
+}
+
 body {
-    /*overflow: hidden;*/
+    overflow-y: hidden;
     background-image: none;
     border-width: 0;
     font-family: Arial,Helvetica,sans-serif;
     -webkit-font-smoothing: antialiased;
-    color: #fff;
 }
 
-a {
-    color: #fff;
+body.menu-header-open {
+    position: fixed;
+    width: 100%;
 }
+
+/*a {
+    color: #fff;
+}*/
 
 input {
     padding: 0;
@@ -25,7 +33,7 @@ input {
     /*display: none;*/
     border: 0;
     background: #FFF;
-    overflow: visible;
+    overflow-y: hidden;
 }
 
 .mobile-header {
@@ -55,7 +63,7 @@ input {
     border-radius: 3px;
     height: 1px;
     width: 20px;
-    background: #fff;
+    background: #FDE197;
     position: absolute;
     display: block;
     content: '';
@@ -99,7 +107,7 @@ input {
 #logo_container {
     width: 30px;
     height: 30px;
-    margin: 0 auto;
+    margin-left: 60px;
     padding-top: 1px;
 }
 
@@ -149,7 +157,7 @@ input {
 
 #search_form .search-input #txtSearchAll {
     float: left;
-    width: 83%;
+    width: 73%;
     margin: 0;
     background: #757779;
     border: 0;
@@ -157,11 +165,11 @@ input {
 
 #search_form .search-input #searchAll {
     float: right;
-    width: 15%;
+    width: 25%;
     margin: 0;
     background: #757779;
     border: 0;
-    color: #fff;
+    /*color: #fff;*/
 }
 
 #menu_layer {
@@ -199,12 +207,16 @@ input {
 }
 
 #menu_header a {
-    color: #fff;
+    /*color: #fff;*/
     display: block;
     text-decoration: none;
     font-family: Georgia,"Times New Roman",serif;
     font-size: 14px;
     outline: none;
+}
+
+#menu_header a:hover {
+    color: #FDE197;
 }
 
 #menu_header #main-menu .sub-menu-content {
@@ -213,5 +225,86 @@ input {
 
 #menu_header ul.sub-menu > li {
     padding-left: 20px;
+}
+
+
+/* CONTACT */
+#mdContactUs .modal-dialog {
+    width: 90%;
+    margin: 20px 5%;
+    color: #3b3b3b !important;
+}
+
+#mdContactUs a {
+    color: #3b3b3b !important;
+}
+
+
+/* COLLECTION */
+#iPageContent #sub-nav {
+    margin: 5px 5px 0;
+    font-family: Arial,Helvetica,sans-serif;
+}
+
+#iPageContent #products {
+    margin: 5px 5px;
+}
+
+#iPageContent #products #products-content {
+    min-width: 100%;
+    max-width: none;
+}
+
+
+/* ITEM */
+
+#iPageContent.product-info #product-detail {
+    margin: 5px;
+}
+
+#iPageContent.product-info {
+    width: auto;
+    min-width: inherit;
+}
+
+#iPageContent.product-info #product-detail #product-info {
+    float: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper {
+    max-width: none;
+    padding: 0;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-actions #shareButtons li {
+    margin: 0;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-actions #shareButtons li i {
+    padding: 0;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info h1.product-name {
+    margin: 5px 0 15px;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info .product-prices {
+    margin-bottom: 0;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper .product-main-info #product-long-desc {
+    margin: 5px 5px 10px;
+}
+
+#iPageContent.product-info #product-detail #product-info>.wrapper #product-image-thumbs {
+    margin-top: 25px;
+}
+
+#iPageContent.product-info #product-detail #product-images {
+     width: auto;
+     float: none;
 }
 

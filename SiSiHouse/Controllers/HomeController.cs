@@ -11,11 +11,14 @@ namespace SiSiHouse.Controllers
         [AllowAnonymous]
         public ActionResult Index()
         {
+            var view = View();
+
             if (Request.Browser.IsMobileDevice)
             {
-
+                view.MasterName = "~/Views/Shared/MobileLayout.cshtml"; 
             }
-            return View();
+
+            return view;
         }
     }
 }

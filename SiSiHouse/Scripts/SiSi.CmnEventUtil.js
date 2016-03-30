@@ -119,6 +119,10 @@ $(document).ready(function () {
     $('#contactUs').on('click', function (e) {
         $('#mdContactUs').modal({ backdrop: true });
     });
+
+    $('#closeContact').on('click', function (e) {
+        $('#mdContactUs').modal('toggle');
+    });
 });
 
 // Set window name

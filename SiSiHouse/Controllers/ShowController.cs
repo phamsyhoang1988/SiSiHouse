@@ -61,7 +61,14 @@ namespace SiSiHouse.Controllers
             ViewBag.Type = id;
             ViewBag.SearchValue = "";
 
-            return View();
+            var view = View();
+
+            if (Request.Browser.IsMobileDevice)
+            {
+                view.MasterName = "~/Views/Shared/MobileLayout.cshtml";
+            }
+
+            return view;
         }
 
         [AllowAnonymous]
@@ -96,7 +103,10 @@ namespace SiSiHouse.Controllers
 
             ViewBag.Title = model.ProductInfo.PRODUCT_NAME;
 
-            return View(model);
+            string layout = Request.Browser.IsMobileDevice ? "ItemOnMobile" : "Item";
+            var view = View(layout, model);
+
+            return view;
         }
 
         [AllowAnonymous]
@@ -117,7 +127,14 @@ namespace SiSiHouse.Controllers
             ViewBag.Type = "";
             ViewBag.SearchValue = id;
 
-            return View("Collection");
+            var view = View("Collection");
+
+            if (Request.Browser.IsMobileDevice)
+            {
+                view.MasterName = "~/Views/Shared/MobileLayout.cshtml";
+            }
+
+            return view;
         }
 
         #endregion
