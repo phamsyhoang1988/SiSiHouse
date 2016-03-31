@@ -456,6 +456,12 @@
     <Content Include="Scripts\kickstart.js" />
     <Content Include="Scripts\plugins\bootstrap-datepicker.js" />
     <Content Include="Scripts\plugins\drag-on.js" />
+    <Content Include="Scripts\plugins\mobileSlider\swiper.jquery.js" />
+    <Content Include="Scripts\plugins\mobileSlider\swiper.jquery.min.js" />
+    <Content Include="Scripts\plugins\mobileSlider\swiper.jquery.umd.js" />
+    <Content Include="Scripts\plugins\mobileSlider\swiper.jquery.umd.min.js" />
+    <Content Include="Scripts\plugins\mobileSlider\swiper.js" />
+    <Content Include="Scripts\plugins\mobileSlider\swiper.min.js" />
     <Content Include="Scripts\plugins\pace.js" />
     <Content Include="Scripts\SiSi.Bill.js" />
     <Content Include="Scripts\SiSi.mobile.CmnEvent.js" />
@@ -576,6 +582,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Show\ItemOnMobile.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\plugins\mobileSlider\maps\swiper.jquery.min.js.map" />
+    <Content Include="Scripts\plugins\mobileSlider\maps\swiper.jquery.umd.min.js.map" />
+    <Content Include="Scripts\plugins\mobileSlider\maps\swiper.min.js.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

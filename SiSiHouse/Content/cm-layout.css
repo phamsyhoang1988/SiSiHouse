@@ -295,6 +295,7 @@ header nav #sub-menu {
     position: fixed;
     right: 5px;
     top: 5px;
+    cursor: pointer;
 }
 
 #mdContactUs .modal-dialog {

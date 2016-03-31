@@ -39,33 +39,36 @@
                             <h2 id="product-long-desc">
                                 @Model.ProductInfo.DESCRIPTION
                             </h2>
-                            <hr>
                         }
-                    </div>
-
-                    <div id="product-image-thumbs">
-                        <ul>
-                            @foreach (var img in Model.PictureList)
-                            {
-
-                                <li><img data-index="@img.PICTURE_ID" src="@img.IMG_SRC" /></li>
-
-                            }
-                        </ul>
                     </div>
                 </div>
             </div>
         </div>
         <div id="product-images" class="">
             <div id="product-main-images">
-                @foreach (var img in Model.PictureList)
-                {
-                    <img id="@img.PICTURE_ID" src="@img.IMG_SRC" />
-                }
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        @foreach (var img in Model.PictureList)
+                        {
+                            <div class="swiper-slide">
+                                <img id="@img.PICTURE_ID" src="@img.IMG_SRC" />
+                            </div>
+                        }
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
             </div>
         </div>
     </section>
 </div>
 
+@Scripts.Render("~/bundles/plugins/mobileSlider/slider")
 @Scripts.Render("~/bundles/ShowItem")
-
+<script>
+    $(document).ready(function ($) {
+        var swiper = new Swiper('.swiper-container', {
+            pagination: '.swiper-pagination',
+            paginationClickable: true
+        });
+    });
+</script>

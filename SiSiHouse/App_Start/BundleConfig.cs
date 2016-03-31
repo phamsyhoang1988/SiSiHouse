@@ -57,6 +57,9 @@ namespace SiSiHouse
 
             bundles.Add(new ScriptBundle("~/bundles/MobileCmEvent").Include("~/Scripts/SiSi.mobile.CmnEvent.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/plugins/mobileSlider/slider").Include("~/Scripts/plugins/mobileSlider/swiper.js"));
+
+
             /* --- CSS --- */
             bundles.Add(new StyleBundle("~/Content/bootstrap/css/bootstrap").Include("~/Content/bootstrap/css/bootstrap.css"));
 
