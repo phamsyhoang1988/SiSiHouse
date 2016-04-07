@@ -432,6 +432,53 @@ function ResetPictureDetail() {
     });
 }
 
+function BindGallery(fileList) {
+    var html = '<div class="form-group col-lg-3 picture-detail">'
+       + ' <input class="picture-id" type="hidden">'
+       + '<div class="col-lg-12 text-right"> <i class="fa fa-remove error btnDeletePicture"></i></div>'
+       + ' <div class="col-lg-12">'
+       + ' <img src="/Images/no_image.png" title="Chưa có ảnh" class="display-picture" />'
+       + ' </div>'
+       + ' <div class="col-lg-12">'
+       + ' <label class="picture-name short-text text-overflow">&nbsp;</label>'
+       + ' <input class="cbxMainPic" type="checkbox" value="true"><input type="hidden" value="false">'
+       + ' </div>'
+       + ' </div>';
+
+    for (var i = 0; i < fileList.length; i++) {
+        var file = fileList[i];
+
+        if (file.type.indexOf('image') != -1) {
+            if ($('.picture-detail').length > 0)
+                $('.picture-detail:last').after(html);
+            else
+                $('.picture-list').append(html);
+
+            var $targetContent = $('.picture-detail:last');
+            var pictureID = $targetContent.index() * -1;
+
+            $targetContent.find('.picture-id').val(pictureID);
+            $targetContent.find('.picture-name').text(file.name);
+
+            var $imgElement = $targetContent.find('.display-picture');
+
+            // declare index of new file
+            var newIndex = fileArr.length;
+
+            // set index of newfile to delete
+            $targetContent.find('.btnDeletePicture').attr('data-file-index', newIndex);
+
+            // push file to upload
+            fileArr.push(file);
+
+            // display new file to view
+            SetPicture($imgElement, file);
+        }
+    }
+
+    ResetPictureDetail();
+}
+
 function SetPicture($imgElement, file) {
     var reader = new FileReader();
 
@@ -451,50 +498,7 @@ $(document).on('change', '#productPicture', function () {
     var fileList = $(this).prop('files');
 
     if (fileList.length > 0) {
-        var html = '<div class="form-group col-lg-3 picture-detail">'
-        + ' <input class="picture-id" type="hidden">'
-        + '<div class="col-lg-12 text-right"> <i class="fa fa-remove error btnDeletePicture"></i></div>'
-        + ' <div class="col-lg-12">'
-        + ' <img src="/Images/no_image.png" title="Chưa có ảnh" class="display-picture" />'
-        + ' </div>'
-        + ' <div class="col-lg-12">'
-        + ' <label class="picture-name short-text text-overflow">&nbsp;</label>'
-        + ' <input class="cbxMainPic" type="checkbox" value="true"><input type="hidden" value="false">'
-        + ' </div>'
-        + ' </div>';
-
-        for (var i = 0; i < fileList.length; i++) {
-            var file = fileList[i];
-
-            if (file.type.indexOf('image') != -1) {
-                if ($('.picture-detail').length > 0)
-                    $('.picture-detail:last').after(html);
-                else
-                    $('.picture-list').append(html);
-
-                var $targetContent = $('.picture-detail:last');
-                var pictureID = $targetContent.index() * -1;
-
-                $targetContent.find('.picture-id').val(pictureID);
-                $targetContent.find('.picture-name').text(file.name);
-
-                var $imgElement = $targetContent.find('.display-picture');
-
-                // declare index of new file
-                var newIndex = fileArr.length;
-
-                // set index of newfile to delete
-                $targetContent.find('.btnDeletePicture').attr('data-file-index', newIndex);
-
-                // push file to upload
-                fileArr.push(file);
-
-                // display new file to view
-                SetPicture($imgElement, file);
-            }
-        }
-
-        ResetPictureDetail();
+        BindGallery(fileList);
     }
 });
 
@@ -506,7 +510,12 @@ $(document).on('click', '.btnDeletePicture', function () {
 
         // hide old file
         $targetContent.hide();
+
+        // set delete flag
         $targetContent.find('.picture-deleted').val(true);
+
+        // uncheck main pic
+        $targetContent.find('.cbxMainPic').prop('checked', false);
     } else {
         // Get index in fileArr to delete
         var indexFile = $targetContent.find('.btnDeletePicture').data('file-index');
@@ -526,6 +535,29 @@ $(document).on('change', '.cbxMainPic', function () {
     if (this.checked && $('.cbxMainPic:checked').length > 2) {
         $('.cbxMainPic:checked').not(this).first().prop('checked', false);
     }
+});
+
+// Drag drop picture
+$(function () {
+    var file_drop = document.body;
+
+    file_drop.addEventListener(
+      'dragover',
+      function handleDragOver(evt) {
+          evt.stopPropagation()
+          evt.preventDefault()
+          evt.dataTransfer.dropEffect = 'copy'
+          evt.dataTransfer.effectAllowed = "all";
+      }, false)
+    file_drop.addEventListener(
+      'drop',
+      function (evt) {
+          evt.stopPropagation()
+          evt.preventDefault()
+          var fileList = evt.dataTransfer.files
+
+          BindGallery(fileList);
+      }, false);
 });
 
 // END - Module picture

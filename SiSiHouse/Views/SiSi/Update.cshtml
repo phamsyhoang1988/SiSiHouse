@@ -27,14 +27,14 @@
     <div class="form-group">
         <label class="col-lg-2 control-label">Tài khoản</label>
         <div class="col-lg-4">
-            @Html.TextBoxFor(m => m.UserInfo.ACCOUNT, new { @class = "form-control", maxlength = 50 })
+            @Html.TextBoxFor(m => m.UserInfo.ACCOUNT, new { @class = "form-control", maxlength = 50, autocomplete = "off" })
         </div>
     </div>
 
     <div class="form-group">
         <label class="col-lg-2 control-label">Mật khẩu</label>
         <div class="col-lg-4">
-            @Html.TextBoxFor(m => m.UserInfo.PASSWORD, new { @class = "form-control", maxlength = 50 })
+            @Html.TextBoxFor(m => m.UserInfo.PASSWORD, new { @class = "form-control", maxlength = 50, autocomplete = "off" })
             @Html.HiddenFor(m => m.UserInfo.OLD_PASSWORD)
         </div>
     </div>
