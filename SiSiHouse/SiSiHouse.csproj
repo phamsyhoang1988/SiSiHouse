@@ -37,6 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Dapper, Version=1.40.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -587,6 +588,9 @@
     <Content Include="Scripts\plugins\mobileSlider\maps\swiper.jquery.min.js.map" />
     <Content Include="Scripts\plugins\mobileSlider\maps\swiper.jquery.umd.min.js.map" />
     <Content Include="Scripts\plugins\mobileSlider\maps\swiper.min.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\SiSiHouse.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

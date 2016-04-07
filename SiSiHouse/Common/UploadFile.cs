@@ -20,9 +20,10 @@ namespace SiSiHouse.Common
                 DirectorySecurity directSec = directInfo.GetAccessControl();
                 directSec.AddAccessRule(fullControlRule);
 
+                string timeNow = DateTime.Now.ToString("yyyyMMddhhmmss");
                 string extension = Path.GetExtension(file.FileName);
-                var fileName = Path.GetFileName(file.FileName);
-                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FileName);
+                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FileName) + "_" + timeNow;
+                var fileName = fileNameWithoutExtension + extension;
                 var filePath = Path.Combine(savePath, fileName);
                 string tempfileName = fileName;
 

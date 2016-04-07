@@ -116,8 +116,8 @@ $('#btnSubmit').click(function (e) {
 
     SiSi.utility.ShowConfirmDialog(Constant.MESSAGE.CONFIRM, function (action) {
         if (action) {
-            if ($('.cbxMainPic:checked').length == 0) {
-                $('.cbxMainPic:lt(2)').prop('checked', true);
+            if ($('.picture-detail:not(.deleted) .cbxMainPic:checked').length == 0) {
+                $('.picture-detail:not(.deleted) .cbxMainPic:lt(2)').prop('checked', true);
             }
 
             SiSi.utility.replaceAllMoney();
@@ -509,7 +509,7 @@ $(document).on('click', '.btnDeletePicture', function () {
     if ($targetContent.hasClass('old-value')) {
 
         // hide old file
-        $targetContent.hide();
+        $targetContent.addClass('deleted').hide();
 
         // set delete flag
         $targetContent.find('.picture-deleted').val(true);
