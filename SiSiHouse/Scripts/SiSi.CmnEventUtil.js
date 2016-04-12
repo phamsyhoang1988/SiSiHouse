@@ -44,8 +44,10 @@ $(document).ready(function () {
         // show hide header
         if ($(this).scrollTop() > 155) {
             $('.shop-header').addClass('unfolded-header');
+            $('#iPageContent').addClass('scroll-over-top');
         } else {
             $('.shop-header').removeClass('unfolded-header');
+            $('#iPageContent').removeClass('scroll-over-top');
         }
 
         // show hide button scroll to top

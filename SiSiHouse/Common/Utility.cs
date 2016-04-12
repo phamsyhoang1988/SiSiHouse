@@ -19,8 +19,7 @@
     {
         public static void ExportDataToExcel(Controller controller, ExportExcelModel viewModel, object data, string templateFileName = "ThongKeTemp.xlsx", string OutputFileName = "ThongKeDoanhThu.xlsx")
         {
-            string strPath = HttpContext.Current.Server.MapPath(controller.Request.ApplicationPath);
-            string strInFileName = strPath + @"\App_Data\" + templateFileName;
+            string strFilePath = HttpContext.Current.Server.MapPath(Path.Combine(ConfigurationManager.AppSettings[ConfigurationKeys.EXPORT_FILE], templateFileName));
 
             OutputFileName = "ThongKeDoanhThu__" + viewModel.TARGET_YEAR.ToString() + "_" + viewModel.TARGET_MONTH.ToString("D2") + ".xlsx";
 
@@ -29,7 +28,7 @@
 
             try
             {
-                xlsxCreator.OpenBook(memoryStream, strInFileName);
+                xlsxCreator.OpenBook(memoryStream, strFilePath);
                 xlsxCreator.Cell("**ThongKe").Value = string.Format(Constant.ExportRevenue.TITLE, viewModel.TARGET_MONTH.ToString(), viewModel.TARGET_YEAR.ToString());
 
                 ExportRevenue(ref xlsxCreator, data);

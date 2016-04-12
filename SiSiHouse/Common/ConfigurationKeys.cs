@@ -32,6 +32,8 @@ namespace SiSiHouse.Common
 
         public static readonly string SAVE_CLIP = "baseClip";
 
+        public static readonly string EXPORT_FILE = "exportFile";
+
         public static readonly string LIST_ITEMS_PER_PAGE = "list_items_per_page";
     }
 }

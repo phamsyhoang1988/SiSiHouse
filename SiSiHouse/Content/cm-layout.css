@@ -560,7 +560,7 @@ header nav #sub-menu {
 
 #iPageContent #sub-nav {
     font-family: 'Lato', sans-serif;
-    margin: 10px 20px 0;
+    margin: 10px 10px 0;
     font-size: 14px;
     letter-spacing: 0.05em;
     color: #505252;
@@ -570,6 +570,18 @@ header nav #sub-menu {
 #iPageContent #sub-nav .breadcrumb {
     display: inline-block;
     cursor:default;
+}
+
+.scroll-over-top #sub-nav .breadcrumb {
+    position: fixed;
+    top: 50px;
+}
+
+.scroll-over-top #sub-nav .pull-right {
+    position: fixed;
+    top: 50px;
+    right: 0;
+    margin: 0 10px;
 }
 
 #iPageContent #sub-nav .pull-right .views {

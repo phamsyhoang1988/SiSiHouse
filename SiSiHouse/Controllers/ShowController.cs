@@ -5,6 +5,7 @@ using SiSiHouse.WorkerServices;
 using SiSiHouse.WorkerServices.Impl;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -151,7 +152,7 @@ namespace SiSiHouse.Controllers
             DataTablesModel table = new DataTablesModel
             {
                 iDisplayStart = countItem,
-                iDisplayLength = Constant.DISPLAY_ITEM_PER_PAGE,
+                iDisplayLength = Convert.ToInt16(ConfigurationManager.AppSettings[ConfigurationKeys.LIST_ITEMS_PER_PAGE]),
                 sColumns = "IMPORT_DATE",
                 iSortCol_0 = 0,
                 sSortDir_0 = "DESC"

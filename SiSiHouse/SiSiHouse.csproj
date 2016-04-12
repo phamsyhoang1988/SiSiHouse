@@ -558,7 +558,7 @@
     <Content Include="Views\ManageStatistics\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\ThongKeTemp.xlsx" />
+    <Content Include="App_Data\ExportFile\ThongKeTemp.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\SiSi\Personal.cshtml" />
@@ -591,6 +591,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\SiSiHouse.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\ProductPicture\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
